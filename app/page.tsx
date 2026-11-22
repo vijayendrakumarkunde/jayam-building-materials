@@ -50,13 +50,10 @@ export default function HomePage() {
         onSearchChange={setSearchQuery}
       />
 
-      {/* 2. Hero Banner with Construction Photography & Dispatch Status */}
+      {/* 2. Sleek Hero Banner */}
       <HeroBanner />
 
-      {/* 3. Delivery Notice & Transparent Transport Banner */}
-      <DeliveryNoticeBanner />
-
-      {/* 4. Product Category Showcase (10 Initial Categories) */}
+      {/* 3. All Materials Menu (Category Showcase) directly visible */}
       <CategoryGrid
         selectedCategory={selectedCategory}
         onSelectCategory={(slug) => {
@@ -65,6 +62,9 @@ export default function HomePage() {
           if (el) el.scrollIntoView({ behavior: "smooth" });
         }}
       />
+
+      {/* 4. Delivery Notice & Transparent Transport Banner */}
+      <DeliveryNoticeBanner />
 
       {/* 5. Main Product Catalog & Filter Section */}
       <section id="catalog-section" className="py-16 bg-white border-b border-slate-200">

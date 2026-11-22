@@ -221,13 +221,13 @@ export const AIChatWidget: React.FC = () => {
   };
 
   return (
-    <aside aria-label="Jayam AI Assistant and Construction Calculator" className="fixed bottom-6 left-6 z-50 pointer-events-auto">
+    <aside aria-label="Jayam AI Assistant and Construction Calculator" className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 pointer-events-auto">
       {/* 1. Floating Launch Pill / Button */}
       {!isOpen && (
         <div className="flex flex-col items-start gap-2">
-          {/* Tooltip greeting */}
+          {/* Tooltip greeting (Desktop only to prevent mobile overlap) */}
           {showNotificationBadge && (
-            <div className="relative bg-brand-charcoal text-white text-xs font-medium py-2 px-3.5 rounded-xl shadow-2xl border border-brand-charcoal-700 flex items-center gap-2 animate-bounce">
+            <div className="hidden sm:flex relative bg-brand-charcoal text-white text-xs font-medium py-2 px-3.5 rounded-xl shadow-2xl border border-brand-charcoal-700 items-center gap-2 animate-bounce">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -248,19 +248,21 @@ export const AIChatWidget: React.FC = () => {
             </div>
           )}
 
-          {/* Trigger Button */}
+          {/* Trigger Button - Compact on Mobile, Full on Desktop */}
           <button
             onClick={() => {
               setIsOpen(true);
               setShowNotificationBadge(false);
             }}
-            className="group relative flex items-center gap-2.5 bg-gradient-to-r from-brand-charcoal to-brand-charcoal-900 hover:from-brand-orange-600 hover:to-brand-orange-500 text-white pl-4 pr-5 py-3.5 rounded-full shadow-2xl border-2 border-brand-orange-500/40 hover:border-brand-orange-400 transition-all duration-300 transform hover:scale-105 active:scale-95"
+            className="group relative flex items-center gap-2 bg-gradient-to-r from-brand-charcoal to-brand-charcoal-900 hover:from-brand-orange-600 hover:to-brand-orange-500 text-white p-2.5 sm:pl-4 sm:pr-5 sm:py-3.5 rounded-full shadow-2xl border-2 border-brand-orange-500/50 hover:border-brand-orange-400 transition-all duration-300 transform hover:scale-105 active:scale-95"
             aria-label="Open AI Assistant and Material Calculator"
           >
-            <div className="w-8 h-8 rounded-full bg-brand-orange-500 flex items-center justify-center text-white shadow-md">
+            <div className="w-8 h-8 rounded-full bg-brand-orange-500 flex items-center justify-center text-white shadow-md shrink-0">
               <Sparkles className="w-4 h-4 text-white animate-spin-slow" />
             </div>
-            <div className="text-left">
+            
+            {/* Desktop Full Title */}
+            <div className="hidden sm:block text-left">
               <div className="text-[11px] font-bold uppercase tracking-wider text-brand-orange-400 group-hover:text-white transition-colors">
                 AI Civil Advisor
               </div>
@@ -269,8 +271,14 @@ export const AIChatWidget: React.FC = () => {
                 <span>Calculator & Rates</span>
               </div>
             </div>
+
+            {/* Mobile Compact Label */}
+            <span className="sm:hidden text-xs font-bold text-white pr-1">
+              AI Calculator
+            </span>
+
             {/* Live glowing dot */}
-            <span className="ml-1 flex h-2 w-2 relative">
+            <span className="hidden sm:flex ml-1 h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
@@ -280,7 +288,7 @@ export const AIChatWidget: React.FC = () => {
 
       {/* 2. Interactive AI Bot & Calculator Modal Window */}
       {isOpen && (
-        <div className="w-[360px] sm:w-[420px] max-w-[calc(100vw-32px)] h-[580px] sm:h-[640px] max-h-[85vh] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="w-[calc(100vw-32px)] sm:w-[420px] max-w-[420px] h-[580px] sm:h-[640px] max-h-[85vh] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200 z-50">
           
           {/* Header */}
           <div className="bg-gradient-to-r from-brand-charcoal to-brand-charcoal-900 text-white p-3.5 border-b border-brand-charcoal-700 flex flex-col gap-2.5">

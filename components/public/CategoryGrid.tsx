@@ -15,22 +15,22 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
   onSelectCategory,
 }) => {
   return (
-    <section className="py-16 bg-slate-50 border-b border-slate-200">
+    <section id="category-menu" className="py-8 sm:py-14 bg-slate-50 border-b border-slate-200 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8">
           <div>
             <div className="flex items-center gap-2 text-brand-orange-600 text-xs font-bold tracking-widest uppercase mb-1">
               <Layers className="w-4 h-4" />
-              <span>Full Spectrum Sourcing</span>
+              <span>Direct Wholesale Catalog</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-charcoal">
-              Explore Building Material Categories
+            <h2 className="text-xl sm:text-3xl font-extrabold text-brand-charcoal">
+              All Materials Menu
             </h2>
           </div>
-          <p className="text-sm text-slate-600 max-w-md mt-2 md:mt-0">
-            From certified triple-washed river sand to structural Fe 550D TMT steel rebar, choose your required building material category.
+          <p className="text-xs sm:text-sm text-slate-600 max-w-md mt-1 md:mt-0">
+            Select any category below to filter available building materials and instant tipper booking:
           </p>
         </div>
 
