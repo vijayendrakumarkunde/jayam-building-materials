@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HardHat, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { BRAND_INFO } from "@/lib/constants";
 
-export default function AdminLoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/admin/dashboard";
@@ -50,6 +50,95 @@ export default function AdminLoginPage() {
   };
 
   return (
+    <div className="mt-8 bg-brand-charcoal-900 border border-brand-charcoal-700 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+      
+      {error && (
+        <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
+          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      <form onSubmit={handleLogin} className="space-y-4">
+        
+        {/* Email Field */}
+        <div>
+          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            Admin Email or Phone
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@jayambuildingmaterials.com"
+              className="w-full text-sm px-4 py-3 pl-10 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 transition-all"
+            />
+            <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+          </div>
+        </div>
+
+        {/* Password Field */}
+        <div>
+          <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            Master Password
+          </label>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••••••"
+              className="w-full text-sm px-4 py-3 pl-10 pr-10 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 transition-all"
+            />
+            <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white"
+            >
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="pt-2">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 px-6 rounded-xl bg-brand-orange-500 hover:bg-brand-orange-600 text-white font-bold text-sm shadow-xl shadow-brand-orange-500/25 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50"
+          >
+            <span>{loading ? "Authenticating Admin..." : "Sign In to Dashboard"}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+      </form>
+
+      {/* Quick Demo Access Credentials Helper */}
+      <div className="pt-4 border-t border-brand-charcoal-800 text-center space-y-2">
+        <p className="text-[11px] text-slate-400">
+          Quick Setup / Owner Master Credentials:
+        </p>
+        <button
+          type="button"
+          onClick={handleFillDemoCredentials}
+          className="inline-flex items-center gap-1.5 text-xs text-brand-orange-400 hover:text-brand-orange-300 bg-brand-charcoal-800 px-3 py-1.5 rounded-lg border border-brand-charcoal-700 transition-colors"
+        >
+          <ShieldCheck className="w-3.5 h-3.5" />
+          <span>Fill Initial Master Credentials</span>
+        </button>
+      </div>
+
+    </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
     <div className="min-h-screen bg-brand-charcoal flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
       
       {/* Background Graphic Patterns */}
@@ -77,91 +166,14 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        {/* Login Card */}
-        <div className="mt-8 bg-brand-charcoal-900 border border-brand-charcoal-700 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-          
-          {error && (
-            <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
-              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleLogin} className="space-y-4">
-            
-            {/* Email Field */}
-            <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                Admin Email or Phone
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@jayambuildingmaterials.com"
-                  className="w-full text-sm px-4 py-3 pl-10 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 transition-all"
-                />
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                Master Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  className="w-full text-sm px-4 py-3 pl-10 pr-10 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 transition-all"
-                />
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3.5 px-6 rounded-xl bg-brand-orange-500 hover:bg-brand-orange-600 text-white font-bold text-sm shadow-xl shadow-brand-orange-500/25 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50"
-              >
-                <span>{loading ? "Authenticating Admin..." : "Sign In to Dashboard"}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-          </form>
-
-          {/* Quick Demo Access Credentials Helper */}
-          <div className="pt-4 border-t border-brand-charcoal-800 text-center space-y-2">
-            <p className="text-[11px] text-slate-400">
-              Quick Setup / Owner Master Credentials:
-            </p>
-            <button
-              type="button"
-              onClick={handleFillDemoCredentials}
-              className="inline-flex items-center gap-1.5 text-xs text-brand-orange-400 hover:text-brand-orange-300 bg-brand-charcoal-800 px-3 py-1.5 rounded-lg border border-brand-charcoal-700 transition-colors"
-            >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Fill Initial Master Credentials</span>
-            </button>
+        {/* Wrapped with Suspense to satisfy Next.js static prerender boundary */}
+        <Suspense fallback={
+          <div className="mt-8 bg-brand-charcoal-900 border border-brand-charcoal-700 rounded-3xl p-8 text-center text-slate-400 text-xs">
+            Loading secure admin portal...
           </div>
-
-        </div>
+        }>
+          <LoginForm />
+        </Suspense>
 
         {/* Back to Public Website Link */}
         <div className="text-center mt-6">
