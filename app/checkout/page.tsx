@@ -9,7 +9,7 @@ import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { useCart } from "@/lib/context/CartContext";
 import { formatCurrency, buildUpiIntentUrl, buildUpiQrCodeUrl } from "@/lib/utils";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { 
   ClipboardList, 
@@ -38,6 +38,7 @@ import {
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const brand = useBrandSettings();
   const { items, subtotal, clearCart, addToCart } = useCart();
 
   // Active booking method tab: "website" | "whatsapp" | "call"
@@ -523,11 +524,11 @@ export default function CheckoutPage() {
                               </span>
                               <div className="flex items-center gap-2">
                                 <div className="px-3 py-2 rounded-lg bg-black/40 border border-white/15 text-xs font-mono font-bold text-brand-orange-300 flex-1 select-all">
-                                  {BRAND_INFO.upiId}
+                                  {brand.upiId}
                                 </div>
                                 <button
                                   type="button"
-                                  onClick={() => copyUpiId(BRAND_INFO.upiId)}
+                                  onClick={() => copyUpiId(brand.upiId)}
                                   className="p-2 rounded-lg bg-brand-orange-500 hover:bg-brand-orange-600 text-white transition-colors"
                                   title="Copy UPI ID"
                                 >
@@ -551,8 +552,8 @@ export default function CheckoutPage() {
                             </a>
 
                             <div className="text-[10px] text-slate-400 leading-snug">
-                              Payee Name: <strong className="text-slate-200">{BRAND_INFO.merchantName}</strong><br />
-                              Alternate UPI: <span className="font-mono text-slate-300">{BRAND_INFO.alternateUpiId}</span>
+                              Payee Name: <strong className="text-slate-200">{brand.merchantName}</strong><br />
+                              Alternate UPI: <span className="font-mono text-slate-300">{brand.alternateUpiId}</span>
                             </div>
                           </div>
                         </div>
@@ -616,7 +617,7 @@ export default function CheckoutPage() {
                       Book Instantly via WhatsApp
                     </h2>
                     <p className="text-xs text-slate-500 mt-0.5">
-                      Direct WhatsApp Dispatch Desk: <strong>+91 {BRAND_INFO.whatsappNumber}</strong>
+                      Direct WhatsApp Dispatch Desk: <strong>+91 {brand.whatsappNumber}</strong>
                     </p>
                   </div>
                 </div>
@@ -632,7 +633,7 @@ export default function CheckoutPage() {
 
                 <div className="space-y-3">
                   <a
-                    href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappCheckoutMessage}`}
+                    href={`https://wa.me/91${brand.whatsappNumber}?text=${whatsappCheckoutMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-4 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-xl shadow-emerald-900/20 flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5"
@@ -660,7 +661,7 @@ export default function CheckoutPage() {
                       Book via Direct Phone Call
                     </h2>
                     <p className="text-xs text-slate-500 mt-0.5">
-                      Central Dispatch Desk: <strong>{BRAND_INFO.phoneFormatted}</strong>
+                      Central Dispatch Desk: <strong>{brand.phoneFormatted}</strong>
                     </p>
                   </div>
                 </div>
@@ -687,11 +688,11 @@ export default function CheckoutPage() {
 
                 <div className="space-y-3">
                   <a
-                    href={BRAND_INFO.telUrl}
+                    href={brand.telUrl}
                     className="w-full py-4 px-6 rounded-xl bg-brand-orange-500 hover:bg-brand-orange-600 text-white font-bold text-sm shadow-xl shadow-brand-orange-500/25 flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5"
                   >
                     <Phone className="w-5 h-5" />
-                    <span>Call Central Dispatch Now: {BRAND_INFO.phoneFormatted}</span>
+                    <span>Call Central Dispatch Now: {brand.phoneFormatted}</span>
                   </a>
 
                   <p className="text-center text-xs text-slate-500">

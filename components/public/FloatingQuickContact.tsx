@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { MessageCircle, Phone, X } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const FloatingQuickContact: React.FC = () => {
+  const brand = useBrandSettings();
   const [showTooltip, setShowTooltip] = useState(true);
 
   return (
@@ -31,9 +32,9 @@ export const FloatingQuickContact: React.FC = () => {
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Call Now Floating Button */}
         <a
-          href={BRAND_INFO.telUrl}
+          href={brand.telUrl}
           className="group relative flex items-center justify-center w-11 h-11 sm:w-13 sm:h-13 p-2.5 sm:p-3.5 bg-[#14243A] hover:bg-[#F47B20] text-white rounded-full shadow-2xl border-2 border-white/20 transition-all duration-300 transform hover:scale-110 active:scale-95"
-          title={`Call Us Directly: ${BRAND_INFO.phoneFormatted}`}
+          title={`Call Us Directly: ${brand.phoneFormatted}`}
           aria-label="Call Dispatch"
         >
           <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#F47B20] group-hover:text-white transition-colors" />
@@ -45,11 +46,11 @@ export const FloatingQuickContact: React.FC = () => {
 
         {/* WhatsApp Floating Button */}
         <a
-          href={BRAND_INFO.whatsappUrl}
+          href={brand.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 p-2.5 sm:p-3.5 bg-[#159B68] hover:bg-[#108055] text-white rounded-full shadow-2xl border-2 border-white/20 transition-all duration-300 transform hover:scale-110 active:scale-95"
-          title="Chat on WhatsApp (+91 9505609865)"
+          title={`Chat on WhatsApp (+91 ${brand.whatsappNumber})`}
           aria-label="Chat on WhatsApp"
         >
           <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white fill-white" />

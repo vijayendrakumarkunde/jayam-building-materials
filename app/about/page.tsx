@@ -7,9 +7,10 @@ import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { WhyChooseUs } from "@/components/public/WhyChooseUs";
 import { HardHat, ShieldCheck, Truck, Scale, MapPin, Award, CheckCircle2 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export default function AboutPage() {
+  const brand = useBrandSettings();
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#20252D]">
       <Navbar />
@@ -26,7 +27,7 @@ export default function AboutPage() {
             Building Materials With Uncompromised Integrity
           </h1>
           <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
-            "{BRAND_INFO.tagline}" We provide verified quality, triple-washed river sand, precision VSI aggregates, and genuine weighbridge tonnage directly to construction projects across the region.
+            "{brand.tagline}" We provide verified quality, triple-washed river sand, precision VSI aggregates, and genuine weighbridge tonnage directly to construction projects across the region.
           </p>
         </div>
       </div>

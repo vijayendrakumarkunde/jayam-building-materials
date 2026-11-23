@@ -16,9 +16,10 @@ import {
 } from "lucide-react";
 import { useCart } from "@/lib/context/CartContext";
 import { formatCurrency } from "@/lib/utils";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const CartDrawer: React.FC = () => {
+  const brand = useBrandSettings();
   const { 
     items, 
     isCartOpen, 
@@ -201,22 +202,22 @@ export const CartDrawer: React.FC = () => {
 
                 {/* Option 2: WhatsApp Booking */}
                 <a
-                  href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappCheckoutMessage}`}
+                  href={`https://wa.me/91${brand.whatsappNumber}?text=${whatsappCheckoutMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-2.5 px-4 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Book via WhatsApp ({BRAND_INFO.whatsappNumber})</span>
+                  <span>Book via WhatsApp ({brand.whatsappNumber})</span>
                 </a>
 
                 {/* Option 3: Phone Booking */}
                 <a
-                  href={BRAND_INFO.telUrl}
+                  href={brand.telUrl}
                   className="w-full py-2.5 px-4 rounded-xl bg-[#14243A] hover:bg-[#20252D] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all"
                 >
                   <Phone className="w-4 h-4 text-[#F47B20]" />
-                  <span>Book via Phone Call ({BRAND_INFO.phone})</span>
+                  <span>Book via Phone Call ({brand.phone})</span>
                 </a>
               </div>
 

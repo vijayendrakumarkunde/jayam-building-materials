@@ -2,9 +2,10 @@
 
 import React from "react";
 import { Truck, PhoneCall } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const DeliveryNoticeBanner: React.FC = () => {
+  const brand = useBrandSettings();
   return (
     <div className="bg-[#FFF7ED] border-y border-[#F47B20]/25 py-3.5 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -28,11 +29,11 @@ export const DeliveryNoticeBanner: React.FC = () => {
 
         <div className="shrink-0 flex items-center gap-3">
           <a
-            href={BRAND_INFO.telUrl}
+            href={brand.telUrl}
             className="inline-flex items-center gap-1.5 text-xs font-bold text-[#14243A] hover:text-[#F47B20] bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-xs hover:border-[#F47B20]/50 transition-colors"
           >
             <PhoneCall className="w-3.5 h-3.5 text-[#F47B20]" />
-            <span>Confirm Transport: {BRAND_INFO.phoneFormatted}</span>
+            <span>Confirm Transport: {brand.phoneFormatted}</span>
           </a>
         </div>
 

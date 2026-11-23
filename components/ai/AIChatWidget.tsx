@@ -18,7 +18,7 @@ import {
   ArrowRight,
   RefreshCw,
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 import { useCart } from "@/lib/context/CartContext";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { calculateSlabMaterials, calculatePlasteringMaterials, SlabCalculationResult } from "@/lib/utils/calculator";
@@ -41,6 +41,7 @@ interface ChatMessage {
 }
 
 export const AIChatWidget: React.FC = () => {
+  const brand = useBrandSettings();
   const pathname = usePathname();
   const { addToCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
@@ -137,11 +138,11 @@ export const AIChatWidget: React.FC = () => {
         {
           id: "bot-err-" + Date.now(),
           sender: "bot",
-          text: `⚠️ Our AI assistant is momentarily occupied. Please call our dispatch desk directly at **${BRAND_INFO.phoneFormatted}** or chat with us on WhatsApp.`,
+          text: `⚠️ Our AI assistant is momentarily occupied. Please call our dispatch desk directly at **${brand.phoneFormatted}** or chat with us on WhatsApp.`,
           timestamp: "Just now",
           suggestedActions: [
-            { label: "📞 Call Dispatch Desk", url: `tel:+91${BRAND_INFO.phone}` },
-            { label: "💬 WhatsApp Support", url: BRAND_INFO.whatsappUrl },
+            { label: "📞 Call Dispatch Desk", url: `tel:+91${brand.phone}` },
+            { label: "💬 WhatsApp Support", url: brand.whatsappUrl },
           ],
         },
       ]);
@@ -697,7 +698,7 @@ export const AIChatWidget: React.FC = () => {
 
                       <div className="flex gap-1.5">
                         <a
-                          href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=Hello%20Jayam%20Materials,%20I%20used%20your%20calculator%20for%20a%20${slabResult.slabAreaSqFt}%20sqft%20slab%20and%20need%20${slabResult.sandTons}%20tons%20${slabSandType === "river-sand" ? "River%20Sand" : "M-Sand"},%20${slabResult.cementBags}%20bags%20cement,%20and%20${slabResult.aggregatesTons}%20tons%20aggregates.`}
+                          href={`https://wa.me/91${brand.whatsappNumber}?text=Hello%20Jayam%20Materials,%20I%20used%20your%20calculator%20for%20a%20${slabResult.slabAreaSqFt}%20sqft%20slab%20and%20need%20${slabResult.sandTons}%20tons%20${slabSandType === "river-sand" ? "River%20Sand" : "M-Sand"},%20${slabResult.cementBags}%20bags%20cement,%20and%20${slabResult.aggregatesTons}%20tons%20aggregates.`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-colors text-[11px]"
@@ -707,7 +708,7 @@ export const AIChatWidget: React.FC = () => {
                         </a>
 
                         <a
-                          href={BRAND_INFO.telUrl}
+                          href={brand.telUrl}
                           className="flex items-center justify-center px-3 py-2 rounded-xl font-semibold bg-white/10 hover:bg-white/20 text-white transition-colors text-[11px]"
                         >
                           <Phone className="w-3.5 h-3.5" />
@@ -842,7 +843,7 @@ export const AIChatWidget: React.FC = () => {
                       </button>
 
                       <a
-                        href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=Hello%20Jayam%20Materials,%20I%20need%20${plasterResult.sandTons}%20tons%20P-Sand%20and%20${plasterResult.cementBags}%20bags%20cement%20for%20${plasterResult.wallAreaSqFt}%20sqft%20plastering.`}
+                        href={`https://wa.me/91${brand.whatsappNumber}?text=Hello%20Jayam%20Materials,%20I%20need%20${plasterResult.sandTons}%20tons%20P-Sand%20and%20${plasterResult.cementBags}%20bags%20cement%20for%20${plasterResult.wallAreaSqFt}%20sqft%20plastering.`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full flex items-center justify-center gap-1 py-2 rounded-xl font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-colors text-[11px]"

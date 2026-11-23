@@ -11,9 +11,11 @@ import {
   Truck,
   Scale
 } from "lucide-react";
-import { BRAND_INFO, INITIAL_CATEGORIES } from "@/lib/constants";
+import { INITIAL_CATEGORIES } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const Footer: React.FC = () => {
+  const brand = useBrandSettings();
   return (
     <footer className="bg-[#14243A] text-slate-300 border-t border-slate-800">
       
@@ -75,7 +77,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed italic">
-              "{BRAND_INFO.tagline}"
+              "{brand.tagline}"
             </p>
 
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -84,21 +86,21 @@ export const Footer: React.FC = () => {
 
             <div className="pt-2 flex flex-col gap-2 text-xs">
               <a
-                href={BRAND_INFO.telUrl}
+                href={brand.telUrl}
                 className="flex items-center gap-2 text-white hover:text-[#F47B20] font-bold transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#F47B20]" />
-                <span>Call Dispatch: {BRAND_INFO.phoneFormatted}</span>
+                <span>Call Dispatch: {brand.phoneFormatted}</span>
               </a>
 
               <a
-                href={BRAND_INFO.whatsappUrl}
+                href={brand.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-bold transition-colors"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>WhatsApp: +91 {BRAND_INFO.whatsappNumber}</span>
+                <span>WhatsApp: +91 {brand.whatsappNumber}</span>
               </a>
             </div>
           </div>
@@ -149,11 +151,11 @@ export const Footer: React.FC = () => {
             <div className="space-y-2 text-xs text-slate-400">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#F47B20] shrink-0 mt-0.5" />
-                <span>{BRAND_INFO.address}</span>
+                <span>{brand.address}</span>
               </div>
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 text-[#F47B20] shrink-0 mt-0.5" />
-                <span>{BRAND_INFO.operatingHours}</span>
+                <span>{brand.operatingHours}</span>
               </div>
             </div>
 
@@ -168,7 +170,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Legal / Copyright */}
         <div className="mt-12 pt-6 border-t border-slate-800 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} {BRAND_INFO.name}. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
           <p className="mt-2 sm:mt-0">
             Engineered for strength, transparency, and speed.
           </p>

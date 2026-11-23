@@ -10,9 +10,10 @@ import {
   CheckCircle2,
   Building 
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const ContactSection: React.FC = () => {
+  const brand = useBrandSettings();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,7 +28,7 @@ export const ContactSection: React.FC = () => {
     const text = encodeURIComponent(
       `Hello Jayam Building Materials,\nName: ${formData.name}\nPhone: ${formData.phone}\nRequired Material: ${formData.material}\nSite Location: ${formData.siteLocation}\nDetails: ${formData.message}`
     );
-    window.open(`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${text}`, "_blank");
+    window.open(`https://wa.me/91${brand.whatsappNumber}?text=${text}`, "_blank");
     setFormSubmitted(true);
   };
 
@@ -60,7 +61,7 @@ export const ContactSection: React.FC = () => {
 
               <div className="space-y-3.5 text-sm">
                 <a
-                  href={BRAND_INFO.telUrl}
+                  href={brand.telUrl}
                   className="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors group"
                 >
                   <div className="p-2.5 rounded-xl bg-[#F47B20]/20 text-[#F47B20] group-hover:bg-[#F47B20] group-hover:text-white transition-all">
@@ -69,13 +70,13 @@ export const ContactSection: React.FC = () => {
                   <div>
                     <span className="text-[11px] text-slate-400 block font-medium">Direct Yard Dispatch Line</span>
                     <span className="text-base font-bold text-white group-hover:text-[#F47B20] transition-colors">
-                      {BRAND_INFO.phoneFormatted}
+                      {brand.phoneFormatted}
                     </span>
                   </div>
                 </a>
 
                 <a
-                  href={BRAND_INFO.whatsappUrl}
+                  href={brand.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-3.5 p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors group"
@@ -86,7 +87,7 @@ export const ContactSection: React.FC = () => {
                   <div>
                     <span className="text-[11px] text-slate-400 block font-medium">Official WhatsApp Booking</span>
                     <span className="text-base font-bold text-emerald-400">
-                      +91 {BRAND_INFO.whatsappNumber}
+                      +91 {brand.whatsappNumber}
                     </span>
                   </div>
                 </a>
@@ -98,7 +99,7 @@ export const ContactSection: React.FC = () => {
                   <div>
                     <span className="text-[11px] text-slate-400 block font-medium">Dispatch Operations Hours</span>
                     <span className="text-xs font-semibold text-slate-200">
-                      {BRAND_INFO.operatingHours}
+                      {brand.operatingHours}
                     </span>
                   </div>
                 </div>
@@ -110,7 +111,7 @@ export const ContactSection: React.FC = () => {
                   <div>
                     <span className="text-[11px] text-slate-400 block font-medium">Primary Yard & Depot</span>
                     <span className="text-xs font-semibold text-slate-200">
-                      {BRAND_INFO.address}
+                      {brand.address}
                     </span>
                   </div>
                 </div>

@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   ChevronDown
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 import { useCart } from "@/lib/context/CartContext";
 
 interface NavbarProps {
@@ -30,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   searchQuery = "",
   onSearchChange,
 }) => {
+  const brand = useBrandSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cart = useCart();
 
@@ -54,14 +55,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
             <span className="hidden lg:inline text-slate-600">|</span>
             <span className="hidden lg:flex items-center gap-1 text-slate-400">
-              <Clock className="w-3.5 h-3.5" /> Mon - Sat: 6:00 AM - 9:00 PM
+              <Clock className="w-3.5 h-3.5" /> {brand.operatingHours}
             </span>
           </div>
 
           {/* Right: Instant Contact & WhatsApp */}
           <div className="flex items-center space-x-4 text-[11px] sm:text-xs">
             <a
-              href={BRAND_INFO.whatsappUrl}
+              href={brand.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
@@ -70,11 +71,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
             <span className="text-slate-600">|</span>
             <a
-              href={BRAND_INFO.telUrl}
+              href={brand.telUrl}
               className="flex items-center gap-1 text-white hover:text-[#F47B20] font-bold transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-[#F47B20]" />
-              <span>{BRAND_INFO.phoneFormatted}</span>
+              <span>{brand.phoneFormatted}</span>
             </a>
           </div>
         </div>
@@ -177,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* Instant Call CTA Button */}
               <a
-                href={BRAND_INFO.telUrl}
+                href={brand.telUrl}
                 className="hidden sm:inline-flex items-center gap-2 bg-[#F47B20] hover:bg-[#DC630D] text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-xl shadow-md shadow-[#F47B20]/25 hover:shadow-lg hover:shadow-[#F47B20]/35 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Phone className="w-4 h-4" />
@@ -254,13 +255,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div className="pt-4 border-t border-slate-200 space-y-2">
               <a
-                href={BRAND_INFO.telUrl}
+                href={brand.telUrl}
                 className="w-full flex items-center justify-center gap-2 bg-[#F47B20] hover:bg-[#DC630D] text-white font-bold py-3 rounded-xl shadow-md"
               >
-                <Phone className="w-4 h-4" /> Call Direct ({BRAND_INFO.phone})
+                <Phone className="w-4 h-4" /> Call Direct ({brand.phone})
               </a>
               <a
-                href={BRAND_INFO.whatsappUrl}
+                href={brand.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 bg-[#159B68] hover:bg-[#108055] text-white font-bold py-3 rounded-xl shadow-md"

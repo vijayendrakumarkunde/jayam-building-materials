@@ -12,9 +12,10 @@ import {
   CheckCircle2,
   PhoneCall
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const HeroBanner: React.FC = () => {
+  const brand = useBrandSettings();
   return (
     <section className="relative bg-[#F5F6F8] overflow-hidden border-b border-slate-200">
       {/* Background Architectural Subtle Pattern */}
@@ -60,7 +61,7 @@ export const HeroBanner: React.FC = () => {
               </a>
 
               <a
-                href={BRAND_INFO.whatsappUrl}
+                href={brand.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-sm shadow-md shadow-[#159B68]/20 transition-all transform hover:-translate-y-0.5"
@@ -70,7 +71,7 @@ export const HeroBanner: React.FC = () => {
               </a>
 
               <a
-                href={BRAND_INFO.telUrl}
+                href={brand.telUrl}
                 className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-semibold text-sm border border-slate-300 transition-all"
               >
                 <PhoneCall className="w-4 h-4 text-[#F47B20]" />

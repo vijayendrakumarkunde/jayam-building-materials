@@ -5,7 +5,6 @@ import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { ContactSection } from "@/components/public/ContactSection";
 import { HardHat, Phone, MessageCircle, MapPin, Clock } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
 
 export default function ContactPage() {
   return (

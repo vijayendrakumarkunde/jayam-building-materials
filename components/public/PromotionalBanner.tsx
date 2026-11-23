@@ -2,9 +2,10 @@
 
 import React from "react";
 import { MessageCircle, Phone, Sparkles, Truck, CheckCircle2 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const PromotionalBanner: React.FC = () => {
+  const brand = useBrandSettings();
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +49,7 @@ export const PromotionalBanner: React.FC = () => {
 
             <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
               <a
-                href={BRAND_INFO.whatsappUrl}
+                href={brand.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-xs sm:text-sm shadow-lg shadow-[#159B68]/30 transition-all transform hover:-translate-y-0.5"
@@ -58,11 +59,11 @@ export const PromotionalBanner: React.FC = () => {
               </a>
 
               <a
-                href={BRAND_INFO.telUrl}
+                href={brand.telUrl}
                 className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#1F334E] hover:bg-[#284266] text-white border border-slate-700 font-bold text-xs sm:text-sm transition-all"
               >
                 <Phone className="w-4 h-4 text-[#F47B20]" />
-                <span>Call Hotline ({BRAND_INFO.phone})</span>
+                <span>Call Hotline ({brand.phone})</span>
               </a>
             </div>
 

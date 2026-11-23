@@ -9,9 +9,10 @@ import {
   CheckCircle2, 
   Phone
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const WhyChooseUs: React.FC = () => {
+  const brand = useBrandSettings();
   const points = [
     {
       icon: ShieldCheck,
@@ -114,10 +115,10 @@ export const WhyChooseUs: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <a
-              href={BRAND_INFO.telUrl}
+              href={brand.telUrl}
               className="px-6 py-3.5 rounded-xl bg-[#F47B20] hover:bg-[#DC630D] text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-[#F47B20]/25 transition-all transform hover:-translate-y-0.5"
             >
-              <Phone className="w-4 h-4" /> Call Hotline: {BRAND_INFO.phoneFormatted}
+              <Phone className="w-4 h-4" /> Call Hotline: {brand.phoneFormatted}
             </a>
           </div>
         </div>

@@ -16,9 +16,10 @@ import {
   AlertCircle,
   ShieldCheck
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export default function TrackOrderPage() {
+  const brand = useBrandSettings();
   const [orderRef, setOrderRef] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -179,7 +180,7 @@ export default function TrackOrderPage() {
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Privacy Protected
             </span>
-            <span>Need help? Call Dispatch: {BRAND_INFO.phoneFormatted}</span>
+            <span>Need help? Call Dispatch: {brand.phoneFormatted}</span>
           </div>
         </div>
 
@@ -278,7 +279,7 @@ export default function TrackOrderPage() {
               <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                 <span className="text-amber-900">Need to redirect the tipper or update site entry directions?</span>
                 <a
-                  href={BRAND_INFO.telUrl}
+                  href={brand.telUrl}
                   className="px-4 py-2 rounded-lg bg-brand-charcoal text-white font-bold hover:bg-brand-orange-600 transition-colors"
                 >
                   Call Dispatch Desk

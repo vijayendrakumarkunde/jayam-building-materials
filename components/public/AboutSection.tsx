@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { HardHat, ShieldCheck, Truck, Check, ArrowRight } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
 
 export const AboutSection: React.FC = () => {
   return (

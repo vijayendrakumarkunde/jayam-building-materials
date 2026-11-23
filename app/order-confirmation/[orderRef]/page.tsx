@@ -8,7 +8,7 @@ import { Footer } from "@/components/public/Footer";
 import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { formatCurrency, buildWhatsAppOrderMessage, buildUpiQrCodeUrl, buildUpiIntentUrl } from "@/lib/utils";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 import { 
   CheckCircle2, 
   Truck, 
@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 
 export default function OrderConfirmationPage() {
+  const brand = useBrandSettings();
   const params = useParams();
   const orderRef = (params?.orderRef as string) || "JBM-2026-SAMPLE";
 
@@ -129,7 +130,7 @@ export default function OrderConfirmationPage() {
                     Direct Owner WhatsApp
                   </span>
                   <span className="text-[11px] font-bold text-emerald-700">
-                    +91 {BRAND_INFO.whatsappNumber}
+                    +91 {brand.whatsappNumber}
                   </span>
                 </div>
                 <h3 className="text-base font-extrabold text-slate-900">
@@ -142,7 +143,7 @@ export default function OrderConfirmationPage() {
             </div>
 
             <a
-              href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappMessage}`}
+              href={`https://wa.me/91${brand.whatsappNumber}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-4 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow-xl shadow-emerald-900/25 flex items-center justify-center gap-2.5 transition-all transform hover:-translate-y-0.5"
@@ -155,11 +156,11 @@ export default function OrderConfirmationPage() {
           {/* Quick Call Desk */}
           <div className="max-w-md mx-auto pt-1">
             <a
-              href={BRAND_INFO.telUrl}
+              href={brand.telUrl}
               className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-2 transition-all border border-slate-200"
             >
               <Phone className="w-4 h-4 text-brand-orange-500" />
-              <span>Need Urgent Tipper Dispatch? Call Central Desk: {BRAND_INFO.phoneFormatted}</span>
+              <span>Need Urgent Tipper Dispatch? Call Central Desk: {brand.phoneFormatted}</span>
             </a>
           </div>
 
@@ -185,7 +186,7 @@ export default function OrderConfirmationPage() {
 
             <div className="text-right">
               <span className="text-[11px] text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30 inline-block">
-                Payee: {BRAND_INFO.merchantName}
+                Payee: {brand.merchantName}
               </span>
             </div>
           </div>
@@ -214,11 +215,11 @@ export default function OrderConfirmationPage() {
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/20 text-sm font-mono font-bold text-brand-orange-300 flex-1 select-all">
-                    {BRAND_INFO.upiId}
+                    {brand.upiId}
                   </div>
                   <button
                     type="button"
-                    onClick={() => copyUpiId(BRAND_INFO.upiId)}
+                    onClick={() => copyUpiId(brand.upiId)}
                     className="p-2.5 rounded-xl bg-brand-orange-500 hover:bg-brand-orange-600 text-white transition-colors"
                     title="Copy UPI ID"
                   >
@@ -242,7 +243,7 @@ export default function OrderConfirmationPage() {
               </a>
 
               <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-300 space-y-1">
-                <p>• Alternate UPI ID: <span className="font-mono text-brand-orange-300">{BRAND_INFO.alternateUpiId}</span></p>
+                <p>• Alternate UPI ID: <span className="font-mono text-brand-orange-300">{brand.alternateUpiId}</span></p>
                 <p>• After paying, take a screenshot and tap the green WhatsApp button above to share with owner.</p>
               </div>
             </div>

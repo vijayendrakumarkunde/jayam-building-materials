@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Product } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 import { ProductDetailModal } from "./ProductDetailModal";
 
 interface ProductCardProps {
@@ -27,6 +27,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   isAddedToCart = false,
 }) => {
+  const brand = useBrandSettings();
   const [justAdded, setJustAdded] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -91,7 +92,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             {/* Quick WhatsApp Hover Pill */}
             <a
-              href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappOrderText}`}
+              href={`https://wa.me/91${brand.whatsappNumber}?text=${whatsappOrderText}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}

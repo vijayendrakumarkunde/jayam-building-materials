@@ -11,9 +11,10 @@ import {
   ArrowRight,
   PhoneCall
 } from "lucide-react";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const DeliveryLogisticsSection: React.FC = () => {
+  const brand = useBrandSettings();
   return (
     <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,11 +111,11 @@ export const DeliveryLogisticsSection: React.FC = () => {
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
-                href={BRAND_INFO.telUrl}
+                href={brand.telUrl}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#14243A] hover:bg-[#20252D] text-white text-xs sm:text-sm font-bold shadow-md transition-all"
               >
                 <PhoneCall className="w-4 h-4 text-[#F47B20]" />
-                <span>Call Fleet Supervisor ({BRAND_INFO.phone})</span>
+                <span>Call Fleet Supervisor ({brand.phone})</span>
               </a>
 
               <a

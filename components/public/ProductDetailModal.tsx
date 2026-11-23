@@ -14,7 +14,7 @@ import {
   Info
 } from "lucide-react";
 import { Product } from "@/lib/types";
-import { BRAND_INFO } from "@/lib/constants";
+import { useBrandSettings } from "@/lib/utils/settingsStore";
 import { formatCurrency } from "@/lib/utils";
 
 interface ProductDetailModalProps {
@@ -32,6 +32,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   onAddToCart,
   isAddedToCart = false,
 }) => {
+  const brand = useBrandSettings();
   const [quantity, setQuantity] = useState<number>(product?.minOrderQuantity || 1);
   const [justAdded, setJustAdded] = useState(false);
 
@@ -208,7 +209,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
           <div className="flex items-center gap-2.5 w-full sm:w-auto">
             <a
-              href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappMessage}`}
+              href={`https://wa.me/91${brand.whatsappNumber}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-xs transition-colors shadow-xs"
