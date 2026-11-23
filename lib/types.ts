@@ -8,6 +8,9 @@ export interface Category {
   imageUrl: string;
   itemCount: number;
   featured?: boolean;
+  bgColor?: string;
+  badge?: string;
+  isMoreCategory?: boolean;
 }
 
 export interface Product {
@@ -19,6 +22,8 @@ export interface Product {
   productType: string;
   description: string;
   price: number;
+  mrpPrice?: number;
+  discountPercent?: number;
   unit: MeasurementUnit;
   minOrderQuantity: number;
   inStock: boolean;

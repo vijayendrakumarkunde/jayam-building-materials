@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { ArrowRight, Layers } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 
 interface CategoryGridProps {
@@ -14,75 +13,138 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
   selectedCategory,
   onSelectCategory,
 }) => {
+  // Separate into Primary Grid and More Categories (like Builders9)
+  const primaryCategories = CATEGORIES_DATA.filter((c) => !c.isMoreCategory);
+  const moreCategories = CATEGORIES_DATA.filter((c) => c.isMoreCategory);
+
   return (
-    <section id="category-menu" className="py-8 sm:py-14 bg-slate-50 border-b border-slate-200 scroll-mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="category-menu" className="py-8 sm:py-12 bg-[#F8F9FA] border-b border-slate-200 scroll-mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
           <div>
-            <div className="flex items-center gap-2 text-brand-orange-600 text-xs font-bold tracking-widest uppercase mb-1">
-              <Layers className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 text-xs font-black tracking-widest uppercase text-brand-orange-600 mb-1">
+              <Sparkles className="w-3.5 h-3.5" />
               <span>Direct Wholesale Catalog</span>
             </div>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-brand-charcoal">
-              All Materials Menu
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Explore All Categories
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 max-w-md mt-1 md:mt-0">
-            Select any category below to filter available building materials and instant tipper booking:
+          <p className="text-xs sm:text-sm text-slate-500 max-w-sm">
+            Tap any category to filter verified building materials with direct quarry & depot delivery.
           </p>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-          {CATEGORIES_DATA.map((category) => {
-            const isSelected = selectedCategory === category.slug;
+        {/* PRIMARY BUILDERS9-STYLE 2-COLUMN PASTEL CARDS GRID */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
+          {primaryCategories.map((cat) => {
+            const isSelected = selectedCategory === cat.slug;
             return (
               <div
-                key={category.id}
-                onClick={() => onSelectCategory ? onSelectCategory(category.slug) : undefined}
-                className={`group relative overflow-hidden rounded-2xl bg-white border cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
+                key={cat.id}
+                onClick={() => onSelectCategory ? onSelectCategory(cat.slug) : undefined}
+                style={{ backgroundColor: cat.bgColor || "#F4F3F5" }}
+                className={`rounded-3xl sm:rounded-[32px] p-4 sm:p-6 flex flex-col justify-between h-[220px] sm:h-[280px] relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
                   isSelected
-                    ? "border-brand-orange-500 ring-2 ring-brand-orange-500/20 shadow-lg"
-                    : "border-slate-200 hover:border-brand-orange-300"
+                    ? "ring-2 ring-slate-900 ring-offset-2 shadow-lg"
+                    : "border border-black/5 hover:border-black/10"
                 }`}
               >
-                {/* Visual Image Container with Gradient */}
-                <div className="relative h-36 w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={category.imageUrl}
-                    alt={category.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal-900/80 via-transparent to-transparent"></div>
-                  
-                  {/* Item Count Tag */}
-                  <span className="absolute top-2.5 right-2.5 bg-brand-charcoal-900/80 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-0.5 rounded-full border border-slate-700">
-                    {category.itemCount} Varieties
-                  </span>
+                {/* Top Row: Category Title & Arrow Button */}
+                <div className="flex items-start justify-between gap-2 z-10">
+                  <div>
+                    <h3 className="text-base sm:text-xl font-black text-slate-900 leading-tight tracking-tight">
+                      {cat.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 font-semibold mt-0.5">
+                      {cat.itemCount} products
+                    </p>
+                  </div>
+
+                  {/* Circular White Arrow Button */}
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-800 group-hover:scale-110 group-hover:bg-slate-900 group-hover:text-white transition-all shrink-0">
+                    <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </div>
                 </div>
 
-                {/* Card Content */}
-                <div className="p-3.5 sm:p-4">
-                  <h3 className="text-sm sm:text-base font-bold text-brand-charcoal group-hover:text-brand-orange-600 transition-colors">
-                    {category.name}
-                  </h3>
-                  <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 mt-1 leading-snug">
-                    {category.description}
-                  </p>
-
-                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-brand-orange-600 flex items-center gap-1 group-hover:gap-1.5 transition-all">
-                      View Stock <ArrowRight className="w-3 h-3" />
-                    </span>
-                  </div>
+                {/* Bottom Row: Category Material Visual Representation */}
+                <div className="relative h-28 sm:h-40 w-full flex items-end justify-center pt-2">
+                  <img
+                    src={cat.imageUrl}
+                    alt={cat.name}
+                    className="max-h-full w-full object-cover rounded-2xl shadow-sm group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent rounded-2xl pointer-events-none"></div>
                 </div>
               </div>
             );
           })}
         </div>
+
+        {/* "MORE CATEGORIES" SECTION (BUILDERS9 SPECIFICATION) */}
+        {moreCategories.length > 0 && (
+          <div className="bg-white rounded-3xl sm:rounded-[32px] border border-slate-200/80 p-5 sm:p-8 shadow-sm space-y-4 sm:space-y-6">
+            
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900">
+                  More categories
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                  Everything else we stock for your project
+                </p>
+              </div>
+
+              <span className="bg-[#FAF0DC] text-slate-900 text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-full">
+                {moreCategories.length} more
+              </span>
+            </div>
+
+            {/* List Rows */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {moreCategories.map((cat) => {
+                const isSelected = selectedCategory === cat.slug;
+                return (
+                  <div
+                    key={cat.id}
+                    onClick={() => onSelectCategory ? onSelectCategory(cat.slug) : undefined}
+                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border cursor-pointer transition-all duration-200 ${
+                      isSelected
+                        ? "bg-slate-100 border-slate-900 ring-1 ring-slate-900 shadow-sm"
+                        : "bg-slate-50/70 border-slate-200/70 hover:bg-slate-100/80 hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <img
+                        src={cat.imageUrl}
+                        alt={cat.name}
+                        className="w-12 h-12 rounded-xl object-cover bg-slate-200 shrink-0 shadow-sm"
+                        loading="lazy"
+                      />
+                      <div>
+                        <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
+                          {cat.name}
+                        </h4>
+                        <p className="text-xs text-slate-500 font-medium">
+                          {cat.itemCount} products
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-colors shrink-0">
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
+        )}
 
       </div>
     </section>
