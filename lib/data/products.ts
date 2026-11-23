@@ -20,7 +20,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 400,
     images: [
-      "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80",
+      "/images/products/medium-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -47,7 +47,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 500,
     images: [
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
+      "/images/products/refined-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -74,7 +74,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 350,
     images: [
-      "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80",
+      "/images/products/non-refined-sand.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -100,7 +100,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 450,
     images: [
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
+      "/images/products/sand-mound.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -128,7 +128,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 600,
     images: [
-      "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80",
+      "/images/products/medium-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -156,7 +156,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 320,
     images: [
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
+      "/images/products/refined-sand.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -183,7 +183,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 500,
     images: [
-      "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80",
+      "/images/products/blue-metal-20mm.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -211,7 +211,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 400,
     images: [
-      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+      "/images/products/aggregate-40mm.jpg",
     ],
     specifications: {
       "Size": "40mm (Heavy Coarse)",
@@ -236,7 +236,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 28,
     images: [
-      "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80",
+      "/images/products/sand-mound.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -268,7 +268,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1200,
     images: [
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "/images/products/cement-brands.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -297,7 +297,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 950,
     images: [
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "/images/products/cement-brands.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -324,7 +324,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 800,
     images: [
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "/images/products/cement-brands.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -351,7 +351,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 700,
     images: [
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "/images/products/cement-brands.jpg",
     ],
     specifications: {
       "Brand": "Bharathi Cement",
@@ -377,7 +377,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 550,
     images: [
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "/images/products/cement-brands.jpg",
     ],
     specifications: {
       "Brand": "Ramco Cements",
@@ -407,7 +407,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1500,
     images: [
-      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "/images/products/tmt-steel-bundle.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -436,7 +436,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1200,
     images: [
-      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "/images/products/tmt-steel-bundle.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -464,7 +464,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1000,
     images: [
-      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "/images/products/tmt-steel-bundle.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -492,7 +492,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 750,
     images: [
-      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "/images/products/tmt-steel-bundle.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -523,7 +523,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 25000,
     images: [
-      "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=800&q=80",
+      "/images/products/red-clay-bricks.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -551,7 +551,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 4000,
     images: [
-      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=800&q=80",
+      "/images/products/aac-blocks.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -579,7 +579,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 3500,
     images: [
-      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=800&q=80",
+      "/images/products/concrete-blocks.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -609,7 +609,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 700,
     images: [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
+      "/images/products/granite-rubble.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -639,7 +639,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 300,
     images: [
-      "https://images.unsplash.com/photo-1508873696983-2df5703bc20d?auto=format&fit=crop&w=800&q=80",
+      "/images/products/red-soil.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -669,7 +669,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 150,
     images: [
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+      "/images/products/polycab-wire.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -697,7 +697,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 120,
     images: [
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+      "/images/products/polycab-wire.jpg",
     ],
     isFeatured: true,
     specifications: {

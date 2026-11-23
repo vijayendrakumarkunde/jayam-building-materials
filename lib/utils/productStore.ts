@@ -98,6 +98,13 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
   return activeBase.map((p) => {
     const ov = overrides[p.id];
     if (!ov) return p;
+    const hasCustomValidImage =
+      ov.images &&
+      ov.images.length > 0 &&
+      !ov.images[0].includes("photo-1600585154340") &&
+      !ov.images[0].includes("photo-1541888946425") &&
+      !ov.images[0].includes("photo-1584467735871");
+
     return {
       ...p,
       name: ov.name || p.name,
@@ -105,7 +112,7 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
       mrpPrice: ov.mrpPrice !== undefined ? ov.mrpPrice : p.mrpPrice,
       inStock: ov.inStock !== undefined ? ov.inStock : p.inStock,
       stockQuantity: ov.stockQuantity !== undefined ? ov.stockQuantity : p.stockQuantity,
-      images: ov.images && ov.images.length > 0 ? ov.images : p.images,
+      images: hasCustomValidImage ? ov.images! : p.images,
       unit: (ov.unit as any) || p.unit,
       gradeOrType: ov.gradeOrType || p.gradeOrType,
     };
