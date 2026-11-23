@@ -136,7 +136,7 @@ function isProductInCategory(p: Product, catSlug: string): boolean {
 }
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(() => getMergedProducts(PRODUCTS_DATA));
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);

@@ -26,13 +26,13 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const router = useRouter();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  // If on login page, don't show admin chrome/sidebar
+  // If on login page, render cleanly without admin chrome
   if (pathname === "/admin/login") {
-    return <>{children}</>;
+    return <main className="min-h-screen bg-brand-charcoal">{children}</main>;
   }
 
   const navLinks = [
