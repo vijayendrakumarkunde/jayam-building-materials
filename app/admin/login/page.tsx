@@ -50,8 +50,8 @@ export default function AdminLoginPage() {
   };
 
   const handleFillDemoCredentials = () => {
-    setEmail("admin@jayambuildingmaterials.com");
-    setPassword("admin12345");
+    setEmail("jayamvenkatesh1982@gmail.com");
+    setPassword("@Jayam4489");
   };
 
   return (
@@ -105,7 +105,7 @@ export default function AdminLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@jayambuildingmaterials.com"
+                  placeholder="jayamvenkatesh1982@gmail.com"
                   className="w-full text-sm px-4 py-3 pl-10 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 transition-all"
                 />
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
@@ -154,7 +154,7 @@ export default function AdminLoginPage() {
           {/* Quick Demo Access Credentials Helper */}
           <div className="pt-4 border-t border-brand-charcoal-800 text-center space-y-2">
             <p className="text-[11px] text-slate-400">
-              Quick Setup / Owner Master Credentials:
+              Owner Credentials (jayamvenkatesh1982@gmail.com):
             </p>
             <button
               type="button"
@@ -162,7 +162,7 @@ export default function AdminLoginPage() {
               className="inline-flex items-center gap-1.5 text-xs text-brand-orange-400 hover:text-brand-orange-300 bg-brand-charcoal-800 px-3 py-1.5 rounded-lg border border-brand-charcoal-700 transition-colors"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Fill Initial Master Credentials</span>
+              <span>Fill Master Credentials</span>
             </button>
           </div>
 
