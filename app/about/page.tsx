@@ -62,8 +62,8 @@ export default function AboutPage() {
 
           <div className="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white">
             <img
-              src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=1000&q=80"
-              alt="Jayam Building Materials Crushing Plant & Yard"
+              src="/images/hero/jayam-construction-hero.jpg"
+              alt="Jayam Building Materials Construction Site Supply & Fleet Logistics"
               className="w-full h-96 object-cover"
             />
           </div>

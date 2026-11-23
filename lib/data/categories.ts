@@ -7,7 +7,7 @@ export const CATEGORIES_DATA: Category[] = [
     name: "Sand & Aggregates",
     slug: "sand",
     description: "Triple-washed river sand, Kattubadi sand, VSI M-sand, P-sand, and 20mm/40mm blue metal stones.",
-    imageUrl: "/images/products/sand-mound.jpg",
+    imageUrl: "/images/products/river-sand.jpg",
     itemCount: 9,
     bgColor: "#FAF0DC", // Warm Golden Sand
     featured: true,
@@ -17,7 +17,7 @@ export const CATEGORIES_DATA: Category[] = [
     name: "Cement",
     slug: "cement",
     description: "OPC 53 Grade, PPC & PSC from Ultratech, JSW, ACC, Ramco & Bharathi.",
-    imageUrl: "/images/products/cement-brands.jpg",
+    imageUrl: "/images/products/cement-bags.jpg",
     itemCount: 5,
     bgColor: "#F0F3F9", // Soft Lavender Blue
     featured: true,
@@ -27,7 +27,7 @@ export const CATEGORIES_DATA: Category[] = [
     name: "TMT Steel Bars",
     slug: "steel",
     description: "Primary Fe 550D & Fe 500D high-ductility ribbed reinforcement TMT rebars.",
-    imageUrl: "/images/products/tmt-steel-bundle.jpg",
+    imageUrl: "/images/products/tmt-steel.jpg",
     itemCount: 4,
     bgColor: "#FDF1EB", // Soft Peach
     featured: true,
@@ -37,7 +37,7 @@ export const CATEGORIES_DATA: Category[] = [
     name: "Bricks & Blocks",
     slug: "bricks",
     description: "First-class red clay chamber bricks, AAC light blocks, and concrete solid blocks.",
-    imageUrl: "/images/products/bricks-blocks.jpg",
+    imageUrl: "/images/products/red-clay-bricks.jpg",
     itemCount: 3,
     bgColor: "#F4F3F5", // Soft Warm Grey
     featured: true,

@@ -20,7 +20,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 400,
     images: [
-      "/images/products/medium-sand.jpg",
+      "/images/products/river-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -47,7 +47,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 500,
     images: [
-      "/images/products/refined-sand.jpg",
+      "/images/products/river-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -74,7 +74,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 350,
     images: [
-      "/images/products/non-refined-sand.jpg",
+      "/images/products/river-sand.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -100,7 +100,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 450,
     images: [
-      "/images/products/sand-mound.jpg",
+      "/images/products/river-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -128,7 +128,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 600,
     images: [
-      "/images/products/medium-sand.jpg",
+      "/images/products/m-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -156,7 +156,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 320,
     images: [
-      "/images/products/refined-sand.jpg",
+      "/images/products/river-sand.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -236,7 +236,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 28,
     images: [
-      "/images/products/sand-mound.jpg",
+      "/images/products/tipper-truck-sand.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -268,7 +268,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1200,
     images: [
-      "/images/products/cement-brands.jpg",
+      "/images/products/cement-bags.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -297,7 +297,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 950,
     images: [
-      "/images/products/cement-brands.jpg",
+      "/images/products/cement-bags.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -324,7 +324,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 800,
     images: [
-      "/images/products/cement-brands.jpg",
+      "/images/products/cement-bags.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -351,7 +351,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 700,
     images: [
-      "/images/products/cement-brands.jpg",
+      "/images/products/cement-bags.jpg",
     ],
     specifications: {
       "Brand": "Bharathi Cement",
@@ -377,7 +377,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 550,
     images: [
-      "/images/products/cement-brands.jpg",
+      "/images/products/cement-bags.jpg",
     ],
     specifications: {
       "Brand": "Ramco Cements",
@@ -407,7 +407,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1500,
     images: [
-      "/images/products/tmt-steel-bundle.jpg",
+      "/images/products/tmt-steel.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -436,7 +436,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1200,
     images: [
-      "/images/products/tmt-steel-bundle.jpg",
+      "/images/products/tmt-steel.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -464,7 +464,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1000,
     images: [
-      "/images/products/tmt-steel-bundle.jpg",
+      "/images/products/tmt-steel.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -492,7 +492,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 750,
     images: [
-      "/images/products/tmt-steel-bundle.jpg",
+      "/images/products/tmt-steel.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -579,7 +579,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 3500,
     images: [
-      "/images/products/concrete-blocks.jpg",
+      "/images/products/aac-blocks.jpg",
     ],
     isFeatured: true,
     specifications: {

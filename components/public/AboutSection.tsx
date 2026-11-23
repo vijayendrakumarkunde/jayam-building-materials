@@ -13,8 +13,8 @@ export const AboutSection: React.FC = () => {
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
               <img
-                src="https://images.unsplash.com/photo-1541888946425-d0fbb186156f?auto=format&fit=crop&w=1000&q=80"
-                alt="Jayam Building Materials Operations"
+                src="/images/about/construction-site-operations.jpg"
+                alt="Jayam Building Materials Logistics & Fleet Operations"
                 className="w-full h-[400px] sm:h-[480px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal-900/80 via-transparent to-transparent"></div>
