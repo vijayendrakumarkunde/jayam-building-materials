@@ -96,6 +96,10 @@ export async function createGuestOrder(orderPayload: {
   specialInstructions?: string;
   subtotal: number;
   items: CartItem[];
+  paymentMethod?: string;
+  paymentStatus?: string;
+  utrNumber?: string;
+  tokenAmount?: number;
 }) {
   const supabase = createAdminClient() || createServerSupabaseClient();
   if (!supabase) {
@@ -116,6 +120,14 @@ export async function createGuestOrder(orderPayload: {
 
   const customerId = customerData?.id || null;
 
+  // Format special instructions to include payment details
+  const formattedInstructions = [
+    orderPayload.specialInstructions,
+    orderPayload.paymentMethod ? `[Payment: ${orderPayload.paymentMethod}]` : null,
+    orderPayload.tokenAmount ? `[Token Deposit: ₹${orderPayload.tokenAmount}]` : null,
+    orderPayload.utrNumber ? `[UPI UTR: ${orderPayload.utrNumber}]` : null,
+  ].filter(Boolean).join(" | ");
+
   // 2. Insert Order
   const { data: orderData, error: orderError } = await supabase
     .from("orders")
@@ -130,7 +142,7 @@ export async function createGuestOrder(orderPayload: {
       city: orderPayload.city || "Hyderabad Region",
       road_access: orderPayload.roadAccess,
       preferred_date: orderPayload.preferredDate,
-      special_instructions: orderPayload.specialInstructions,
+      special_instructions: formattedInstructions,
       subtotal_amount: orderPayload.subtotal,
       order_status: "Pending",
     })
@@ -158,7 +170,7 @@ export async function createGuestOrder(orderPayload: {
   // 4. Create Admin Notification
   await supabase.from("notifications").insert({
     title: `New Order ${orderPayload.orderReference}`,
-    message: `${orderPayload.customerName} booked ${orderPayload.items.length} materials (₹${orderPayload.subtotal}).`,
+    message: `${orderPayload.customerName} booked ${orderPayload.items.length} materials (₹${orderPayload.subtotal}) - ${orderPayload.paymentMethod || "Pay on Site"}.`,
     notification_type: "order",
     link_url: `/admin/orders`,
   });

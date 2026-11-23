@@ -8,7 +8,7 @@ import { Footer } from "@/components/public/Footer";
 import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { useCart } from "@/lib/context/CartContext";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, buildUpiIntentUrl, buildUpiQrCodeUrl } from "@/lib/utils";
 import { BRAND_INFO } from "@/lib/constants";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { 
@@ -25,7 +25,15 @@ import {
   HardHat,
   ChevronRight,
   PlusCircle,
-  HelpCircle
+  HelpCircle,
+  QrCode,
+  CreditCard,
+  Banknote,
+  Copy,
+  Check,
+  ExternalLink,
+  Sparkles,
+  Zap
 } from "lucide-react";
 
 export default function CheckoutPage() {
@@ -34,6 +42,11 @@ export default function CheckoutPage() {
 
   // Active booking method tab: "website" | "whatsapp" | "call"
   const [bookingMethod, setBookingMethod] = useState<"website" | "whatsapp" | "call">("website");
+
+  // Payment Option: "token" (₹2000 Token Advance) | "full" (100% Full UPI) | "site" (Pay on Site Delivery)
+  const [paymentChoice, setPaymentChoice] = useState<"token" | "full" | "site">("token");
+  const [utrNumber, setUtrNumber] = useState("");
+  const [copiedUpi, setCopiedUpi] = useState(false);
 
   // Website Form State (Guest checkout - no login required!)
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,6 +68,18 @@ export default function CheckoutPage() {
   ];
   const checkoutSubtotal = items.length > 0 ? subtotal : PRODUCTS_DATA[0].price * 16;
 
+  const copyUpiId = (id: string) => {
+    navigator.clipboard.writeText(id);
+    setCopiedUpi(true);
+    setTimeout(() => setCopiedUpi(false), 2500);
+  };
+
+  const payableAmount = paymentChoice === "token" 
+    ? BRAND_INFO.advanceTokenAmount 
+    : paymentChoice === "full" 
+    ? checkoutSubtotal 
+    : 0;
+
   // Formatted WhatsApp Message
   const whatsappCheckoutMessage = encodeURIComponent(
     `Hello Jayam Building Materials,\nI want to book the following materials for site delivery:\n\n` +
@@ -75,6 +100,20 @@ export default function CheckoutPage() {
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
     const orderRef = `JBM-2026-${randomSuffix}`;
 
+    const paymentMethodLabel = 
+      paymentChoice === "token" 
+        ? `UPI Advance Token Deposit (${formatCurrency(BRAND_INFO.advanceTokenAmount)})` 
+        : paymentChoice === "full" 
+        ? `UPI Full Online Payment (${formatCurrency(checkoutSubtotal)})` 
+        : `Pay on Site Delivery (COD / Driver UPI)`;
+
+    const paymentStatusLabel = 
+      paymentChoice === "site" 
+        ? "Unpaid (Pay on Site Delivery)" 
+        : utrNumber.trim() 
+        ? `Token Paid (UTR: ${utrNumber.trim()})` 
+        : "Pending Token Deposit Verification";
+
     const orderDetails = {
       orderReference: orderRef,
       customerName: formData.fullName,
@@ -88,6 +127,10 @@ export default function CheckoutPage() {
       specialInstructions: formData.specialInstructions,
       items: checkoutItems,
       subtotal: checkoutSubtotal,
+      paymentMethod: paymentMethodLabel,
+      paymentStatus: paymentStatusLabel,
+      utrNumber: utrNumber.trim(),
+      tokenAmount: payableAmount,
       bookingDate: new Date().toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
@@ -368,6 +411,203 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
+                  {/* PAYMENT METHOD & DIRECT UPI SECTION */}
+                  <div className="pt-6 border-t border-slate-200 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="text-[11px] font-bold text-brand-orange-600 uppercase tracking-wider block">
+                          Step 2: Choose Payment Method
+                        </span>
+                        <h3 className="text-base font-bold text-brand-charcoal">
+                          Select How You Wish to Pay
+                        </h3>
+                      </div>
+                      <span className="text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-semibold flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                        0% UPI Transaction Fee
+                      </span>
+                    </div>
+
+                    {/* 3 Payment Options */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {/* Option 1: ₹2,000 Token Advance (Recommended) */}
+                      <button
+                        type="button"
+                        onClick={() => setPaymentChoice("token")}
+                        className={`p-3.5 rounded-xl border text-left transition-all relative flex flex-col justify-between ${
+                          paymentChoice === "token"
+                            ? "border-brand-orange-500 bg-brand-orange-50/50 shadow-md ring-2 ring-brand-orange-500/20"
+                            : "border-slate-200 hover:border-slate-300 bg-white"
+                        }`}
+                      >
+                        <div className="space-y-1">
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-brand-orange-500 text-white">
+                            Recommended
+                          </span>
+                          <div className="font-extrabold text-xs text-brand-charcoal flex items-center gap-1.5 pt-1">
+                            <Zap className="w-3.5 h-3.5 text-brand-orange-600" />
+                            <span>Advance Token (₹2,000)</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 leading-snug">
+                            Locks tipper lorry & dispatches immediately. Balance paid on site delivery.
+                          </p>
+                        </div>
+                        <div className="pt-2 text-xs font-black text-brand-orange-700">
+                          ₹2,000 via UPI
+                        </div>
+                      </button>
+
+                      {/* Option 2: Full Amount via UPI */}
+                      <button
+                        type="button"
+                        onClick={() => setPaymentChoice("full")}
+                        className={`p-3.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
+                          paymentChoice === "full"
+                            ? "border-brand-orange-500 bg-brand-orange-50/50 shadow-md ring-2 ring-brand-orange-500/20"
+                            : "border-slate-200 hover:border-slate-300 bg-white"
+                        }`}
+                      >
+                        <div className="space-y-1">
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
+                            100% Online
+                          </span>
+                          <div className="font-extrabold text-xs text-brand-charcoal flex items-center gap-1.5 pt-1">
+                            <CreditCard className="w-3.5 h-3.5 text-blue-600" />
+                            <span>Full UPI Payment</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 leading-snug">
+                            Instant zero-fee direct transfer for complete invoice value.
+                          </p>
+                        </div>
+                        <div className="pt-2 text-xs font-black text-slate-800">
+                          {formatCurrency(checkoutSubtotal)} via UPI
+                        </div>
+                      </button>
+
+                      {/* Option 3: Pay on Site Delivery (COD / Driver UPI) */}
+                      <button
+                        type="button"
+                        onClick={() => setPaymentChoice("site")}
+                        className={`p-3.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
+                          paymentChoice === "site"
+                            ? "border-brand-orange-500 bg-brand-orange-50/50 shadow-md ring-2 ring-brand-orange-500/20"
+                            : "border-slate-200 hover:border-slate-300 bg-white"
+                        }`}
+                      >
+                        <div className="space-y-1">
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
+                            At Site
+                          </span>
+                          <div className="font-extrabold text-xs text-brand-charcoal flex items-center gap-1.5 pt-1">
+                            <Banknote className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>Pay on Delivery</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 leading-snug">
+                            Inspect weighbridge slip at site, then pay driver via Cash or UPI.
+                          </p>
+                        </div>
+                        <div className="pt-2 text-xs font-black text-emerald-700">
+                          Pay After Unloading
+                        </div>
+                      </button>
+                    </div>
+
+                    {/* DYNAMIC UPI PAYMENT BOX (Shown for Token & Full UPI) */}
+                    {(paymentChoice === "token" || paymentChoice === "full") && (
+                      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-brand-charcoal text-white space-y-4 border border-brand-charcoal-700 shadow-lg">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/10">
+                          <div>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-brand-orange-400">
+                              Instant Direct UPI Transfer (0% Surcharge)
+                            </span>
+                            <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                              <span>Pay {formatCurrency(payableAmount)} directly to Jayam Materials</span>
+                            </h4>
+                          </div>
+                          <span className="text-[11px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 self-start sm:self-auto">
+                            Instant Bank Settlement
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                          {/* QR Code */}
+                          <div className="sm:col-span-5 bg-white p-3 rounded-xl flex flex-col items-center justify-center text-center">
+                            <img
+                              src={buildUpiQrCodeUrl(payableAmount, "JAYAM")}
+                              alt="Scan UPI QR Code"
+                              className="w-36 h-36 rounded-lg object-contain"
+                            />
+                            <span className="text-[10px] font-bold text-slate-800 mt-1.5">
+                              Scan with Any UPI App
+                            </span>
+                            <span className="text-[9px] text-slate-500">
+                              PhonePe • Google Pay • Paytm • BHIM
+                            </span>
+                          </div>
+
+                          {/* UPI IDs & 1-Tap Mobile Button */}
+                          <div className="sm:col-span-7 space-y-3">
+                            <div className="space-y-1.5">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                                PhonePe / Universal UPI ID
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="px-3 py-2 rounded-lg bg-black/40 border border-white/15 text-xs font-mono font-bold text-brand-orange-300 flex-1 select-all">
+                                  {BRAND_INFO.upiId}
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => copyUpiId(BRAND_INFO.upiId)}
+                                  className="p-2 rounded-lg bg-brand-orange-500 hover:bg-brand-orange-600 text-white transition-colors"
+                                  title="Copy UPI ID"
+                                >
+                                  {copiedUpi ? <Check className="w-4 h-4 text-emerald-200" /> : <Copy className="w-4 h-4" />}
+                                </button>
+                              </div>
+                              {copiedUpi && (
+                                <p className="text-[10px] text-emerald-400 font-semibold animate-pulse">
+                                  ✓ UPI ID copied! Paste in PhonePe, GPay, or Paytm.
+                                </p>
+                              )}
+                            </div>
+
+                            {/* Mobile 1-Tap UPI Launch Button */}
+                            <a
+                              href={buildUpiIntentUrl(payableAmount, "JAYAM-ADV")}
+                              className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>1-Tap Pay via UPI App (PhonePe / GPay)</span>
+                            </a>
+
+                            <div className="text-[10px] text-slate-400 leading-snug">
+                              Recipient Name: <strong className="text-slate-200">{BRAND_INFO.merchantName}</strong><br />
+                              Alternate UPI: <span className="font-mono text-slate-300">{BRAND_INFO.alternateUpiId}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Optional 12-Digit UPI Transaction / UTR Input */}
+                        <div className="pt-3 border-t border-white/10 space-y-1.5">
+                          <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                            12-Digit UPI Reference Number / UTR (Optional)
+                          </label>
+                          <input
+                            type="text"
+                            maxLength={16}
+                            value={utrNumber}
+                            onChange={(e) => setUtrNumber(e.target.value)}
+                            placeholder="e.g. 402918239012 (found in your UPI app receipt)"
+                            className="w-full text-xs px-3.5 py-2 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange-500 font-mono"
+                          />
+                          <p className="text-[10px] text-slate-400">
+                            If you paid right now, paste the 12-digit UTR. You can also proceed and forward the payment screenshot on WhatsApp after order placement.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
                   {/* Submit Button */}
                   <div className="pt-4 border-t border-slate-100 space-y-2">
                     <button
@@ -377,11 +617,19 @@ export default function CheckoutPage() {
                     >
                       <ClipboardList className="w-4 h-4" />
                       <span>
-                        {isSubmitting ? "Generating Your Order ID..." : "Confirm Online Booking & Generate Order ID"}
+                        {isSubmitting
+                          ? "Securing Your Booking & Generating Order ID..."
+                          : paymentChoice === "token"
+                          ? `Confirm Booking & Reserve Tipper (${formatCurrency(BRAND_INFO.advanceTokenAmount)} Token)`
+                          : paymentChoice === "full"
+                          ? `Confirm Online Booking & Pay ${formatCurrency(checkoutSubtotal)}`
+                          : "Confirm Booking & Pay on Site Delivery"}
                       </span>
                     </button>
-                    <p className="text-center text-[11px] text-slate-400">
-                      No upfront prepayment required. You will receive an official Order Reference ID to track live dispatch.
+                    <p className="text-center text-[11px] text-slate-500">
+                      {paymentChoice === "site" 
+                        ? "No advance required. You will receive an official Order Reference ID to track vehicle dispatch."
+                        : "Official Order Reference ID generated immediately with live WhatsApp dispatch desk connection."}
                     </p>
                   </div>
                 </form>

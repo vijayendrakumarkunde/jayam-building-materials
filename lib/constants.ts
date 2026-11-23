@@ -11,6 +11,11 @@ export const BRAND_INFO = {
   operatingHours: "Mon - Sat: 6:00 AM - 9:00 PM | Sunday: 7:00 AM - 2:00 PM",
   address: "Plot No. 42, Outer Ring Road Logistics Junction, Industrial Hub",
   deliveryNotice: "Delivery charges are calculated based on your site location, accessibility, and vehicle type (Tipper / Lorry / Small Truck). Our dispatch coordinator will contact you immediately after booking to confirm final transport details.",
+  // Direct UPI Configuration (Can be changed anytime)
+  upiId: "9505609865@axl",
+  alternateUpiId: "9505609865@ibl",
+  merchantName: "JAYAM BUILDING MATERIALS",
+  advanceTokenAmount: 2000, // Token amount to confirm & dispatch tipper truck
 };
 
 export const INITIAL_CATEGORIES = [
