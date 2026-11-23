@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   Phone, 
@@ -11,11 +11,8 @@ import {
   Truck, 
   Clock, 
   MessageCircle, 
-  User, 
   ShieldCheck,
-  ChevronDown,
-  Lock,
-  ExternalLink
+  ChevronDown
 } from "lucide-react";
 import { BRAND_INFO } from "@/lib/constants";
 import { useCart } from "@/lib/context/CartContext";
@@ -34,23 +31,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSearchChange,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const userMenuRef = useRef<HTMLDivElement | null>(null);
   const cart = useCart();
 
   const cartCount = propCartCount !== undefined ? propCartCount : cart.items.length;
   const onOpenCart = propOnOpenCart || cart.openCart;
-
-  // Close account menu on click outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
-        setUserMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <header className="sticky top-0 z-40 w-full shadow-sm bg-white">
@@ -175,99 +159,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            {/* Shopping Cart, Account Icon & Call CTA */}
+            {/* Shopping Cart & Call CTA */}
             <div className="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
-              {/* Account & Admin Portal Popover Menu */}
-              <div className="relative" ref={userMenuRef}>
-                <button
-                  type="button"
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className={`p-2.5 rounded-xl border transition-all flex items-center justify-center group ${
-                    userMenuOpen
-                      ? "bg-[#14243A] text-white border-[#14243A] shadow-md"
-                      : "bg-[#F5F6F8] hover:bg-slate-200/80 text-slate-700 hover:text-[#14243A] border-slate-200"
-                  }`}
-                  title="Account & Admin Portal"
-                  aria-label="Account & Admin Portal"
-                >
-                  <User className={`w-5 h-5 transition-colors ${userMenuOpen ? "text-[#F47B20]" : "text-slate-600 group-hover:text-[#F47B20]"}`} />
-                </button>
-
-                {/* Dropdown Menu */}
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-slate-200/90 py-2 z-50 animate-in fade-in-50 slide-in-from-top-2">
-                    <div className="px-4 py-2.5 border-b border-slate-100 bg-[#F5F6F8]/60 rounded-t-2xl">
-                      <p className="text-xs font-black text-[#14243A]">JAYAM Portals</p>
-                      <p className="text-[10px] text-slate-500">Account & Management Access</p>
-                    </div>
-
-                    <div className="p-1.5 space-y-1">
-                      {/* Admin Portal Link */}
-                      <a
-                        href="/admin/login"
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#14243A] hover:bg-[#FFF6EE] hover:text-[#F47B20] transition-colors"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        <div className="w-7 h-7 rounded-lg bg-[#FFF6EE] text-[#F47B20] flex items-center justify-center shrink-0">
-                          <Lock className="w-3.5 h-3.5" />
-                        </div>
-                        <div>
-                          <span className="block font-black">Admin Management</span>
-                          <span className="text-[10px] text-slate-400 font-normal block">Catalog rates, stock & orders</span>
-                        </div>
-                      </a>
-
-                      {/* Track Order Link */}
-                      <Link
-                        href="/track-order"
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#14243A] hover:bg-[#F5F6F8] transition-colors"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                          <Truck className="w-3.5 h-3.5" />
-                        </div>
-                        <div>
-                          <span className="block font-black">Track Material Order</span>
-                          <span className="text-[10px] text-slate-400 font-normal block">Live tipper dispatch status</span>
-                        </div>
-                      </Link>
-
-                      {/* Direct Call Dispatch */}
-                      <a
-                        href={BRAND_INFO.telUrl}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#14243A] hover:bg-[#F5F6F8] transition-colors"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                          <Phone className="w-3.5 h-3.5" />
-                        </div>
-                        <div>
-                          <span className="block font-black">Dispatch Helpline</span>
-                          <span className="text-[10px] text-slate-400 font-normal block">{BRAND_INFO.phoneFormatted}</span>
-                        </div>
-                      </a>
-
-                      {/* WhatsApp Support */}
-                      <a
-                        href={`https://wa.me/91${BRAND_INFO.whatsappNumber}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#14243A] hover:bg-[#F5F6F8] transition-colors"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                          <MessageCircle className="w-3.5 h-3.5" />
-                        </div>
-                        <div>
-                          <span className="block font-black">WhatsApp Support</span>
-                          <span className="text-[10px] text-slate-400 font-normal block">Instant quote & site delivery</span>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-
               {/* Shopping Cart Button */}
               <button
                 onClick={onOpenCart}
@@ -357,15 +250,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-base font-semibold text-slate-700 hover:bg-[#F5F6F8] hover:text-[#F47B20]"
             >
               <span>Contact Us</span>
-            </Link>
-            <Link
-              href="/admin/products"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-base font-semibold text-slate-700 hover:bg-[#F5F6F8] hover:text-[#14243A] border-t border-slate-100 mt-2"
-            >
-              <span className="flex items-center gap-2">
-                <User className="w-4 h-4 text-[#14243A]" /> Admin Portal
-              </span>
             </Link>
 
             <div className="pt-4 border-t border-slate-200 space-y-2">
