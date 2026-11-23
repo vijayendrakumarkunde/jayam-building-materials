@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Navbar } from "@/components/public/Navbar";
 import { HeroBanner } from "@/components/public/HeroBanner";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
@@ -18,17 +18,28 @@ import { PRODUCTS_DATA } from "@/lib/data/products";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 import { Product } from "@/lib/types";
 import { useCart } from "@/lib/context/CartContext";
+import { getMergedProducts } from "@/lib/utils/productStore";
 import { Sparkles, Search, Layers, CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
   const { items, addToCart } = useCart();
+  const [products, setProducts] = useState<Product[]>(() => getMergedProducts(PRODUCTS_DATA));
   // Default to primary material: "sand"
   const [selectedCategory, setSelectedCategory] = useState<string>("sand");
   const [searchQuery, setSearchQuery] = useState("");
 
+  useEffect(() => {
+    const handleUpdate = () => {
+      setProducts(getMergedProducts(PRODUCTS_DATA));
+    };
+    handleUpdate();
+    window.addEventListener("jayam_products_updated", handleUpdate);
+    return () => window.removeEventListener("jayam_products_updated", handleUpdate);
+  }, []);
+
   // Filtered products based on search and selected material category
   const filteredProducts = useMemo(() => {
-    return PRODUCTS_DATA.filter((product) => {
+    return products.filter((product) => {
       const matchesCategory =
         !selectedCategory ||
         selectedCategory === "all" ||
@@ -41,7 +52,7 @@ export default function HomePage() {
         product.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [products, selectedCategory, searchQuery]);
 
   const addedProductIds = useMemo(() => {
     return new Set(items.map((i) => i.product.id));

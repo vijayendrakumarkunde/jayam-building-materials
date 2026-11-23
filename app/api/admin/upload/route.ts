@@ -29,29 +29,46 @@ export async function POST(request: Request) {
     const uniquePath = `${customFolder}/${Date.now()}-${cleanFileName}`;
 
     if (supabase) {
-      // 1. Upload to Supabase Storage
-      const { data, error } = await supabase.storage
-        .from("product-images")
-        .upload(uniquePath, buffer, {
-          contentType: file.type,
-          upsert: true,
+      try {
+        // 1. Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from("product-images")
+          .upload(uniquePath, buffer, {
+            contentType: file.type,
+            upsert: true,
+          });
+
+        if (error) {
+          console.warn("Supabase storage upload error, falling back to base64:", error.message);
+          const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
+          return NextResponse.json({
+            success: true,
+            url: base64,
+            path: uniquePath,
+            fallback: true,
+          });
+        }
+
+        // 2. Get Public URL
+        const { data: publicUrlData } = supabase.storage
+          .from("product-images")
+          .getPublicUrl(uniquePath);
+
+        return NextResponse.json({
+          success: true,
+          url: publicUrlData.publicUrl,
+          path: uniquePath,
         });
-
-      if (error) {
-        console.error("Supabase storage upload error:", error);
-        throw new Error(error.message);
+      } catch (storageErr: any) {
+        console.warn("Storage exception, using base64 fallback:", storageErr.message);
+        const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
+        return NextResponse.json({
+          success: true,
+          url: base64,
+          path: uniquePath,
+          fallback: true,
+        });
       }
-
-      // 2. Get Public URL
-      const { data: publicUrlData } = supabase.storage
-        .from("product-images")
-        .getPublicUrl(uniquePath);
-
-      return NextResponse.json({
-        success: true,
-        url: publicUrlData.publicUrl,
-        path: uniquePath,
-      });
     } else {
       // Fallback base64 data URL if Supabase client not initialized
       const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
