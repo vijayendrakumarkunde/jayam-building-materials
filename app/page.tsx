@@ -8,7 +8,6 @@ import { CategoryGrid } from "@/components/public/CategoryGrid";
 import { ProductCard } from "@/components/public/ProductCard";
 import { WhyChooseUs } from "@/components/public/WhyChooseUs";
 import { AboutSection } from "@/components/public/AboutSection";
-import { PromotionalBanner } from "@/components/public/PromotionalBanner";
 import { ContactSection } from "@/components/public/ContactSection";
 import { Footer } from "@/components/public/Footer";
 import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
@@ -212,9 +211,6 @@ export default function HomePage() {
 
         </div>
       </section>
-
-      {/* 6. Promotional Scheme for Concrete Slabs & Foundations */}
-      <PromotionalBanner />
 
       {/* 7. Why Choose Jayam Materials */}
       <WhyChooseUs />
