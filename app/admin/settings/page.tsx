@@ -288,6 +288,17 @@ export default function AdminSettingsPage() {
               <p className="text-[11px] text-slate-400 mt-1">
                 Direct pin link providing turn-by-turn navigation for tipper drivers, contractors, and site visitors.
               </p>
+              <div className="mt-2.5 flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                <img
+                  src="/images/maps/dumping-yard-map.svg"
+                  alt="Dumping Yard Map Preview"
+                  className="w-16 h-12 object-cover rounded-lg border border-slate-200"
+                />
+                <div className="text-xs">
+                  <span className="font-bold text-[#14243A] block">Map Visual Active</span>
+                  <span className="text-[11px] text-slate-500">Live map-like image card displays on homepage and footer</span>
+                </div>
+              </div>
             </div>
 
             {/* Operating Hours */}

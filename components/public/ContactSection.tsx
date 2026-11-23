@@ -106,7 +106,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2.5">
+                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
                   <div className="flex items-start gap-3.5">
                     <div className="p-2.5 rounded-xl bg-[#F47B20]/20 text-[#F47B20] shrink-0 mt-0.5">
                       <MapPin className="w-5 h-5" />
@@ -118,37 +118,58 @@ export const ContactSection: React.FC = () => {
                       </span>
                     </div>
                   </div>
-
-                  <a
-                    href={brand.dumpingYardMapsUrl || "https://maps.app.goo.gl/whYExk6fkqk9Bj1B7"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F47B20] hover:bg-[#DC630D] text-white text-xs font-bold transition-all shadow-md group"
-                  >
-                    <Navigation className="w-3.5 h-3.5 text-white" />
-                    <span>Open Dumping Yard in Google Maps</span>
-                    <ExternalLink className="w-3.5 h-3.5 ml-0.5 opacity-80 group-hover:translate-x-0.5 transition-transform" />
-                  </a>
                 </div>
               </div>
 
             </div>
 
-            {/* Quick Map Guide Banner */}
-            <div className="p-5 rounded-3xl bg-[#FFF7ED] border border-[#F47B20]/20 text-slate-700 text-xs leading-relaxed space-y-2">
-              <span className="font-bold block text-sm text-[#14243A]">Site Inspection & Sample Verification</span>
-              <p className="text-slate-600">
-                Architects, contractors, and builders are welcome to visit our dumping yard to inspect silt settlement tests and aggregate grading in person.
-              </p>
+            {/* Interactive Dumping Yard Map Image Card */}
+            <div className="rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl transition-all">
+              {/* Map Card Header */}
+              <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-[#EA4335]/10 text-[#EA4335] flex items-center justify-center font-bold">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-[#14243A]">Dumping Yard Map Location</h4>
+                    <p className="text-[11px] text-slate-500">LB Nagar Metro · Beside Vasavi Ananda Nilayam</p>
+                  </div>
+                </div>
+                <span className="px-2.5 py-1 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[10px] font-bold tracking-wide">
+                  Live GPS Pin
+                </span>
+              </div>
+
+              {/* Clickable Map-like Image */}
               <a
                 href={brand.dumpingYardMapsUrl || "https://maps.app.goo.gl/whYExk6fkqk9Bj1B7"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F47B20] hover:text-[#DC630D] pt-1"
+                title="Click to open Jayam Dumping Yard in Google Maps"
+                className="relative block group overflow-hidden bg-slate-100"
               >
-                <span>Navigate to Dumping Yard on Google Maps</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <img
+                  src="/images/maps/dumping-yard-map.svg"
+                  alt="Jayam Dumping Yard Map Location near LB Nagar Metro Station and Vasavi Ananda Nilayam"
+                  className="w-full h-[220px] sm:h-[260px] object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  loading="lazy"
+                />
+
+                {/* Hover Action Overlay Pill */}
+                <div className="absolute inset-0 bg-[#14243A]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                  <div className="px-4 py-2 rounded-xl bg-[#14243A] text-white text-xs font-bold shadow-xl border border-[#F47B20] flex items-center gap-2">
+                    <Navigation className="w-3.5 h-3.5 text-[#F47B20]" />
+                    <span>Open in Google Maps ↗</span>
+                  </div>
+                </div>
               </a>
+
+              {/* Map Card Footer Note */}
+              <div className="p-3.5 bg-white text-[11px] text-slate-600 flex items-center justify-between border-t border-slate-100">
+                <span>Direct tipper logistics & on-site inspection</span>
+                <span className="font-bold text-[#F47B20]">Tap map to navigate ↗</span>
+              </div>
             </div>
 
           </div>

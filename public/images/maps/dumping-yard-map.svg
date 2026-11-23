@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Drop Shadow Filter for Pins and UI Cards -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="pinShadow" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#14243A" flood-opacity="0.18"/>
+    </filter>
+    
+    <!-- Metro Line Hash Pattern -->
+    <pattern id="metroPattern" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#546E7A" stroke-width="3" />
+    </pattern>
+
+    <!-- Radar Pulse Animation -->
+    <radialGradient id="radar" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EA4335" stop-opacity="0.45"/>
+      <stop offset="70%" stop-color="#EA4335" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#EA4335" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="yardGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F47B20" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#F47B20" stop-opacity="0.02"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 1. BASE MAP TERRAIN (Google Maps Warm Beige/Grey #E5E3DF) -->
+  <rect width="800" height="500" fill="#E8ECEF" />
+
+  <!-- 2. PARKS & GREENERY ZONES -->
+  <path d="M 0,0 L 220,0 L 180,90 L 40,110 Z" fill="#D2E8D4" opacity="0.9" />
+  <path d="M 580,380 C 640,360 700,370 800,340 L 800,500 L 520,500 C 530,440 550,400 580,380 Z" fill="#D2E8D4" opacity="0.9" />
+  <path d="M 680,40 C 720,50 760,20 800,30 L 800,140 L 670,120 Z" fill="#D2E8D4" opacity="0.8" />
+  <path d="M 20,410 C 60,400 110,430 140,410 L 120,500 L 0,500 Z" fill="#D2E8D4" opacity="0.75" />
+
+  <!-- 3. WATER BODIES (Canal / Lake in distance) -->
+  <path d="M 720,0 C 730,40 750,70 800,85 L 800,0 Z" fill="#AADAFF" />
+
+  <!-- 4. URBAN BUILDING LOTS / BLOCKS -->
+  <!-- Generic Urban Blocks around LB Nagar -->
+  <g fill="#DFE3E6" stroke="#CFD5D9" stroke-width="1">
+    <rect x="50" y="140" width="70" height="50" rx="3" />
+    <rect x="135" y="135" width="80" height="60" rx="3" />
+    <rect x="60" y="210" width="90" height="45" rx="3" />
+    <rect x="620" y="150" width="75" height="55" rx="3" />
+    <rect x="710" y="160" width="70" height="70" rx="3" />
+    <rect x="590" y="240" width="90" height="60" rx="3" />
+    <rect x="700" y="250" width="80" height="50" rx="3" />
+    <rect x="180" y="380" width="110" height="55" rx="3" />
+    <rect x="310" y="390" width="95" height="60" rx="3" />
+  </g>
+
+  <!-- 5. VASAVI ANANDA NILAYAM COMPLEX (Distinctive landmark towers footprint) -->
+  <g id="vasavi-complex">
+    <rect x="420" y="110" width="170" height="150" rx="10" fill="#E2E7EC" stroke="#B0BEC5" stroke-width="1.5" />
+    <!-- Tower Footprints -->
+    <rect x="435" y="125" width="35" height="35" rx="4" fill="#B0BEC5" />
+    <rect x="485" y="125" width="35" height="35" rx="4" fill="#B0BEC5" />
+    <rect x="535" y="125" width="35" height="35" rx="4" fill="#B0BEC5" />
+    <rect x="435" y="175" width="35" height="35" rx="4" fill="#B0BEC5" />
+    <rect x="485" y="175" width="35" height="35" rx="4" fill="#B0BEC5" />
+    <rect x="535" y="175" width="35" height="35" rx="4" fill="#B0BEC5" />
+    <!-- Vasavi Ananda Nilayam Landmark Label -->
+    <rect x="430" y="222" width="150" height="22" rx="4" fill="#37474F" opacity="0.9" />
+    <text x="505" y="237" fill="#FFFFFF" font-size="10" font-weight="bold" text-anchor="middle" letter-spacing="0.3">🏢 Vasavi Ananda Nilayam</text>
+  </g>
+
+  <!-- 6. JAYAM DUMPING YARD PLOT (Prominently marked beside Vasavi) -->
+  <g id="jayam-yard-zone">
+    <!-- Shaded Yard Boundary -->
+    <rect x="250" y="120" width="150" height="135" rx="8" fill="url(#yardGlow)" stroke="#F47B20" stroke-width="2.5" stroke-dasharray="6,4" />
+    <!-- Material stock bays visual cues -->
+    <rect x="260" y="130" width="38" height="32" rx="3" fill="#D7CCC8" stroke="#A1887F" stroke-width="1" />
+    <text x="279" y="150" fill="#5D4037" font-size="8" font-weight="bold" text-anchor="middle">SAND</text>
+    
+    <rect x="305" y="130" width="38" height="32" rx="3" fill="#CFD8DC" stroke="#90A4AE" stroke-width="1" />
+    <text x="324" y="150" fill="#37474F" font-size="8" font-weight="bold" text-anchor="middle">METAL</text>
+
+    <rect x="350" y="130" width="40" height="32" rx="3" fill="#FFE0B2" stroke="#FFB74D" stroke-width="1" />
+    <text x="370" y="150" fill="#E65100" font-size="7.5" font-weight="bold" text-anchor="middle">WEIGH</text>
+
+    <!-- Yard Area Label -->
+    <text x="325" y="240" fill="#D85A00" font-size="10" font-weight="900" text-anchor="middle" letter-spacing="0.5">JAYAM DUMPING YARD</text>
+  </g>
+
+  <!-- 7. SECONDARY ROAD NETWORK (White with light grey casing) -->
+  <g stroke="#CBD2D6" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Local access road to yard -->
+    <path d="M 230,195 L 430,195" />
+    <path d="M 405,100 L 405,280" />
+    <path d="M 120,50 L 120,450" />
+    <path d="M 230,300 L 600,300" />
+    <path d="M 600,80 L 600,380" />
+  </g>
+  <g stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 230,195 L 430,195" />
+    <path d="M 405,100 L 405,280" />
+    <path d="M 120,50 L 120,450" />
+    <path d="M 230,300 L 600,300" />
+    <path d="M 600,80 L 600,380" />
+  </g>
+
+  <!-- 8. PRIMARY ARTERIAL HIGHWAYS (Google Maps Gold/Orange: NH65 & Inner Ring Road) -->
+  <!-- Inner Ring Road -->
+  <path d="M 0,330 C 250,330 450,310 800,280" stroke="#F5B041" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M 0,330 C 250,330 450,310 800,280" stroke="#FDE293" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="130" y="325" fill="#7D6608" font-size="10" font-weight="bold" letter-spacing="0.5">INNER RING ROAD / NH 65</text>
+
+  <!-- LB Nagar Metro Highway Corridor -->
+  <path d="M 230,0 L 230,500" stroke="#F5B041" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <path d="M 230,0 L 230,500" stroke="#FDE293" stroke-width="15" stroke-linecap="round" fill="none"/>
+  
+  <!-- Road Center Dashed Line -->
+  <path d="M 230,0 L 230,500" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="8,8" fill="none" />
+
+  <!-- 9. HYDERABAD ELEVATED METRO LINE (Red Line corridor) -->
+  <path d="M 230,0 L 230,500" stroke="#37474F" stroke-width="4" stroke-dasharray="6,4" fill="none" opacity="0.8" />
+  
+  <!-- LB Nagar Metro Station Hub -->
+  <g id="metro-station" transform="translate(180, 70)">
+    <rect x="0" y="0" width="100" height="34" rx="17" fill="#D32F2F" filter="url(#shadow)" />
+    <circle cx="17" cy="17" r="11" fill="#FFFFFF" />
+    <text x="17" y="21" fill="#D32F2F" font-size="11" font-weight="900" text-anchor="middle">M</text>
+    <text x="56" y="16" fill="#FFFFFF" font-size="9.5" font-weight="bold" text-anchor="middle">LB NAGAR</text>
+    <text x="56" y="27" fill="#FFCDD2" font-size="8" font-weight="medium" text-anchor="middle">METRO STATION</text>
+  </g>
+
+  <!-- Route from Metro to Jayam Yard (Dotted navigation path) -->
+  <path d="M 230,105 L 230,195 L 325,195" stroke="#1A73E8" stroke-width="3.5" stroke-dasharray="6,4" stroke-linecap="round" fill="none" />
+  
+  <!-- Distance Pill -->
+  <g transform="translate(245, 175)">
+    <rect x="0" y="0" width="60" height="18" rx="9" fill="#1A73E8" filter="url(#shadow)" />
+    <text x="30" y="13" fill="#FFFFFF" font-size="8.5" font-weight="bold" text-anchor="middle">350m (2 min)</text>
+  </g>
+
+  <!-- 10. GOOGLE MAPS RED LOCATION PIN (Pulsing at Jayam Yard Center) -->
+  <!-- Pulsing Radar Halo -->
+  <circle cx="325" cy="180" r="38" fill="url(#radar)" />
+  <circle cx="325" cy="180" r="22" fill="#EA4335" opacity="0.2" />
+
+  <!-- The Classic Google Pin -->
+  <g id="location-pin" transform="translate(325, 180)" filter="url(#pinShadow)">
+    <!-- Shadow ellipse beneath pin tip -->
+    <ellipse cx="0" cy="4" rx="8" ry="3.5" fill="#000" opacity="0.35" />
+    
+    <!-- Pin Shape: Tip at (0, 0) -->
+    <path d="M 0,0 C -12,-18 -18,-26 -18,-38 C -18,-50 -8,-58 0,-58 C 8,-58 18,-50 18,-38 C 18,-26 12,-18 0,0 Z" 
+          fill="#EA4335" stroke="#C5221F" stroke-width="1.5" />
+    
+    <!-- Inner White Dot -->
+    <circle cx="0" cy="-38" r="7" fill="#FFFFFF" />
+    <!-- Core Accent Dot -->
+    <circle cx="0" cy="-38" r="3.5" fill="#B31412" />
+  </g>
+
+  <!-- 11. INTERACTIVE GOOGLE MAPS CALLOUT BUBBLE -->
+  <g id="pin-callout" transform="translate(220, 50)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="210" height="64" rx="8" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1" />
+    <!-- Downward pointer tip -->
+    <polygon points="105,64 97,72 113,72" fill="#FFFFFF" />
+    
+    <text x="12" y="20" fill="#202124" font-size="12" font-weight="bold">Jayam Dumping Yard</text>
+    <text x="12" y="34" fill="#D85A00" font-size="9.5" font-weight="bold">★ 4.9</text>
+    <text x="42" y="34" fill="#5F6368" font-size="9.5">· Building Materials Depot</text>
+    <text x="12" y="48" fill="#5F6368" font-size="8.5">Beside Vasavi Ananda Nilayam</text>
+    <text x="12" y="58" fill="#1A73E8" font-size="8.5" font-weight="semibold">Near LB Nagar Metro Station</text>
+
+    <!-- Directions Icon Button in bubble -->
+    <circle cx="185" cy="32" r="16" fill="#1A73E8" />
+    <path d="M 180,36 L 190,26 M 190,26 L 183,26 M 190,26 L 190,33" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- 12. FLOATING GOOGLE MAPS UI CHROME -->
+  <!-- Top Left: Search & Pin Address Card -->
+  <g id="search-bar" transform="translate(18, 16)" filter="url(#shadow)">
+    <rect x="0" y="0" width="270" height="42" rx="8" fill="#FFFFFF" />
+    <circle cx="20" cy="21" r="8" fill="#EA4335" />
+    <circle cx="20" cy="21" r="3.5" fill="#FFFFFF" />
+    <text x="36" y="20" fill="#202124" font-size="11" font-weight="bold">Jayam Dumping Yard Depot</text>
+    <text x="36" y="33" fill="#5F6368" font-size="8.5">LB Nagar, Hyderabad - 500074</text>
+    <!-- Magnifier / Open icon -->
+    <path d="M 245,18 L 253,26 M 248,18 A 5 5 0 1 1 238,18 A 5 5 0 1 1 248,18" stroke="#5F6368" stroke-width="1.8" fill="none" stroke-linecap="round" />
+  </g>
+
+  <!-- Top Right: Map / Satellite switcher -->
+  <g id="map-satellite-pill" transform="translate(680, 16)" filter="url(#shadow)">
+    <rect x="0" y="0" width="102" height="30" rx="4" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1" />
+    <rect x="2" y="2" width="48" height="26" rx="3" fill="#E8F0FE" />
+    <text x="26" y="19" fill="#1967D2" font-size="10" font-weight="bold" text-anchor="middle">Map</text>
+    <text x="75" y="19" fill="#5F6368" font-size="10" font-weight="medium" text-anchor="middle">Satellite</text>
+  </g>
+
+  <!-- Bottom Right: Zoom & Compass Controls -->
+  <g id="zoom-controls" transform="translate(745, 360)" filter="url(#shadow)">
+    <rect x="0" y="0" width="36" height="72" rx="4" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1" />
+    <text x="18" y="25" fill="#5F6368" font-size="18" font-weight="bold" text-anchor="middle">+</text>
+    <line x1="6" y1="36" x2="30" y2="36" stroke="#E8EAED" stroke-width="1" />
+    <text x="18" y="60" fill="#5F6368" font-size="20" font-weight="bold" text-anchor="middle">−</text>
+  </g>
+  
+  <!-- Yellow Street View Pegman Icon -->
+  <g id="pegman" transform="translate(745, 442)" filter="url(#shadow)">
+    <rect x="0" y="0" width="36" height="36" rx="4" fill="#FFFFFF" stroke="#DADCE0" stroke-width="1" />
+    <circle cx="18" cy="13" r="4" fill="#F4B400" />
+    <path d="M 12,28 L 15,19 L 21,19 L 24,28 Z" fill="#F4B400" />
+  </g>
+
+  <!-- Bottom Left: Official Google Maps Watermark & Scale -->
+  <g id="google-watermark" transform="translate(18, 470)">
+    <text x="0" y="18" fill="#5F6368" font-size="16" font-weight="bold" opacity="0.8" letter-spacing="-0.5">
+      <tspan fill="#4285F4">G</tspan><tspan fill="#EA4335">o</tspan><tspan fill="#FBBC05">o</tspan><tspan fill="#4285F4">g</tspan><tspan fill="#34A853">l</tspan><tspan fill="#EA4335">e</tspan>
+    </text>
+    <text x="70" y="18" fill="#5F6368" font-size="9" opacity="0.6">Maps · Live Yard Pin</text>
+  </g>
+
+  <!-- Bottom Center: "Click to Open Live GPS Navigation" Pill -->
+  <g id="cta-pill" transform="translate(230, 445)" filter="url(#shadow)">
+    <rect x="0" y="0" width="340" height="38" rx="19" fill="#14243A" stroke="#F47B20" stroke-width="1.5" />
+    <circle cx="22" cy="19" r="10" fill="#F47B20" />
+    <path d="M 19,23 L 26,19 L 19,15 Z" fill="#FFFFFF" />
+    <text x="42" y="24" fill="#FFFFFF" font-size="12" font-weight="bold">📍 Click to Open in Google Maps</text>
+    <text x="250" y="23" fill="#FB923C" font-size="11" font-weight="semibold">Get Live Directions ↗</text>
+  </g>
+</svg>
