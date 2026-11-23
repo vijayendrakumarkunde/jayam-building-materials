@@ -94,7 +94,7 @@ function ProductsContent() {
               Building Materials Catalogue
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
-              Order Cement, TMT Steel Bars, Bricks & Blocks, Sand & Aggregates, Tiles, Paints, Plumbing, Stones, Red Soil, and Electricals with live wholesale pricing.
+              Order Cement, TMT Steel Bars, Bricks & Blocks, River Sand, M-Sand, Blue Metal Aggregates, Stones, Red Soil, and Electricals with live wholesale pricing.
             </p>
           </div>
 

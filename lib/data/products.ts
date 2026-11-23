@@ -20,7 +20,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 400,
     images: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -47,7 +47,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 500,
     images: [
-      "https://images.unsplash.com/photo-1541888946425-d0fbb186156f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -100,7 +100,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 450,
     images: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -156,7 +156,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 320,
     images: [
-      "https://images.unsplash.com/photo-1541888946425-d0fbb186156f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     specifications: {
@@ -183,7 +183,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 500,
     images: [
-      "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -211,7 +211,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 400,
     images: [
-      "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
     ],
     specifications: {
       "Size": "40mm (Heavy Coarse)",
@@ -236,7 +236,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 28,
     images: [
-      "https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -250,16 +250,16 @@ export const PRODUCTS_DATA: Product[] = [
   },
 
   // =========================================================================
-  // 2. CEMENT (53 GRADE OPC, PPC, ULTRATECH, JSW, ACC, BHARATHI)
+  // 2. CEMENT (53 OPC, PPC, WEATHER-SHIELD)
   // =========================================================================
   {
     id: "cem-1",
-    name: "Ultratech 53 Grade OPC Cement (50kg Bag)",
-    slug: "ultratech-53-grade-opc-cement",
+    name: "UltraTech Super Cement (53 OPC Grade) - 50kg Bag",
+    slug: "ultratech-super-53-opc-cement",
     categorySlug: "cement",
     categoryName: "Cement",
-    productType: "Ordinary Portland Cement",
-    description: "India's #1 cement brand. High-strength OPC 53 Grade manufactured from premium clinker, delivering unmatched 28-day compressive strength (>53 MPa) for high-rise RCC work.",
+    productType: "53 OPC Cement",
+    description: "India's No. 1 cement. Engineered high-early strength 53 Grade Ordinary Portland Cement conforming to IS:12269. Perfect for high-strength RCC slabs, columns, and critical load structures.",
     price: 385,
     mrpPrice: 430,
     discountPercent: 10,
@@ -274,21 +274,21 @@ export const PRODUCTS_DATA: Product[] = [
     isBestseller: true,
     specifications: {
       "Brand": "UltraTech Cement",
-      "Grade": "OPC 53 Grade (IS 269:2015)",
-      "Bag Weight": "50 Kg HDPE Laminated Bag",
-      "Strength": "> 53 MPa at 28 Days",
-      "Best For": "RCC Roof Slabs, Columns, Bridges & Beams",
+      "Grade": "OPC 53 Grade (IS 12269)",
+      "Bag Weight": "50 Kg HDPE Laminated",
+      "Initial Setting Time": "Minimum 30 minutes",
+      "28 Days Strength": "Exceeds 53 MPa (58-62 MPa actual)",
     },
     gradeOrType: "OPC 53 Grade",
   },
   {
     id: "cem-2",
-    name: "JSW Concreel HD Composite Cement (50kg Bag)",
+    name: "JSW Concreel HD High-Durability Cement (50kg Bag)",
     slug: "jsw-concreel-hd-cement",
     categorySlug: "cement",
     categoryName: "Cement",
-    productType: "Heavy-Duty Composite Cement",
-    description: "Engineered specifically for heavy-duty structural concrete. Resistant to chemical, sulphate, and chloride attacks with superior micro-pore reduction.",
+    productType: "High Durability PSC Cement",
+    description: "Specially engineered green cement manufactured with superior slag component. Highly resistant to chemical attack, sulfates, and corrosion of embedded steel rebars.",
     price: 365,
     mrpPrice: 410,
     discountPercent: 11,
@@ -302,21 +302,20 @@ export const PRODUCTS_DATA: Product[] = [
     isFeatured: true,
     specifications: {
       "Brand": "JSW Cement",
-      "Type": "Concreel HD Composite",
+      "Technology": "Concreel HD Chemical Resistant",
       "Bag Weight": "50 Kg",
-      "Features": "Anti-Corrosion, Low Heat of Hydration",
-      "Best For": "Slabs, Coastal & Underground Structures",
+      "Best For": "Basements, Foundations & Coastal Structures",
     },
-    gradeOrType: "Concreel HD",
+    gradeOrType: "Concreel HD PSC",
   },
   {
     id: "cem-3",
-    name: "ACC Suraksha Power+ Cement (50kg Bag)",
-    slug: "acc-suraksha-cement",
+    name: "ACC Suraksha Power Cement (50kg Bag)",
+    slug: "acc-suraksha-power-cement",
     categorySlug: "cement",
     categoryName: "Cement",
-    productType: "Portland Pozzolana Cement",
-    description: "Premium PPC cement formulated with unique water-repellent silane additives to prevent moisture seepage and hairline wall cracks.",
+    productType: "Engineered PPC Cement",
+    description: "ACC Suraksha formulated with active micro-particles that release strength over time, preventing hairline shrinkage cracks in ceiling and external plaster.",
     price: 375,
     mrpPrice: 420,
     discountPercent: 11,
@@ -329,22 +328,21 @@ export const PRODUCTS_DATA: Product[] = [
     ],
     isFeatured: true,
     specifications: {
-      "Brand": "ACC Limited",
-      "Type": "Suraksha Power+ PPC",
+      "Brand": "ACC Cement",
+      "Grade": "PPC (Portland Pozzolana)",
       "Bag Weight": "50 Kg",
-      "Features": "Water Repellent & Crack Resistant",
-      "Best For": "Waterproofing, Masonry & Plastering",
+      "Best For": "Plastering, Brickwork & Water Retaining Tanks",
     },
-    gradeOrType: "PPC Suraksha",
+    gradeOrType: "PPC Anti-Crack",
   },
   {
     id: "cem-4",
-    name: "Bharathi 53 Grade OPC Cement (50kg Bag)",
-    slug: "bharathi-53-opc-cement",
+    name: "Bharathi Cement (OPC 53 Grade) - 50kg Bag",
+    slug: "bharathi-cement-53-opc",
     categorySlug: "cement",
     categoryName: "Cement",
-    productType: "High Early Strength Cement",
-    description: "Top-tier south Indian cement with consistent rapid hardening properties. Enables faster de-shuttering and quick turnaround on slab casting cycles.",
+    productType: "OPC 53 Cement",
+    description: "Premium French Vicat technology cement renowned for uniform high consistency and super-fast early compressive setting times.",
     price: 360,
     mrpPrice: 400,
     discountPercent: 10,
@@ -457,14 +455,14 @@ export const PRODUCTS_DATA: Product[] = [
     categorySlug: "steel",
     categoryName: "TMT Steel Bars",
     productType: "TMT Reinforcement Bars",
-    description: "Core structural load-bearing 12mm rebar. Used for heavy main beam reinforcement, foundation pile caps, and building framework pillars.",
+    description: "Standard column and beam longitudinal reinforcement bar. Features exceptional bendability and seismic crack resistance.",
     price: 60,
-    mrpPrice: 72,
-    discountPercent: 17,
+    mrpPrice: 73,
+    discountPercent: 18,
     unit: "Piece",
     minOrderQuantity: 20,
     inStock: true,
-    stockQuantity: 900,
+    stockQuantity: 1000,
     images: [
       "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
     ],
@@ -553,7 +551,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 4000,
     images: [
-      "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -581,7 +579,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 3500,
     images: [
-      "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=800&q=80",
     ],
     isFeatured: true,
     specifications: {
@@ -593,239 +591,7 @@ export const PRODUCTS_DATA: Product[] = [
   },
 
   // =========================================================================
-  // 5. TILES (VITRIFIED, GVT, CERAMIC, PARKING)
-  // =========================================================================
-  {
-    id: "tile-1",
-    name: "Nano Polished Double-Charged Vitrified Floor Tiles (600x600mm / 2x2 ft)",
-    slug: "double-charged-vitrified-tiles-2x2",
-    categorySlug: "tiles",
-    categoryName: "Tiles",
-    productType: "Double Charged Vitrified Tiles",
-    description: "High-gloss stain-resistant double-layer vitrified floor tiles with 3-4mm print thickness. Endures heavy foot traffic with mirror reflection.",
-    price: 38,
-    mrpPrice: 55,
-    discountPercent: 31,
-    unit: "Piece",
-    minOrderQuantity: 50,
-    inStock: true,
-    stockQuantity: 2500,
-    images: [
-      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    isBestseller: true,
-    specifications: {
-      "Size": "600 x 600 mm (2 x 2 ft)",
-      "Finish": "Nano Polished Super Gloss",
-      "Water Absorption": "< 0.05%",
-      "Packaging": "4 Tiles per Box (15.5 Sq Ft)",
-    },
-    gradeOrType: "Double Charged 2x2",
-  },
-  {
-    id: "tile-2",
-    name: "Glazed Vitrified Marble Finish GVT/PGVT Tiles (1200x600mm / 4x2 ft)",
-    slug: "glazed-vitrified-marble-gvt-tiles",
-    categorySlug: "tiles",
-    categoryName: "Tiles",
-    productType: "Large Slab PGVT Tiles",
-    description: "Luxury Italian marble pattern digital glazed vitrified tiles with random vein continuity. Creates seamless grand living room floors.",
-    price: 52,
-    mrpPrice: 75,
-    discountPercent: 31,
-    unit: "Piece",
-    minOrderQuantity: 30,
-    inStock: true,
-    stockQuantity: 1800,
-    images: [
-      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    specifications: {
-      "Size": "1200 x 600 mm (4 x 2 ft)",
-      "Finish": "Polished Glazed Vitrified (PGVT)",
-      "Design": "Italian Statuario / Calacatta Marble",
-      "Best For": "Living Rooms, Commercial Lobbies & Master Suites",
-    },
-    gradeOrType: "PGVT 4x2 Slab",
-  },
-  {
-    id: "tile-3",
-    name: "Heavy-Duty Anti-Skid Parking & Outdoor Paver Tiles (300x300mm)",
-    slug: "heavy-duty-parking-tiles-300x300",
-    categorySlug: "tiles",
-    categoryName: "Tiles",
-    productType: "Outdoor Parking Tiles",
-    description: "12mm ultra-thick matte textured anti-skid floor tiles engineered for driveways, car porches, ramps, and terrace walkways.",
-    price: 34,
-    mrpPrice: 48,
-    discountPercent: 29,
-    unit: "Piece",
-    minOrderQuantity: 100,
-    inStock: true,
-    stockQuantity: 3000,
-    images: [
-      "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80",
-    ],
-    specifications: {
-      "Size": "300 x 300 mm (12 x 12 inch)",
-      "Thickness": "12 mm Heavy Duty",
-      "Surface": "High-Friction Anti-Skid Grip",
-      "Best For": "Car Porch, Driveway & Rooftop Terrace",
-    },
-    gradeOrType: "12mm Parking Tile",
-  },
-
-  // =========================================================================
-  // 6. PAINTS & FINISHES (ASIAN PAINTS, BERGER, WALL PUTTY, WHITE CEMENT)
-  // =========================================================================
-  {
-    id: "pnt-1",
-    name: "Asian Paints Apex WeatherProof Exterior Emulsion (20 Litre Bucket)",
-    slug: "asian-paints-apex-exterior-20l",
-    categorySlug: "paints",
-    categoryName: "Paints & Finishes",
-    productType: "Exterior Acrylic Emulsion",
-    description: "Specially formulated 100% acrylic exterior emulsion with silicon additives that withstand harsh UV rays, heavy tropical downpours, and algae growth. Comes with a 5-year performance warranty.",
-    price: 4450,
-    mrpPrice: 5100,
-    discountPercent: 13,
-    unit: "Piece",
-    minOrderQuantity: 1,
-    inStock: true,
-    stockQuantity: 200,
-    images: [
-      "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    isBestseller: true,
-    specifications: {
-      "Brand": "Asian Paints",
-      "Volume": "20 Litres Bucket",
-      "Sheen": "Rich Soft Sheen",
-      "Coverage": "100 - 120 Sq Ft / Litre (2 Coats)",
-      "Warranty": "5 Year Performance Warranty",
-    },
-    gradeOrType: "Apex Exterior 20L",
-  },
-  {
-    id: "pnt-2",
-    name: "Asian Paints Tractor Interior Emulsion (20 Litre Bucket)",
-    slug: "asian-paints-tractor-emulsion-20l",
-    categorySlug: "paints",
-    categoryName: "Paints & Finishes",
-    productType: "Interior Wall Paint",
-    description: "The most economical smooth interior emulsion with twice the washability and coverage of distemper. Dries quickly to an elegant matte finish.",
-    price: 2150,
-    mrpPrice: 2450,
-    discountPercent: 12,
-    unit: "Piece",
-    minOrderQuantity: 1,
-    inStock: true,
-    stockQuantity: 250,
-    images: [
-      "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    specifications: {
-      "Brand": "Asian Paints",
-      "Volume": "20 Litres",
-      "Finish": "Smooth Matte",
-      "Usage": "Interior Ceilings & Room Walls",
-    },
-    gradeOrType: "Tractor Emulsion 20L",
-  },
-  {
-    id: "pnt-3",
-    name: "Birla White Polymer-Based Wall Putty (40 Kg Bag)",
-    slug: "birla-white-wall-putty-40kg",
-    categorySlug: "paints",
-    categoryName: "Paints & Finishes",
-    productType: "Wall Putty Base Coat",
-    description: "White cement-based polymer modified wall putty that creates an ultra-smooth, breathable protective base for paints on plastered surfaces.",
-    price: 850,
-    mrpPrice: 950,
-    discountPercent: 11,
-    unit: "Bag",
-    minOrderQuantity: 5,
-    inStock: true,
-    stockQuantity: 400,
-    images: [
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    isBestseller: true,
-    specifications: {
-      "Brand": "Birla White",
-      "Bag Weight": "40 Kg",
-      "Water Resistance": "High Polymer Seal",
-      "Best For": "Interior & Exterior Base Finishing",
-    },
-    gradeOrType: "40Kg Wall Putty",
-  },
-
-  // =========================================================================
-  // 7. PLUMBING & SANITARY (PIPES, TANKS, VALVES)
-  // =========================================================================
-  {
-    id: "plumb-1",
-    name: "Ashirvad FlowGuard Plus CPVC Hot & Cold Water Pipes (1 Inch / 3m)",
-    slug: "ashirvad-cpvc-pipe-1-inch",
-    categorySlug: "plumbing",
-    categoryName: "Plumbing-Sanitary",
-    productType: "CPVC Plumbing Pipes",
-    description: "NSF certified chlor-polyvinyl chloride hot and cold pressurized water delivery pipes. Resists corrosion, limescale formation, and temperatures up to 93°C.",
-    price: 385,
-    mrpPrice: 480,
-    discountPercent: 20,
-    unit: "Piece",
-    minOrderQuantity: 10,
-    inStock: true,
-    stockQuantity: 300,
-    images: [
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    specifications: {
-      "Brand": "Ashirvad Pipes",
-      "Size": "1 Inch (25 mm SDR 11)",
-      "Length": "3 Metres (10 Feet)",
-      "Pressure Rating": "Class 1 (High Pressure)",
-    },
-    gradeOrType: "CPVC 1-Inch Pipe",
-  },
-  {
-    id: "plumb-2",
-    name: "Sintex 1000 Litre Triple-Layer Anti-Bacterial Overhead Water Tank",
-    slug: "sintex-1000l-water-tank",
-    categorySlug: "plumbing",
-    categoryName: "Plumbing-Sanitary",
-    productType: "Polyethylene Overhead Water Tank",
-    description: "Virgin FDA approved food-grade polymer triple-layer storage tank with carbon black UV sunlight protective outer layer to keep drinking water clean and cool.",
-    price: 6450,
-    mrpPrice: 7500,
-    discountPercent: 14,
-    unit: "Piece",
-    minOrderQuantity: 1,
-    inStock: true,
-    stockQuantity: 45,
-    images: [
-      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
-    ],
-    isFeatured: true,
-    isBestseller: true,
-    specifications: {
-      "Capacity": "1000 Litres",
-      "Layers": "3-Layer Anti-Bacterial (White Inner, Black Middle, Blue Outer)",
-      "Material": "100% Virgin Food Grade LLDPE",
-      "Warranty": "10 Years Manufacturer Warranty",
-    },
-    gradeOrType: "1000L Overhead Tank",
-  },
-
-  // =========================================================================
-  // 8. STONES & FOUNDATION (GRANITE RUBBLE, SIZE STONES)
+  // 5. STONES & FOUNDATION (GRANITE RUBBLE, SIZE STONES)
   // =========================================================================
   {
     id: "stn-1",
@@ -855,7 +621,7 @@ export const PRODUCTS_DATA: Product[] = [
   },
 
   // =========================================================================
-  // 9. RED SOIL & LANDSCAPING (NATURAL RED EARTH, BACKFILLING)
+  // 6. RED SOIL & LANDSCAPING (NATURAL RED EARTH, BACKFILLING)
   // =========================================================================
   {
     id: "soil-1",
@@ -885,7 +651,7 @@ export const PRODUCTS_DATA: Product[] = [
   },
 
   // =========================================================================
-  // 10. ELECTRICALS & LIGHTING (POLYCAB WIRES, SWITCH PLATES)
+  // 7. ELECTRICALS & LIGHTING (POLYCAB WIRES, SWITCH PLATES)
   // =========================================================================
   {
     id: "elec-1",
