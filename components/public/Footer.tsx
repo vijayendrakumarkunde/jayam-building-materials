@@ -1,7 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { 
-  HardHat, 
   Phone, 
   MessageCircle, 
   MapPin, 
@@ -14,34 +15,34 @@ import { BRAND_INFO, INITIAL_CATEGORIES } from "@/lib/constants";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-brand-charcoal text-slate-300 border-t border-brand-charcoal-800">
+    <footer className="bg-[#14243A] text-slate-300 border-t border-slate-800">
       
       {/* Top Value Assurance Ribbon */}
-      <div className="border-b border-brand-charcoal-800 py-8 bg-brand-charcoal-900/60">
+      <div className="border-b border-slate-800/80 py-8 bg-[#0F1B2B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center sm:text-left">
           <div className="flex items-center justify-center sm:justify-start gap-3">
-            <div className="p-3 rounded-xl bg-brand-orange-500/10 text-brand-orange-400">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-[#F47B20]">
+              <ShieldCheck className="w-6 h-6 text-[#F47B20]" />
             </div>
             <div>
               <h4 className="text-sm font-bold text-white">Lab-Certified Materials</h4>
-              <p className="text-xs text-slate-400">Strict silt and IS code compliance</p>
+              <p className="text-xs text-slate-400">Strict silt and IS 383 code compliance</p>
             </div>
           </div>
 
           <div className="flex items-center justify-center sm:justify-start gap-3">
-            <div className="p-3 rounded-xl bg-brand-orange-500/10 text-brand-orange-400">
-              <Scale className="w-6 h-6" />
+            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-[#159B68]">
+              <Scale className="w-6 h-6 text-[#159B68]" />
             </div>
             <div>
               <h4 className="text-sm font-bold text-white">Digital Weighbridge Receipts</h4>
-              <p className="text-xs text-slate-400">100% accurate gross & tare slip</p>
+              <p className="text-xs text-slate-400">100% accurate gross & tare printed slip</p>
             </div>
           </div>
 
           <div className="flex items-center justify-center sm:justify-start gap-3">
-            <div className="p-3 rounded-xl bg-brand-orange-500/10 text-brand-orange-400">
-              <Truck className="w-6 h-6" />
+            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-[#F47B20]">
+              <Truck className="w-6 h-6 text-[#F47B20]" />
             </div>
             <div>
               <h4 className="text-sm font-bold text-white">Own Tipper Logistics</h4>
@@ -57,8 +58,8 @@ export const Footer: React.FC = () => {
           
           {/* Brand Info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-white p-1 flex items-center justify-center shadow-lg text-white overflow-hidden border border-white/20 shrink-0">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-white p-1 flex items-center justify-center shadow-md overflow-hidden border border-white/20 shrink-0">
                 <img
                   src="/images/logo.png"
                   alt="JAYAM Building Materials Logo"
@@ -66,8 +67,8 @@ export const Footer: React.FC = () => {
                 />
               </div>
               <div>
-                <span className="text-xl font-black text-white tracking-tight">JAYAM</span>
-                <span className="text-[10px] font-bold text-brand-orange-400 tracking-widest block uppercase">
+                <span className="text-2xl font-black text-white tracking-tight">JAYAM</span>
+                <span className="text-[10px] font-bold text-[#F47B20] tracking-widest block uppercase mt-0.5">
                   Building Materials
                 </span>
               </div>
@@ -78,16 +79,16 @@ export const Footer: React.FC = () => {
             </p>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Premium marketplace for direct-from-source River Sand, VSI M-Sand, High-Grade Cements, TMT Steel, and Crushed Aggregates. Serving civil contractors, builders, and individual home makers.
+              Premium marketplace for direct-from-source River Sand, VSI M-Sand, High-Grade Cements, TMT Steel, and Crushed Aggregates. Serving civil contractors, builders, and individual home makers with verified weighbridge slips.
             </p>
 
             <div className="pt-2 flex flex-col gap-2 text-xs">
               <a
                 href={BRAND_INFO.telUrl}
-                className="flex items-center gap-2 text-white hover:text-brand-orange-400 font-bold transition-colors"
+                className="flex items-center gap-2 text-white hover:text-[#F47B20] font-bold transition-colors"
               >
-                <Phone className="w-4 h-4 text-brand-orange-500" />
-                <span>Call: {BRAND_INFO.phoneFormatted}</span>
+                <Phone className="w-4 h-4 text-[#F47B20]" />
+                <span>Call Dispatch: {BRAND_INFO.phoneFormatted}</span>
               </a>
 
               <a
@@ -107,19 +108,22 @@ export const Footer: React.FC = () => {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">Navigation</h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/" className="hover:text-brand-orange-400 transition-colors">Home</Link>
+                <Link href="/" className="hover:text-[#F47B20] transition-colors">Home</Link>
               </li>
               <li>
-                <Link href="/products" className="hover:text-brand-orange-400 transition-colors">Product Catalogue</Link>
+                <Link href="/products" className="hover:text-[#F47B20] transition-colors">Product Catalogue</Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-brand-orange-400 transition-colors">About Us</Link>
+                <Link href="/about" className="hover:text-[#F47B20] transition-colors">About Us</Link>
               </li>
               <li>
-                <Link href="/track-order" className="hover:text-brand-orange-400 transition-colors">Track Your Order</Link>
+                <Link href="/track-order" className="hover:text-[#F47B20] transition-colors">Track Your Order</Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-brand-orange-400 transition-colors">Contact Dispatch</Link>
+                <Link href="/contact" className="hover:text-[#F47B20] transition-colors">Contact Dispatch</Link>
+              </li>
+              <li>
+                <Link href="/admin/products" className="hover:text-[#F47B20] text-slate-400 transition-colors">Admin Portal</Link>
               </li>
             </ul>
           </div>
@@ -130,7 +134,7 @@ export const Footer: React.FC = () => {
             <ul className="grid grid-cols-2 gap-x-2 gap-y-2 text-xs">
               {INITIAL_CATEGORIES.map((c) => (
                 <li key={c.id}>
-                  <Link href={`/products?category=${c.slug}`} className="hover:text-brand-orange-400 transition-colors">
+                  <Link href={`/products?category=${c.slug}`} className="hover:text-[#F47B20] transition-colors">
                     {c.name}
                   </Link>
                 </li>
@@ -144,18 +148,18 @@ export const Footer: React.FC = () => {
             
             <div className="space-y-2 text-xs text-slate-400">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-brand-orange-500 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#F47B20] shrink-0 mt-0.5" />
                 <span>{BRAND_INFO.address}</span>
               </div>
               <div className="flex items-start gap-2">
-                <Clock className="w-4 h-4 text-brand-orange-500 shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-[#F47B20] shrink-0 mt-0.5" />
                 <span>{BRAND_INFO.operatingHours}</span>
               </div>
             </div>
 
             <div className="pt-2">
               <p className="text-[11px] text-slate-500 leading-normal">
-                Direct tipper unloading is available for approved construction sites. Weighbridge slips are verified upon delivery.
+                Direct hydraulic tipper unloading is available for approved construction sites. Weighbridge slips are verified upon delivery.
               </p>
             </div>
           </div>
@@ -163,7 +167,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Legal / Copyright */}
-        <div className="mt-12 pt-6 border-t border-brand-charcoal-800 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-500">
+        <div className="mt-12 pt-6 border-t border-slate-800 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-400">
           <p>© {new Date().getFullYear()} {BRAND_INFO.name}. All rights reserved.</p>
           <p className="mt-2 sm:mt-0">
             Engineered for strength, transparency, and speed.

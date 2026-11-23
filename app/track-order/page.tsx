@@ -104,18 +104,18 @@ export default function TrackOrderPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-white text-[#20252D]">
       <Navbar />
       <DeliveryNoticeBanner />
 
-      {/* Header */}
-      <div className="bg-brand-charcoal text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-brand-charcoal-800">
+      {/* Header in Deep Navy */}
+      <div className="bg-[#14243A] text-white py-14 px-4 sm:px-6 lg:px-8 border-b border-[#0F1B2B]">
         <div className="max-w-3xl mx-auto text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange-500/20 text-brand-orange-400 text-xs font-bold uppercase tracking-wider border border-brand-orange-500/30">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#F47B20] text-xs font-bold uppercase tracking-wider border border-white/10">
             <Truck className="w-3.5 h-3.5" />
             <span>Live Site Logistics Tracking</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
+          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
             Track Your Materials Order
           </h1>
           <p className="text-sm text-slate-300">

@@ -6,6 +6,7 @@ import { HeroBanner } from "@/components/public/HeroBanner";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { CategoryGrid } from "@/components/public/CategoryGrid";
 import { ProductCard } from "@/components/public/ProductCard";
+import { DeliveryLogisticsSection } from "@/components/public/DeliveryLogisticsSection";
 import { WhyChooseUs } from "@/components/public/WhyChooseUs";
 import { AboutSection } from "@/components/public/AboutSection";
 import { CustomerTestimonials } from "@/components/public/CustomerTestimonials";
@@ -63,17 +64,17 @@ export default function HomePage() {
   }, [selectedCategory]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* 1. Professional Navigation Bar */}
+    <div className="min-h-screen flex flex-col bg-white text-[#20252D]">
+      {/* 1. Professional Navigation Bar with Announcement Bar & Search */}
       <Navbar
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
 
-      {/* 2. Sleek Compact Hero Banner */}
+      {/* 2. Modern Industrial Luxury Hero Section with Original AI Photo */}
       <HeroBanner />
 
-      {/* 3. Primary Materials Menu (Direct Visual Category Showcase) */}
+      {/* 3. Popular Building Materials Section */}
       <CategoryGrid
         selectedCategory={selectedCategory}
         onSelectCategory={(slug) => {
@@ -83,11 +84,11 @@ export default function HomePage() {
         }}
       />
 
-      {/* 4. Delivery Notice & Transparent Transport Banner */}
+      {/* 4. Delivery Notice Banner */}
       <DeliveryNoticeBanner />
 
-      {/* 5. Specific Material Varieties Section */}
-      <section id="catalog-section" className="py-10 sm:py-14 bg-white border-b border-slate-200 scroll-mt-16">
+      {/* 5. Featured Products & Specific Material Varieties Section */}
+      <section id="catalog-section" className="py-12 sm:py-16 bg-white border-b border-slate-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Quick Material Switcher Pill Bar */}
@@ -104,18 +105,18 @@ export default function HomePage() {
                     setSelectedCategory(cat.slug);
                     setSearchQuery("");
                   }}
-                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0 ${
+                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all flex items-center gap-2 shrink-0 ${
                     isActive
-                      ? "bg-brand-charcoal text-white shadow-lg ring-2 ring-brand-orange-500/40"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      ? "bg-[#14243A] text-white shadow-md ring-2 ring-[#F47B20]/40"
+                      : "bg-[#F5F6F8] text-slate-700 hover:bg-slate-200/80 border border-slate-200/80"
                   }`}
                 >
                   <span>{cat.name}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                       isActive
-                        ? "bg-brand-orange-500 text-white"
-                        : "bg-slate-200 text-slate-600"
+                        ? "bg-[#F47B20] text-white"
+                        : "bg-white text-slate-600 border border-slate-200"
                     }`}
                   >
                     {cat.itemCount}
@@ -128,13 +129,13 @@ export default function HomePage() {
           {/* Dynamic Section Header for Selected Material */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6 sm:mb-8 pb-4 border-b border-slate-100">
             <div>
-              <div className="inline-flex items-center gap-1.5 text-brand-orange-600 text-xs font-bold uppercase tracking-wider mb-1">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+              <div className="inline-flex items-center gap-1.5 text-[#F47B20] text-xs font-bold uppercase tracking-wider mb-1">
+                <CheckCircle2 className="w-4 h-4 text-[#159B68]" />
                 <span>Verified Stock Ready For Dispatch</span>
               </div>
-              <h2 className="text-xl sm:text-3xl font-extrabold text-brand-charcoal flex flex-wrap items-center gap-2">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#14243A] flex flex-wrap items-center gap-2">
                 <span>Available Varieties of {currentCategory?.name || "Selected Material"}</span>
-                <span className="text-xs font-semibold bg-brand-orange-100 text-brand-orange-800 px-2.5 py-1 rounded-full">
+                <span className="text-xs font-bold bg-[#FFF7ED] text-[#F47B20] border border-[#F47B20]/30 px-3 py-1 rounded-full">
                   {filteredProducts.length} Option{filteredProducts.length > 1 ? "s" : ""}
                 </span>
               </h2>
@@ -146,7 +147,7 @@ export default function HomePage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="self-start md:self-auto text-xs font-bold text-brand-orange-600 bg-brand-orange-50 border border-brand-orange-200 px-3 py-1.5 rounded-lg hover:bg-brand-orange-100 transition-colors"
+                className="self-start md:self-auto text-xs font-bold text-[#F47B20] bg-[#FFF7ED] border border-[#F47B20]/30 px-3 py-1.5 rounded-lg hover:bg-amber-100 transition-colors"
               >
                 Clear Search
               </button>
@@ -155,7 +156,7 @@ export default function HomePage() {
 
           {/* Search Query Notice if active */}
           {searchQuery && (
-            <div className="mb-6 p-3 rounded-xl bg-slate-100 text-xs text-slate-700 flex items-center justify-between">
+            <div className="mb-6 p-3 rounded-xl bg-[#F5F6F8] text-xs text-slate-700 flex items-center justify-between border border-slate-200">
               <span>
                 Showing results for "<strong>{searchQuery}</strong>" ({filteredProducts.length} materials found)
               </span>
@@ -168,11 +169,11 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Product Cards Grid */}
+          {/* Product Cards Grid with consistent dimensions */}
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-16 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+            <div className="text-center py-16 bg-[#F5F6F8] rounded-3xl border border-dashed border-slate-300">
               <Search className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-              <h4 className="text-base font-bold text-slate-700">No materials matched your filter</h4>
+              <h4 className="text-base font-bold text-[#14243A]">No materials matched your filter</h4>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
                 Try selecting a different material from the menu above.
               </p>
@@ -181,13 +182,13 @@ export default function HomePage() {
                   setSelectedCategory("sand");
                   setSearchQuery("");
                 }}
-                className="mt-4 px-4 py-2 bg-brand-charcoal text-white rounded-lg text-xs font-bold"
+                className="mt-4 px-5 py-2.5 bg-[#F47B20] hover:bg-[#DC630D] text-white rounded-xl text-xs font-bold shadow-md"
               >
                 View Sand Varieties
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -202,28 +203,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. Promotional Banner for Commercial Projects & Batch Supply */}
+      {/* 6. Heavy Material Logistics & Weighbridge Delivery Section */}
+      <DeliveryLogisticsSection />
+
+      {/* 7. Promotional Scheme for Concrete Slabs & Foundations */}
       <PromotionalBanner />
 
-      {/* 7. Why Choose Us (Four Core Pillars) */}
+      {/* 8. Why Choose Jayam Materials */}
       <WhyChooseUs />
 
-      {/* 8. About The Company & Quality Promise */}
+      {/* 9. About The Company & Verified Tonnage */}
       <AboutSection />
 
-      {/* 9. Verified Customer Testimonials */}
+      {/* 10. Verified Customer Testimonials */}
       <CustomerTestimonials />
 
-      {/* 10. Direct Contact & Dispatch Yard Section */}
+      {/* 11. Direct Contact & Dispatch Yard Section */}
       <ContactSection />
 
-      {/* 11. Professional Footer */}
+      {/* 12. Professional Modern Industrial Luxury Footer */}
       <Footer />
 
-      {/* 12. Floating WhatsApp and Direct Phone Call CTA */}
+      {/* 13. Floating WhatsApp and Phone CTA */}
       <FloatingQuickContact />
 
-      {/* 13. Shopping Cart Drawer */}
+      {/* 14. Shopping Cart Drawer */}
       <CartDrawer />
     </div>
   );

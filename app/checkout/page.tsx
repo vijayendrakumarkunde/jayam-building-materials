@@ -153,12 +153,12 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-white text-[#20252D]">
       <Navbar />
       <DeliveryNoticeBanner />
 
-      {/* Header Banner */}
-      <div className="bg-brand-charcoal text-white py-8 px-4 sm:px-6 lg:px-8 border-b border-brand-charcoal-800">
+      {/* Header Banner in Deep Navy */}
+      <div className="bg-[#14243A] text-white py-8 px-4 sm:px-6 lg:px-8 border-b border-[#0F1B2B]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs text-brand-orange-400 font-semibold mb-1">

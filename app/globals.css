@@ -3,39 +3,40 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 17, 24, 39;
-  --background-rgb: 248, 250, 252;
+  --foreground-rgb: 32, 37, 45; /* #20252D Charcoal */
+  --background-rgb: 255, 255, 255; /* #FFFFFF Pure White */
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  background: #FFFFFF;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for modern industrial feel */
+/* Custom scrollbar for modern industrial luxury feel */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F5F6F8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #CED3D9;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #F47B20;
 }
 
-/* Glassmorphism utility */
-.glass-nav {
-  background: rgba(17, 24, 39, 0.95);
+/* Glassmorphism light utility */
+.glass-nav-light {
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }

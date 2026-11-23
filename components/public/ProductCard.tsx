@@ -5,17 +5,20 @@ import Link from "next/link";
 import { 
   Plus, 
   Check, 
-  ArrowUpRight,
-  MessageCircle,
+  ShoppingCart, 
+  MessageCircle, 
+  Eye, 
+  CheckCircle2, 
   Truck
 } from "lucide-react";
 import { Product } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
 import { BRAND_INFO } from "@/lib/constants";
+import { ProductDetailModal } from "./ProductDetailModal";
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart?: (product: Product) => void;
+  onAddToCart?: (product: Product, quantity?: number) => void;
   isAddedToCart?: boolean;
 }
 
@@ -25,8 +28,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isAddedToCart = false,
 }) => {
   const [justAdded, setJustAdded] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
-  // Compute MRP and Discount if not explicitly specified
+  // Compute MRP and Discount
   const mrp = product.mrpPrice || Math.round(product.price * 1.35 / 50) * 50;
   const discount = product.discountPercent || Math.round(((mrp - product.price) / mrp) * 100);
 
@@ -46,112 +50,157 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   );
 
   return (
-    <div className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-3 sm:p-4 hover:shadow-xl hover:border-slate-300 transition-all duration-300 relative">
-      
-      <div>
-        {/* Visual Image Container with Discount / Stock Badges */}
-        <div className="relative h-36 sm:h-48 w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#F8F9FA] flex items-center justify-center p-2 mb-3">
-          
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-          />
+    <>
+      <div 
+        onClick={() => setIsDetailModalOpen(true)}
+        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-4 sm:p-5 hover:shadow-xl hover:border-[#F47B20]/40 transition-all duration-300 relative cursor-pointer"
+      >
+        <div>
+          {/* Visual Image Container with Discount & Stock Badges */}
+          <div className="relative h-44 sm:h-52 w-full rounded-2xl overflow-hidden bg-[#F5F6F8] flex items-center justify-center p-3 mb-4 group-hover:bg-[#F0F2F5] transition-colors border border-slate-100">
+            
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
 
-          {/* Top-Left Discount Badge (Exact Builders9 Look) */}
-          <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
-            {discount > 0 && (
-              <span className="bg-black text-white text-[9px] sm:text-[11px] font-black px-2 py-0.5 rounded-full shadow-sm">
-                {discount}% OFF
-              </span>
-            )}
+            {/* Top-Left Discount Badge */}
+            <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1">
+              {discount > 0 && (
+                <span className="bg-[#14243A] text-white text-[10px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                  {discount}% OFF
+                </span>
+              )}
+            </div>
+
+            {/* Top-Right Availability Status Pill */}
+            <div className="absolute top-2.5 right-2.5 z-10">
+              {product.inStock ? (
+                <span className="inline-flex items-center gap-1 bg-[#E8F7F0] text-[#159B68] text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200/80 shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#159B68]"></span>
+                  <span>In Stock</span>
+                </span>
+              ) : (
+                <span className="bg-rose-50 text-rose-600 text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full border border-rose-200 shadow-xs">
+                  Out of Stock
+                </span>
+              )}
+            </div>
+
+            {/* Quick WhatsApp Hover Pill */}
+            <a
+              href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappOrderText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="absolute bottom-2.5 right-2.5 z-10 w-8 h-8 rounded-full bg-[#159B68] text-white flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#108055] hover:scale-110"
+              title="Inquire on WhatsApp"
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+            </a>
           </div>
 
-          {/* Out of Stock Pill */}
-          {!product.inStock && (
-            <div className="absolute top-2 right-2 z-10">
-              <span className="bg-white/95 text-slate-800 text-[9px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shadow-sm">
-                Out of stock
-              </span>
+          {/* Product Category & Name */}
+          <div className="space-y-1">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#F47B20] block">
+              {product.categoryName}
+            </span>
+
+            <h3 className="font-extrabold text-sm sm:text-base text-[#14243A] group-hover:text-[#F47B20] transition-colors line-clamp-1 leading-snug">
+              {product.name}
+            </h3>
+
+            {/* Product Description */}
+            <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed min-h-[2rem]">
+              {product.description}
+            </p>
+
+            {/* Price & Unit Section */}
+            <div className="pt-2 flex items-baseline justify-between border-t border-slate-100 mt-2">
+              <div>
+                {mrp > product.price && (
+                  <span className="text-[11px] text-slate-400 line-through font-medium block">
+                    ₹{mrp.toLocaleString("en-IN")}.00
+                  </span>
+                )}
+                <div className="flex items-baseline gap-1">
+                  <span className="text-base sm:text-lg font-black text-[#14243A] tracking-tight">
+                    ₹{product.price.toLocaleString("en-IN")}.00
+                  </span>
+                  <span className="text-xs text-slate-500 font-semibold">
+                    /{product.unit}
+                  </span>
+                </div>
+              </div>
+
+              {/* Delivery Unit Badge */}
+              <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-[#F5F6F8] px-2 py-1 rounded-md">
+                <Truck className="w-3 h-3 text-slate-500" />
+                <span>Tipper / Truck</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card Action Footer: View Details Button & Add to Cart Button */}
+        <div className="pt-3.5 mt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
+          
+          {/* 1. View Details Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsDetailModalOpen(true);
+            }}
+            className="w-full py-2 px-2.5 rounded-xl border border-slate-200 hover:border-[#14243A] bg-white hover:bg-[#F5F6F8] text-[#14243A] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+          >
+            <Eye className="w-3.5 h-3.5 text-slate-500" />
+            <span>Details</span>
+          </button>
+
+          {/* 2. Add to Cart Button */}
+          {product.inStock ? (
+            <button
+              type="button"
+              onClick={handleAdd}
+              className={`w-full py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 ${
+                isAddedToCart || justAdded
+                  ? "bg-[#159B68] text-white"
+                  : "bg-[#F47B20] hover:bg-[#DC630D] text-white shadow-[#F47B20]/25"
+              }`}
+            >
+              {isAddedToCart || justAdded ? (
+                <>
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Added</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-3.5 h-3.5" />
+                  <span>Add to Cart</span>
+                </>
+              )}
+            </button>
+          ) : (
+            <div className="w-full py-2 px-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold text-center flex items-center justify-center">
+              Unavailable
             </div>
           )}
 
-          {/* Quick WhatsApp Hover Pill */}
-          <a
-            href={`https://wa.me/91${BRAND_INFO.whatsappNumber}?text=${whatsappOrderText}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="absolute bottom-2 right-2 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-emerald-700"
-            title="Inquire on WhatsApp"
-          >
-            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white" />
-          </a>
         </div>
 
-        {/* Product Information */}
-        <div className="space-y-1">
-          <h3 className="font-bold text-xs sm:text-sm text-slate-900 line-clamp-2 leading-snug min-h-[2.25rem]">
-            {product.name}
-          </h3>
-
-          <p className="text-[10px] sm:text-xs text-slate-400 font-medium line-clamp-1">
-            {product.categoryName}
-          </p>
-
-          {/* Price Section */}
-          <div className="pt-1.5 space-y-0.5">
-            {mrp > product.price && (
-              <span className="text-[10px] sm:text-xs text-slate-400 line-through font-medium block">
-                ₹{mrp.toLocaleString("en-IN")}.00
-              </span>
-            )}
-            <div className="flex items-baseline gap-1">
-              <span className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-                ₹{product.price.toLocaleString("en-IN")}.00
-              </span>
-              <span className="text-[10px] text-slate-400 font-medium">
-                /{product.unit}
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Card Action Footer: "View product" & Circular (+) Button */}
-      <div className="pt-3 mt-2 border-t border-slate-100 flex items-center justify-between">
-        <Link
-          href={`/products`}
-          className="text-[11px] sm:text-xs font-semibold text-slate-700 hover:text-brand-orange-600 transition-colors"
-        >
-          View product
-        </Link>
-
-        {product.inStock ? (
-          <button
-            type="button"
-            onClick={handleAdd}
-            className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-sm transition-all active:scale-90 ${
-              isAddedToCart || justAdded
-                ? "bg-emerald-600 text-white"
-                : "bg-slate-900 hover:bg-brand-orange-500 text-white"
-            }`}
-            title="Add to cart"
-          >
-            {isAddedToCart || justAdded ? (
-              <Check className="w-4 h-4 text-white" />
-            ) : (
-              <Plus className="w-4 h-4 text-white" />
-            )}
-          </button>
-        ) : (
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-900 text-white flex items-center justify-center shadow-sm opacity-80">
-            <ArrowUpRight className="w-4 h-4" />
-          </div>
-        )}
-      </div>
-
-    </div>
+      {/* Technical Detail Modal */}
+      <ProductDetailModal
+        product={product}
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        onAddToCart={onAddToCart}
+        isAddedToCart={isAddedToCart}
+      />
+    </>
   );
 };
