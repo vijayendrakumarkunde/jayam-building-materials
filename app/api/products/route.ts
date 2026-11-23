@@ -52,12 +52,47 @@ export async function GET() {
           ? staticMatch.images
           : ["/images/products/river-sand.jpg"];
 
+      // Normalize category slug and name to match Builders9 primary categories
+      const rawCatSlug = (staticMatch?.categorySlug || p.categories?.slug || "sand").toLowerCase();
+      let normalizedCategorySlug = rawCatSlug;
+      let normalizedCategoryName = staticMatch?.categoryName || p.categories?.name || "Sand & Aggregates";
+
+      if (
+        rawCatSlug === "sand" ||
+        rawCatSlug === "river-sand" ||
+        rawCatSlug === "m-sand" ||
+        rawCatSlug === "plastering-sand" ||
+        rawCatSlug === "aggregates" ||
+        rawCatSlug === "gravel"
+      ) {
+        normalizedCategorySlug = "sand";
+        normalizedCategoryName = "Sand & Aggregates";
+      } else if (rawCatSlug === "cement") {
+        normalizedCategorySlug = "cement";
+        normalizedCategoryName = "Cement";
+      } else if (rawCatSlug === "steel") {
+        normalizedCategorySlug = "steel";
+        normalizedCategoryName = "TMT Steel Bars";
+      } else if (rawCatSlug === "bricks") {
+        normalizedCategorySlug = "bricks";
+        normalizedCategoryName = "Bricks & Blocks";
+      } else if (rawCatSlug === "stones") {
+        normalizedCategorySlug = "stones";
+        normalizedCategoryName = "Stones & Foundation";
+      } else if (rawCatSlug === "red-soil") {
+        normalizedCategorySlug = "red-soil";
+        normalizedCategoryName = "Red Soil & Landscaping";
+      } else if (rawCatSlug === "electricals" || rawCatSlug === "other-materials") {
+        normalizedCategorySlug = "electricals";
+        normalizedCategoryName = "Electricals & Lighting";
+      }
+
       return {
         id: p.id,
         name: p.name,
         slug: p.slug || staticMatch?.slug || p.id,
-        categorySlug: p.categories?.slug || staticMatch?.categorySlug || "sand",
-        categoryName: p.categories?.name || staticMatch?.categoryName || "Sand & Aggregates",
+        categorySlug: normalizedCategorySlug,
+        categoryName: normalizedCategoryName,
         productType: p.product_type || staticMatch?.productType || "Building Material",
         description: p.description || staticMatch?.description || "High-grade verified building material.",
         price: Number(p.base_price !== undefined ? p.base_price : (staticMatch?.price || 0)),

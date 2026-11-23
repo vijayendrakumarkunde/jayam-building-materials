@@ -13,7 +13,7 @@ import { CATEGORIES_DATA } from "@/lib/data/categories";
 import { Product, MeasurementUnit } from "@/lib/types";
 import { MEASUREMENT_UNITS } from "@/lib/constants";
 import { useCart } from "@/lib/context/CartContext";
-import { getMergedProducts } from "@/lib/utils/productStore";
+import { getMergedProducts, isProductInCategory } from "@/lib/utils/productStore";
 import { Search, Filter, RefreshCw, Layers, Sparkles } from "lucide-react";
 
 function ProductsContent() {
@@ -62,10 +62,7 @@ function ProductsContent() {
   // Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
-      const matchesCategory =
-        selectedCategory === "all" ||
-        product.categorySlug === selectedCategory ||
-        (selectedCategory === "sand" && (product.categorySlug === "sand" || product.categorySlug === "aggregates"));
+      const matchesCategory = isProductInCategory(product, selectedCategory);
       const matchesUnit =
         selectedUnit === "all" || product.unit === selectedUnit;
       const matchesSearch =

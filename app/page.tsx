@@ -19,7 +19,7 @@ import { PRODUCTS_DATA } from "@/lib/data/products";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 import { Product } from "@/lib/types";
 import { useCart } from "@/lib/context/CartContext";
-import { getMergedProducts } from "@/lib/utils/productStore";
+import { getMergedProducts, isProductInCategory } from "@/lib/utils/productStore";
 import { Sparkles, Search, Layers, CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
@@ -57,11 +57,7 @@ export default function HomePage() {
   // Filtered products based on search and selected material category
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      const matchesCategory =
-        !selectedCategory ||
-        selectedCategory === "all" ||
-        product.categorySlug === selectedCategory ||
-        (selectedCategory === "sand" && (product.categorySlug === "sand" || product.categorySlug === "aggregates"));
+      const matchesCategory = isProductInCategory(product, selectedCategory);
       const matchesSearch =
         !searchQuery ||
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

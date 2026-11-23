@@ -60,6 +60,81 @@ const PRESET_PRODUCT_PHOTOS = [
   { name: "Sand Tipper Truck", url: "/images/products/sand-truck.jpg", cat: "logistics" },
 ];
 
+// Helper function to robustly match product categories across variants
+function isProductInCategory(p: Product, catSlug: string): boolean {
+  if (catSlug === "all") return true;
+
+  const pCat = (p.categorySlug || "").toLowerCase();
+  const cName = (p.categoryName || "").toLowerCase();
+  const pName = (p.name || "").toLowerCase();
+
+  if (catSlug === "sand") {
+    return (
+      pCat === "sand" ||
+      pCat === "river-sand" ||
+      pCat === "m-sand" ||
+      pCat === "plastering-sand" ||
+      pCat === "aggregates" ||
+      pCat === "gravel" ||
+      cName.includes("sand") ||
+      cName.includes("aggregate") ||
+      pName.includes("sand") ||
+      pName.includes("aggregate") ||
+      pName.includes("blue metal")
+    );
+  }
+
+  if (catSlug === "cement") {
+    return pCat === "cement" || cName.includes("cement") || pName.includes("cement");
+  }
+
+  if (catSlug === "steel") {
+    return pCat === "steel" || cName.includes("steel") || pName.includes("steel") || pName.includes("tmt");
+  }
+
+  if (catSlug === "bricks") {
+    return (
+      pCat === "bricks" ||
+      cName.includes("brick") ||
+      cName.includes("block") ||
+      pName.includes("brick") ||
+      pName.includes("block") ||
+      pName.includes("aac")
+    );
+  }
+
+  if (catSlug === "stones") {
+    return (
+      pCat === "stones" ||
+      pCat === "soil-stone" ||
+      cName.includes("stone") ||
+      pName.includes("rubble") ||
+      pName.includes("granite")
+    );
+  }
+
+  if (catSlug === "red-soil") {
+    return (
+      pCat === "red-soil" ||
+      pCat === "soil-stone" ||
+      cName.includes("soil") ||
+      pName.includes("soil")
+    );
+  }
+
+  if (catSlug === "electricals") {
+    return (
+      pCat === "electricals" ||
+      pCat === "other-materials" ||
+      cName.includes("electrical") ||
+      pName.includes("wire") ||
+      pName.includes("cable")
+    );
+  }
+
+  return pCat === catSlug;
+}
+
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -645,8 +720,7 @@ export default function AdminProductsPage() {
 
   // Filter products by search and category
   const filteredProducts = products.filter((p) => {
-    const matchesCategory =
-      selectedCategory === "all" || p.categorySlug === selectedCategory;
+    const matchesCategory = isProductInCategory(p, selectedCategory);
     const matchesSearch =
       !search ||
       p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -825,7 +899,7 @@ export default function AdminProductsPage() {
 
         {CATEGORIES_DATA.map((cat) => {
           const isSelected = selectedCategory === cat.slug;
-          const count = products.filter((p) => p.categorySlug === cat.slug).length;
+          const count = products.filter((p) => isProductInCategory(p, cat.slug)).length;
           return (
             <button
               key={cat.id}

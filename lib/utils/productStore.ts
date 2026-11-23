@@ -137,3 +137,82 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
     };
   });
 }
+
+/**
+ * Universal category matcher to ensure sand, river-sand, m-sand, and aggregates
+ * all match the "Sand & Aggregates" category (slug: "sand") across admin & storefront.
+ */
+export function isProductInCategory(product: Product, categorySlug: string): boolean {
+  if (!categorySlug || categorySlug === "all") return true;
+
+  const pCat = (product.categorySlug || "").toLowerCase();
+  const cName = (product.categoryName || "").toLowerCase();
+  const pName = (product.name || "").toLowerCase();
+
+  if (categorySlug === "sand") {
+    return (
+      pCat === "sand" ||
+      pCat === "river-sand" ||
+      pCat === "m-sand" ||
+      pCat === "plastering-sand" ||
+      pCat === "aggregates" ||
+      pCat === "gravel" ||
+      cName.includes("sand") ||
+      cName.includes("aggregate") ||
+      pName.includes("sand") ||
+      pName.includes("aggregate") ||
+      pName.includes("blue metal")
+    );
+  }
+
+  if (categorySlug === "cement") {
+    return pCat === "cement" || cName.includes("cement") || pName.includes("cement");
+  }
+
+  if (categorySlug === "steel") {
+    return pCat === "steel" || cName.includes("steel") || pName.includes("steel") || pName.includes("tmt");
+  }
+
+  if (categorySlug === "bricks") {
+    return (
+      pCat === "bricks" ||
+      cName.includes("brick") ||
+      cName.includes("block") ||
+      pName.includes("brick") ||
+      pName.includes("block") ||
+      pName.includes("aac")
+    );
+  }
+
+  if (categorySlug === "stones") {
+    return (
+      pCat === "stones" ||
+      pCat === "soil-stone" ||
+      cName.includes("stone") ||
+      pName.includes("rubble") ||
+      pName.includes("granite")
+    );
+  }
+
+  if (categorySlug === "red-soil") {
+    return (
+      pCat === "red-soil" ||
+      pCat === "soil-stone" ||
+      cName.includes("soil") ||
+      pName.includes("soil")
+    );
+  }
+
+  if (categorySlug === "electricals") {
+    return (
+      pCat === "electricals" ||
+      pCat === "other-materials" ||
+      cName.includes("electrical") ||
+      pName.includes("wire") ||
+      pName.includes("cable")
+    );
+  }
+
+  return pCat === categorySlug;
+}
+
