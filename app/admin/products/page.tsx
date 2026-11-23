@@ -20,7 +20,8 @@ import {
   AlertCircle,
   Eye,
   SlidersHorizontal,
-  Layers
+  Layers,
+  RotateCcw
 } from "lucide-react";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
@@ -30,6 +31,9 @@ import { createClient } from "@/lib/supabase/client";
 import { 
   getMergedProducts, 
   saveProductOverride, 
+  deleteProductFromCatalog,
+  restoreProductToCatalog,
+  getDeletedProductIds,
   ProductOverride 
 } from "@/lib/utils/productStore";
 import { Product, MeasurementUnit } from "@/lib/types";
@@ -40,6 +44,14 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [deletedIds, setDeletedIds] = useState<string[]>([]);
+
+  // Modal: Delete Confirmation
+  const [deleteConfirmProduct, setDeleteConfirmProduct] = useState<Product | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Modal: Restore Removed Materials
+  const [isRestoreModalOpen, setIsRestoreModalOpen] = useState(false);
 
   // Modal 1: Add New Product
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -103,6 +115,7 @@ export default function AdminProductsPage() {
 
   const loadProducts = async () => {
     setLoading(true);
+    setDeletedIds(getDeletedProductIds());
     try {
       const res = await fetch("/api/admin/products");
       const data = await res.json();
@@ -148,10 +161,49 @@ export default function AdminProductsPage() {
 
     const handleUpdate = () => {
       setProducts((prev) => getMergedProducts(prev));
+      setDeletedIds(getDeletedProductIds());
     };
     window.addEventListener("jayam_products_updated", handleUpdate);
     return () => window.removeEventListener("jayam_products_updated", handleUpdate);
   }, []);
+
+  // Handle Remove / Delete Material
+  const handleConfirmDelete = async () => {
+    if (!deleteConfirmProduct) return;
+    setIsDeleting(true);
+    const prodToRemove = deleteConfirmProduct;
+
+    try {
+      // 1. Delete locally from catalog state & localStorage
+      deleteProductFromCatalog(prodToRemove.id);
+
+      // 2. Call API DELETE endpoint
+      await fetch(`/api/admin/products?id=${prodToRemove.id}`, {
+        method: "DELETE",
+      });
+
+      // 3. Update state
+      setProducts((prev) => prev.filter((p) => p.id !== prodToRemove.id));
+      setDeletedIds(getDeletedProductIds());
+      setDeleteConfirmProduct(null);
+      showToast(`"${prodToRemove.name}" removed from catalog.`);
+    } catch (err) {
+      console.error(err);
+      setProducts((prev) => prev.filter((p) => p.id !== prodToRemove.id));
+      setDeletedIds(getDeletedProductIds());
+      setDeleteConfirmProduct(null);
+      showToast(`"${prodToRemove.name}" removed.`);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Handle Restore Material
+  const handleRestoreProduct = (id: string) => {
+    restoreProductToCatalog(id);
+    loadProducts();
+    showToast("Material restored to catalog!");
+  };
 
   // When opening Photo Modal, prepopulate photoPreview
   const handleOpenPhotoModal = (p: Product) => {
@@ -495,6 +547,18 @@ export default function AdminProductsPage() {
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
 
+          {/* RESTORE BUTTON IF ANY DELETED */}
+          {deletedIds.length > 0 && (
+            <button
+              onClick={() => setIsRestoreModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 text-xs font-bold transition-all"
+              title="View removed materials"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Removed ({deletedIds.length})</span>
+            </button>
+          )}
+
           {/* ADD MATERIAL BUTTON */}
           <button
             onClick={() => setIsAddModalOpen(true)}
@@ -664,26 +728,36 @@ export default function AdminProductsPage() {
 
                     {/* Action Buttons: Change Photo & Edit Details */}
                     <td className="p-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                         
                         {/* Change Photo Button */}
                         <button
                           onClick={() => handleOpenPhotoModal(p)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-charcoal-800 hover:bg-brand-charcoal-700 text-brand-orange-400 hover:text-brand-orange-300 border border-brand-charcoal-700 font-bold text-xs transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-brand-charcoal-800 hover:bg-brand-charcoal-700 text-brand-orange-400 hover:text-brand-orange-300 border border-brand-charcoal-700 font-bold text-xs transition-colors"
                           title="Change Material Photo"
                         >
                           <Camera className="w-3.5 h-3.5" />
-                          <span>Change Photo</span>
+                          <span className="hidden sm:inline">Photo</span>
                         </button>
 
                         {/* Edit Details Button */}
                         <button
                           onClick={() => handleOpenEditModal(p)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-charcoal-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-brand-charcoal-700 font-bold text-xs transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-brand-charcoal-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-brand-charcoal-700 font-bold text-xs transition-colors"
                           title="Edit Rate & Stock"
                         >
                           <Edit className="w-3.5 h-3.5" />
                           <span>Edit</span>
+                        </button>
+
+                        {/* Remove Material Button */}
+                        <button
+                          onClick={() => setDeleteConfirmProduct(p)}
+                          className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-brand-charcoal-800 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 border border-brand-charcoal-700 hover:border-rose-500/40 font-bold text-xs transition-colors"
+                          title="Remove from Catalog"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span className="hidden md:inline">Remove</span>
                         </button>
 
                       </div>
@@ -1016,22 +1090,37 @@ export default function AdminProductsPage() {
               </div>
 
               {/* Actions */}
-              <div className="pt-3 border-t border-brand-charcoal-800 flex items-center justify-end gap-3">
+              <div className="pt-3 border-t border-brand-charcoal-800 flex items-center justify-between gap-3">
                 <button
                   type="button"
-                  onClick={() => setEditModalProduct(null)}
-                  className="px-4 py-2.5 rounded-xl bg-brand-charcoal-800 text-slate-400 hover:text-white text-xs font-bold"
+                  onClick={() => {
+                    const toDelete = editModalProduct;
+                    setEditModalProduct(null);
+                    setDeleteConfirmProduct(toDelete);
+                  }}
+                  className="px-3 py-2 rounded-xl text-xs font-bold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center gap-1.5 transition-colors"
                 >
-                  Cancel
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Remove Material</span>
                 </button>
-                <button
-                  type="submit"
-                  disabled={isSavingEdit}
-                  className="px-5 py-2.5 rounded-xl bg-brand-orange-500 hover:bg-brand-orange-600 text-white text-xs font-bold shadow-lg shadow-brand-orange-500/25 flex items-center gap-1.5 disabled:opacity-50"
-                >
-                  <Check className="w-4 h-4" />
-                  <span>{isSavingEdit ? "Saving..." : "Save Details"}</span>
-                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditModalProduct(null)}
+                    className="px-4 py-2.5 rounded-xl bg-brand-charcoal-800 text-slate-400 hover:text-white text-xs font-bold"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSavingEdit}
+                    className="px-5 py-2.5 rounded-xl bg-brand-orange-500 hover:bg-brand-orange-600 text-white text-xs font-bold shadow-lg shadow-brand-orange-500/25 flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>{isSavingEdit ? "Saving..." : "Save Details"}</span>
+                  </button>
+                </div>
               </div>
 
             </form>
@@ -1324,6 +1413,144 @@ export default function AdminProductsPage() {
               </div>
 
             </form>
+
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 4: DELETE / REMOVE CONFIRMATION MODAL                               */}
+      {/* ========================================================================= */}
+      {deleteConfirmProduct && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-brand-charcoal-900 border border-brand-charcoal-700 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl space-y-5 animate-in fade-in-50">
+            
+            <div className="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto">
+              <Trash2 className="w-6 h-6" />
+            </div>
+
+            <div className="text-center space-y-2">
+              <h3 className="text-lg font-black text-white">
+                Remove Material from Catalog?
+              </h3>
+              <p className="text-xs text-slate-300">
+                Are you sure you want to remove <strong className="text-white">"{deleteConfirmProduct.name}"</strong>?
+              </p>
+              <p className="text-[11px] text-slate-500">
+                This item will be immediately hidden from the storefront and customer catalog.
+              </p>
+            </div>
+
+            {/* Material Snapshot Preview */}
+            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-brand-charcoal-950 border border-brand-charcoal-800">
+              <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-800 shrink-0">
+                <img
+                  src={deleteConfirmProduct.images[0]}
+                  alt={deleteConfirmProduct.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-left flex-1 min-w-0">
+                <p className="text-xs font-bold text-white truncate">{deleteConfirmProduct.name}</p>
+                <span className="text-[10px] text-brand-orange-400 font-semibold">{deleteConfirmProduct.categoryName}</span>
+                <span className="text-[10px] text-slate-400 block font-bold">
+                  ₹{deleteConfirmProduct.price} / {deleteConfirmProduct.unit}
+                </span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeleteConfirmProduct(null)}
+                className="py-2.5 px-4 rounded-xl bg-brand-charcoal-800 hover:bg-brand-charcoal-700 text-slate-300 font-bold text-xs transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleConfirmDelete}
+                className="py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-rose-600/30 transition-all disabled:opacity-50"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>{isDeleting ? "Removing..." : "Yes, Remove"}</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 5: RESTORE REMOVED MATERIALS MODAL                                   */}
+      {/* ========================================================================= */}
+      {isRestoreModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-brand-charcoal-900 border border-brand-charcoal-700 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl space-y-5 animate-in fade-in-50 max-h-[85vh] overflow-y-auto">
+            
+            <div className="flex items-center justify-between border-b border-brand-charcoal-800 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-xl bg-rose-500/20 text-rose-400">
+                  <RotateCcw className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">Removed Materials ({deletedIds.length})</h3>
+                  <p className="text-xs text-slate-400">Restore any material back to the active catalog</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsRestoreModalOpen(false)} 
+                className="text-slate-400 hover:text-white p-1 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {deletedIds.length === 0 ? (
+                <p className="text-xs text-slate-400 text-center py-6">
+                  No removed materials. All materials are active!
+                </p>
+              ) : (
+                PRODUCTS_DATA.filter((p) => deletedIds.includes(p.id)).map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex items-center justify-between p-3 rounded-2xl bg-brand-charcoal-950 border border-brand-charcoal-800 gap-3"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-800 shrink-0">
+                        <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="truncate">
+                        <p className="text-xs font-bold text-white truncate">{p.name}</p>
+                        <span className="text-[10px] text-slate-400 block">{p.categoryName} • ₹{p.price}/{p.unit}</span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleRestoreProduct(p.id)}
+                      className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shrink-0 transition-colors shadow-md"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Restore</span>
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="pt-3 border-t border-brand-charcoal-800 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsRestoreModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-brand-charcoal-800 text-slate-300 hover:text-white text-xs font-bold"
+              >
+                Close
+              </button>
+            </div>
 
           </div>
         </div>
