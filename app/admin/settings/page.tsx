@@ -13,10 +13,9 @@ export default function AdminSettingsPage() {
     whatsapp: BRAND_INFO.whatsappNumber,
     address: BRAND_INFO.address,
     operatingHours: BRAND_INFO.operatingHours,
-    // Direct UPI & Advance Token Configuration
+    // Direct UPI Configuration
     upiId: BRAND_INFO.upiId,
     alternateUpiId: BRAND_INFO.alternateUpiId,
-    advanceTokenAmount: BRAND_INFO.advanceTokenAmount,
     merchantName: BRAND_INFO.merchantName,
   });
 
@@ -179,7 +178,7 @@ export default function AdminSettingsPage() {
                   type="text"
                   value={formData.alternateUpiId}
                   onChange={(e) => setFormData({ ...formData, alternateUpiId: e.target.value })}
-                  placeholder="e.g. 9505609865@ibl"
+                  placeholder="e.g. kundejayam@ibl"
                   className="w-full text-xs px-4 py-2.5 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-slate-300 font-mono focus:outline-none focus:border-brand-orange-500"
                 />
                 <p className="text-[10px] text-slate-400 mt-1">
@@ -188,36 +187,19 @@ export default function AdminSettingsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Advance Token Booking Amount (₹)
-                </label>
-                <input
-                  type="number"
-                  value={formData.advanceTokenAmount}
-                  onChange={(e) => setFormData({ ...formData, advanceTokenAmount: Number(e.target.value) })}
-                  className="w-full text-xs px-4 py-2.5 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white font-bold focus:outline-none focus:border-brand-orange-500"
-                />
-                <p className="text-[10px] text-slate-400 mt-1">
-                  Token amount collected online to lock tipper lorry. Remaining balance is paid on site.
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Payee Display Name on UPI
-                </label>
-                <input
-                  type="text"
-                  value={formData.merchantName}
-                  onChange={(e) => setFormData({ ...formData, merchantName: e.target.value })}
-                  className="w-full text-xs px-4 py-2.5 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white focus:outline-none focus:border-brand-orange-500"
-                />
-                <p className="text-[10px] text-slate-400 mt-1">
-                  Shown as recipient in customer's PhonePe / GPay screen.
-                </p>
-              </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                Payee Display Name on UPI
+              </label>
+              <input
+                type="text"
+                value={formData.merchantName}
+                onChange={(e) => setFormData({ ...formData, merchantName: e.target.value })}
+                className="w-full text-xs px-4 py-2.5 rounded-xl bg-brand-charcoal-800 border border-brand-charcoal-700 text-white focus:outline-none focus:border-brand-orange-500"
+              />
+              <p className="text-[10px] text-slate-400 mt-1">
+                Shown as recipient business in customer's PhonePe / GPay screen.
+              </p>
             </div>
           </div>
 

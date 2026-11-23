@@ -68,7 +68,7 @@ export default function OrderConfirmationPage() {
           `Please confirm tipper vehicle dispatch slot and transport fees.`
       );
 
-  const payableToken = orderData?.tokenAmount || BRAND_INFO.advanceTokenAmount;
+  const payableTotal = orderData?.subtotal || 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -165,18 +165,18 @@ export default function OrderConfirmationPage() {
 
         </div>
 
-        {/* DIRECT UPI PAYMENT DESK (Shown for advance deposit / UPI confirmation) */}
+        {/* DIRECT UPI PAYMENT DESK */}
         <div className="bg-gradient-to-br from-slate-900 to-brand-charcoal text-white rounded-3xl border border-brand-charcoal-700 shadow-xl p-6 sm:p-8 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/10">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange-500/20 text-brand-orange-400 text-xs font-bold uppercase tracking-wider mb-1.5 border border-brand-orange-500/30">
                 <Zap className="w-3.5 h-3.5" />
-                <span>Direct UPI Payment Desk</span>
+                <span>Direct PhonePe UPI Payment</span>
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-white">
-                {orderData?.paymentMethod?.includes("Full") 
-                  ? `Full UPI Payment: ${formatCurrency(orderData?.subtotal || 0)}` 
-                  : `Advance Booking Deposit: ₹2,000`}
+                {orderData?.paymentMethod?.includes("UPI")
+                  ? `Total Invoice: ${formatCurrency(payableTotal)}`
+                  : `Pay via UPI (Optional): ${formatCurrency(payableTotal)}`}
               </h2>
               <p className="text-xs text-slate-300 mt-0.5">
                 Scan with PhonePe, Google Pay, Paytm, BHIM, or any UPI bank app (0% Fee, Instant Settlement).
@@ -185,7 +185,7 @@ export default function OrderConfirmationPage() {
 
             <div className="text-right">
               <span className="text-[11px] text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30 inline-block">
-                Recipient: {BRAND_INFO.merchantName}
+                Payee: {BRAND_INFO.merchantName}
               </span>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function OrderConfirmationPage() {
             {/* Dynamic QR Code */}
             <div className="sm:col-span-5 bg-white p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-lg">
               <img
-                src={buildUpiQrCodeUrl(payableToken, orderRef)}
+                src={buildUpiQrCodeUrl(payableTotal, orderRef)}
                 alt="Scan to Pay via UPI"
                 className="w-44 h-44 rounded-xl object-contain"
               />
@@ -202,7 +202,7 @@ export default function OrderConfirmationPage() {
                 Scan with Any UPI App
               </span>
               <span className="text-[10px] text-slate-500">
-                Amount: ₹{payableToken.toLocaleString("en-IN")} • Direct Bank Transfer
+                Amount: ₹{payableTotal.toLocaleString("en-IN")} • Direct Bank Transfer
               </span>
             </div>
 
@@ -234,16 +234,16 @@ export default function OrderConfirmationPage() {
 
               {/* Mobile 1-Tap UPI Launch Button */}
               <a
-                href={buildUpiIntentUrl(payableToken, orderRef)}
+                href={buildUpiIntentUrl(payableTotal, orderRef)}
                 className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all"
               >
                 <ExternalLink className="w-4 h-4" />
-                <span>1-Tap Pay ₹{payableToken.toLocaleString("en-IN")} via UPI App</span>
+                <span>1-Tap Pay ₹{payableTotal.toLocaleString("en-IN")} via UPI App</span>
               </a>
 
               <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-300 space-y-1">
                 <p>• Alternate UPI ID: <span className="font-mono text-brand-orange-300">{BRAND_INFO.alternateUpiId}</span></p>
-                <p>• After paying, take a screenshot and tap the WhatsApp button above to share it with our dispatch desk.</p>
+                <p>• After paying, take a screenshot and tap the green WhatsApp button above to share with owner.</p>
               </div>
             </div>
           </div>
