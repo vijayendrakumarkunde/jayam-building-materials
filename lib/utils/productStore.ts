@@ -6,6 +6,7 @@ const DELETED_KEY = "jayam_deleted_products";
 
 export interface ProductOverride {
   id: string;
+  slug?: string;
   name?: string;
   price?: number;
   mrpPrice?: number;
@@ -16,6 +17,8 @@ export interface ProductOverride {
   gradeOrType?: string;
   categorySlug?: string;
   categoryName?: string;
+  description?: string;
+  specifications?: Record<string, string>;
 }
 
 export function getStoredOverrides(): Record<string, ProductOverride> {
@@ -42,10 +45,18 @@ export function saveProductOverride(override: ProductOverride) {
   if (typeof window === "undefined") return;
   try {
     const existing = getStoredOverrides();
+    // Save under id
     existing[override.id] = {
       ...(existing[override.id] || {}),
       ...override,
     };
+    // Also save under slug if provided, so PRODUCTS_DATA (using slug) or UUIDs both resolve
+    if (override.slug) {
+      existing[override.slug] = {
+        ...(existing[override.slug] || {}),
+        ...override,
+      };
+    }
     localStorage.setItem(OVERRIDES_KEY, JSON.stringify(existing));
     window.dispatchEvent(new Event("jayam_products_updated"));
   } catch (err) {
@@ -53,30 +64,32 @@ export function saveProductOverride(override: ProductOverride) {
   }
 }
 
-export function deleteProductFromCatalog(id: string) {
+export function deleteProductFromCatalog(id: string, slug?: string) {
   if (typeof window === "undefined") return;
   try {
     const deleted = getDeletedProductIds();
-    if (!deleted.includes(id)) {
-      deleted.push(id);
-      localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
-    }
+    if (!deleted.includes(id)) deleted.push(id);
+    if (slug && !deleted.includes(slug)) deleted.push(slug);
+    localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
+
     // Clean up override if exists
     const existing = getStoredOverrides();
-    if (existing[id]) {
-      delete existing[id];
-      localStorage.setItem(OVERRIDES_KEY, JSON.stringify(existing));
-    }
+    if (existing[id]) delete existing[id];
+    if (slug && existing[slug]) delete existing[slug];
+    localStorage.setItem(OVERRIDES_KEY, JSON.stringify(existing));
+
     window.dispatchEvent(new Event("jayam_products_updated"));
   } catch (err) {
     console.error("Failed to mark product deleted:", err);
   }
 }
 
-export function restoreProductToCatalog(id: string) {
+export function restoreProductToCatalog(id: string, slug?: string) {
   if (typeof window === "undefined") return;
   try {
-    const deleted = getDeletedProductIds().filter((dId) => dId !== id);
+    const deleted = getDeletedProductIds().filter(
+      (dId) => dId !== id && (!slug || dId !== slug)
+    );
     localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
     window.dispatchEvent(new Event("jayam_products_updated"));
   } catch (err) {
@@ -88,16 +101,20 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
   const deletedIds = new Set(getDeletedProductIds());
   const overrides = getStoredOverrides();
 
-  // Filter out removed products
-  const activeBase = baseProducts.filter((p) => !deletedIds.has(p.id));
+  // Filter out removed products by id or slug
+  const activeBase = baseProducts.filter(
+    (p) => !deletedIds.has(p.id) && (!p.slug || !deletedIds.has(p.slug))
+  );
 
   if (!overrides || Object.keys(overrides).length === 0) {
     return activeBase;
   }
 
   return activeBase.map((p) => {
-    const ov = overrides[p.id];
+    // Match by id or by slug
+    const ov = overrides[p.id] || (p.slug ? overrides[p.slug] : undefined);
     if (!ov) return p;
+
     const hasCustomValidImage =
       ov.images &&
       ov.images.length > 0 &&
@@ -112,9 +129,11 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
       mrpPrice: ov.mrpPrice !== undefined ? ov.mrpPrice : p.mrpPrice,
       inStock: ov.inStock !== undefined ? ov.inStock : p.inStock,
       stockQuantity: ov.stockQuantity !== undefined ? ov.stockQuantity : p.stockQuantity,
-      images: hasCustomValidImage ? ov.images! : p.images,
+      images: hasCustomValidImage ? ov.images! : (p.images && p.images.length > 0 ? p.images : ov.images || []),
       unit: (ov.unit as any) || p.unit,
       gradeOrType: ov.gradeOrType || p.gradeOrType,
+      description: ov.description || p.description,
+      specifications: ov.specifications || p.specifications,
     };
   });
 }

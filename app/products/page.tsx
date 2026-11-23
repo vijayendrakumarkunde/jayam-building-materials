@@ -27,6 +27,22 @@ function ProductsContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc">("featured");
 
+  const refreshProducts = async () => {
+    try {
+      const res = await fetch("/api/products", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+          setProducts(getMergedProducts(data.products));
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch live products, using local store:", e);
+    }
+    setProducts(getMergedProducts(PRODUCTS_DATA));
+  };
+
   useEffect(() => {
     const cat = searchParams.get("category");
     if (cat) {
@@ -35,10 +51,10 @@ function ProductsContent() {
   }, [searchParams]);
 
   useEffect(() => {
+    refreshProducts();
     const handleUpdate = () => {
-      setProducts(getMergedProducts(PRODUCTS_DATA));
+      refreshProducts();
     };
-    handleUpdate();
     window.addEventListener("jayam_products_updated", handleUpdate);
     return () => window.removeEventListener("jayam_products_updated", handleUpdate);
   }, []);

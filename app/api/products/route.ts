@@ -1,0 +1,89 @@
+import { NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { PRODUCTS_DATA } from "@/lib/data/products";
+import { Product, MeasurementUnit } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function GET() {
+  try {
+    const supabase = createAdminClient() || createServerSupabaseClient();
+    if (!supabase) {
+      return NextResponse.json({ products: PRODUCTS_DATA, source: "static" });
+    }
+
+    const { data, error } = await supabase
+      .from("products")
+      .select(`
+        *,
+        categories(id, name, slug),
+        product_images(id, image_url, is_primary)
+      `)
+      .order("created_at", { ascending: false });
+
+    if (error || !data || data.length === 0) {
+      console.warn("Supabase fetch fallback to PRODUCTS_DATA:", error?.message);
+      return NextResponse.json({ products: PRODUCTS_DATA, source: "fallback" });
+    }
+
+    // Map DB rows to canonical Product shape
+    const products: Product[] = data.map((p: any) => {
+      // Find matching static fallback if images or specs need enriching
+      const staticMatch = PRODUCTS_DATA.find((sp) => sp.slug === p.slug || sp.id === p.id);
+
+      const dbImages = (p.product_images || [])
+        .map((img: any) => img.image_url)
+        .filter(Boolean);
+
+      // Filter out old unwanted demo unsplash photos
+      const validDbImages = dbImages.filter(
+        (url: string) =>
+          !url.includes("photo-1600585154340") &&
+          !url.includes("photo-1541888946425") &&
+          !url.includes("photo-1584467735871")
+      );
+
+      const finalImages =
+        validDbImages.length > 0
+          ? validDbImages
+          : staticMatch?.images && staticMatch.images.length > 0
+          ? staticMatch.images
+          : ["/images/products/river-sand.jpg"];
+
+      return {
+        id: p.id,
+        name: p.name,
+        slug: p.slug || staticMatch?.slug || p.id,
+        categorySlug: p.categories?.slug || staticMatch?.categorySlug || "sand",
+        categoryName: p.categories?.name || staticMatch?.categoryName || "Sand & Aggregates",
+        productType: p.product_type || staticMatch?.productType || "Building Material",
+        description: p.description || staticMatch?.description || "High-grade verified building material.",
+        price: Number(p.base_price !== undefined ? p.base_price : (staticMatch?.price || 0)),
+        mrpPrice: p.mrp_price ? Number(p.mrp_price) : staticMatch?.mrpPrice,
+        unit: (p.measurement_unit || staticMatch?.unit || "Ton") as MeasurementUnit,
+        minOrderQuantity: Number(p.min_order_qty || staticMatch?.minOrderQuantity || 1),
+        inStock: p.in_stock !== undefined ? Boolean(p.in_stock) : (staticMatch?.inStock ?? true),
+        stockQuantity: Number(p.stock_qty !== undefined ? p.stock_qty : (staticMatch?.stockQuantity || 100)),
+        images: finalImages,
+        gradeOrType: p.grade_or_type || staticMatch?.gradeOrType || "",
+        specifications: p.specifications && Object.keys(p.specifications).length > 0
+          ? p.specifications
+          : (staticMatch?.specifications || {}),
+      };
+    });
+
+    return NextResponse.json(
+      { products, source: "database", count: products.length },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
+    );
+  } catch (err: any) {
+    console.error("Public products API error:", err);
+    return NextResponse.json({ products: PRODUCTS_DATA, source: "error-fallback" });
+  }
+}
