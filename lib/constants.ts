@@ -9,7 +9,8 @@ export const BRAND_INFO = {
   telUrl: "tel:+919505609865",
   email: "orders@jayambuildingmaterials.com",
   operatingHours: "Mon - Sat: 6:00 AM - 9:00 PM | Sunday: 7:00 AM - 2:00 PM",
-  address: "Plot No. 42, Outer Ring Road Logistics Junction, Industrial Hub",
+  address: "Jayam dumping yard near LB nagar metro station, beside Vasavi Ananda nilayam",
+  dumpingYardMapsUrl: "https://maps.app.goo.gl/whYExk6fkqk9Bj1B7",
   deliveryNotice: "Delivery charges are calculated based on your site location, accessibility, and vehicle type (Tipper / Lorry / Small Truck). Our dispatch coordinator will contact you immediately after booking to confirm final transport details.",
   // Direct UPI Configuration (Can be changed anytime)
   upiId: "kundejayam@axl",

@@ -13,6 +13,7 @@ export interface BrandSettings {
   email: string;
   operatingHours: string;
   address: string;
+  dumpingYardMapsUrl: string;
   deliveryNotice: string;
   upiId: string;
   alternateUpiId: string;
@@ -34,6 +35,7 @@ export function computeBrandSettings(raw: Partial<Record<string, any>> = {}): Br
   const email = raw.email || BRAND_INFO.email;
   const operatingHours = raw.operatingHours || raw.operating_hours || BRAND_INFO.operatingHours;
   const address = raw.address || raw.physicalAddress || raw.physical_address || BRAND_INFO.address;
+  const dumpingYardMapsUrl = raw.dumpingYardMapsUrl || raw.dumping_yard_maps_url || BRAND_INFO.dumpingYardMapsUrl;
   const deliveryNotice = raw.deliveryNotice || raw.delivery_notice || BRAND_INFO.deliveryNotice;
   const upiId = raw.upiId || raw.upi_id || BRAND_INFO.upiId;
   const alternateUpiId = raw.alternateUpiId || raw.alternate_upi_id || BRAND_INFO.alternateUpiId;
@@ -67,6 +69,7 @@ export function computeBrandSettings(raw: Partial<Record<string, any>> = {}): Br
     email,
     operatingHours,
     address,
+    dumpingYardMapsUrl,
     deliveryNotice,
     upiId,
     alternateUpiId,

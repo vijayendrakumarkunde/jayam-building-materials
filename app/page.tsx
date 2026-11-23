@@ -6,10 +6,8 @@ import { HeroBanner } from "@/components/public/HeroBanner";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { CategoryGrid } from "@/components/public/CategoryGrid";
 import { ProductCard } from "@/components/public/ProductCard";
-import { DeliveryLogisticsSection } from "@/components/public/DeliveryLogisticsSection";
 import { WhyChooseUs } from "@/components/public/WhyChooseUs";
 import { AboutSection } from "@/components/public/AboutSection";
-import { CustomerTestimonials } from "@/components/public/CustomerTestimonials";
 import { PromotionalBanner } from "@/components/public/PromotionalBanner";
 import { ContactSection } from "@/components/public/ContactSection";
 import { Footer } from "@/components/public/Footer";
@@ -215,22 +213,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. Heavy Material Logistics & Weighbridge Delivery Section */}
-      <DeliveryLogisticsSection />
-
-      {/* 7. Promotional Scheme for Concrete Slabs & Foundations */}
+      {/* 6. Promotional Scheme for Concrete Slabs & Foundations */}
       <PromotionalBanner />
 
-      {/* 8. Why Choose Jayam Materials */}
+      {/* 7. Why Choose Jayam Materials */}
       <WhyChooseUs />
 
-      {/* 9. About The Company & Verified Tonnage */}
+      {/* 8. About The Company & Verified Tonnage */}
       <AboutSection />
 
-      {/* 10. Verified Customer Testimonials */}
-      <CustomerTestimonials />
-
-      {/* 11. Direct Contact & Dispatch Yard Section */}
+      {/* 9. Direct Contact & Dispatch Yard Section */}
       <ContactSection />
 
       {/* 12. Professional Modern Industrial Luxury Footer */}

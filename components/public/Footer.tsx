@@ -151,7 +151,17 @@ export const Footer: React.FC = () => {
             <div className="space-y-2 text-xs text-slate-400">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#F47B20] shrink-0 mt-0.5" />
-                <span>{brand.address}</span>
+                <div>
+                  <span>{brand.address}</span>
+                  <a
+                    href={brand.dumpingYardMapsUrl || "https://maps.app.goo.gl/whYExk6fkqk9Bj1B7"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-[11px] font-bold text-[#F47B20] hover:text-[#DC630D] hover:underline mt-1 transition-colors"
+                  >
+                    <span>View Dumping Yard on Google Maps ↗</span>
+                  </a>
+                </div>
               </div>
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 text-[#F47B20] shrink-0 mt-0.5" />

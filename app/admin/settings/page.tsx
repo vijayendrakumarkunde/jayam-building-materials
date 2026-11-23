@@ -20,6 +20,7 @@ import {
   AlertCircle,
   Eye,
   FileText,
+  Navigation,
   Sparkles
 } from "lucide-react";
 import { BRAND_INFO } from "@/lib/constants";
@@ -37,6 +38,7 @@ export default function AdminSettingsPage() {
     phone: BRAND_INFO.phone,
     whatsapp: BRAND_INFO.whatsappNumber,
     address: BRAND_INFO.address,
+    dumpingYardMapsUrl: BRAND_INFO.dumpingYardMapsUrl,
     operatingHours: BRAND_INFO.operatingHours,
     deliveryNotice: BRAND_INFO.deliveryNotice,
     // Direct UPI Configuration
@@ -58,6 +60,7 @@ export default function AdminSettingsPage() {
           phone: cached.phone || BRAND_INFO.phone,
           whatsapp: cached.whatsappNumber || BRAND_INFO.whatsappNumber,
           address: cached.address || BRAND_INFO.address,
+          dumpingYardMapsUrl: cached.dumpingYardMapsUrl || BRAND_INFO.dumpingYardMapsUrl,
           operatingHours: cached.operatingHours || BRAND_INFO.operatingHours,
           deliveryNotice: cached.deliveryNotice || BRAND_INFO.deliveryNotice,
           upiId: cached.upiId || BRAND_INFO.upiId,
@@ -76,6 +79,7 @@ export default function AdminSettingsPage() {
               phone: data.settings.phone || BRAND_INFO.phone,
               whatsapp: data.settings.whatsapp || data.settings.whatsappNumber || BRAND_INFO.whatsappNumber,
               address: data.settings.address || BRAND_INFO.address,
+              dumpingYardMapsUrl: data.settings.dumpingYardMapsUrl || BRAND_INFO.dumpingYardMapsUrl,
               operatingHours: data.settings.operatingHours || BRAND_INFO.operatingHours,
               deliveryNotice: data.settings.deliveryNotice || BRAND_INFO.deliveryNotice,
               upiId: data.settings.upiId || BRAND_INFO.upiId,
@@ -139,6 +143,7 @@ export default function AdminSettingsPage() {
         phone: BRAND_INFO.phone,
         whatsapp: BRAND_INFO.whatsappNumber,
         address: BRAND_INFO.address,
+        dumpingYardMapsUrl: BRAND_INFO.dumpingYardMapsUrl,
         operatingHours: BRAND_INFO.operatingHours,
         deliveryNotice: BRAND_INFO.deliveryNotice,
         upiId: BRAND_INFO.upiId,
@@ -250,6 +255,38 @@ export default function AdminSettingsPage() {
               />
               <p className="text-[11px] text-slate-400 mt-1">
                 This exact yard address is prominently displayed in the website footer, contact page, and delivery manifests.
+              </p>
+            </div>
+
+            {/* Dumping Yard Google Maps URL */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Navigation className="w-3.5 h-3.5 text-[#F47B20]" />
+                  Dumping Yard Google Maps Location URL *
+                </label>
+                {formData.dumpingYardMapsUrl && (
+                  <a
+                    href={formData.dumpingYardMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-bold text-[#F47B20] hover:underline flex items-center gap-1"
+                  >
+                    <span>Test Google Maps Pin</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+              <input
+                type="url"
+                required
+                value={formData.dumpingYardMapsUrl}
+                onChange={(e) => setFormData({ ...formData, dumpingYardMapsUrl: e.target.value })}
+                placeholder="https://maps.app.goo.gl/whYExk6fkqk9Bj1B7"
+                className="w-full text-xs sm:text-sm px-4 py-2.5 rounded-xl bg-[#F8F9FA] border border-slate-200 text-[#20252D] focus:bg-white focus:outline-none focus:border-[#F47B20] focus:ring-2 focus:ring-[#F47B20]/10 transition-all font-mono"
+              />
+              <p className="text-[11px] text-slate-400 mt-1">
+                Direct pin link providing turn-by-turn navigation for tipper drivers, contractors, and site visitors.
               </p>
             </div>
 
@@ -482,6 +519,17 @@ export default function AdminSettingsPage() {
               <div className="flex items-center gap-2 text-slate-400 pt-1 text-[11px]">
                 <Clock className="w-3.5 h-3.5 text-[#F47B20]" />
                 <span>{formData.operatingHours}</span>
+              </div>
+              <div className="pt-1">
+                <a
+                  href={formData.dumpingYardMapsUrl || "https://maps.app.goo.gl/whYExk6fkqk9Bj1B7"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] text-[#F47B20] hover:underline font-bold"
+                >
+                  <Navigation className="w-3 h-3" />
+                  <span>Google Maps: Dumping Yard Pin ↗</span>
+                </a>
               </div>
             </div>
 

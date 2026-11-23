@@ -2,20 +2,15 @@
 
 import React from "react";
 import { 
-  ArrowRight, 
   ShieldCheck, 
   Truck, 
   Scale, 
   Clock, 
-  MessageCircle, 
   Sparkles,
-  CheckCircle2,
-  PhoneCall
+  CheckCircle2
 } from "lucide-react";
-import { useBrandSettings } from "@/lib/utils/settingsStore";
 
 export const HeroBanner: React.FC = () => {
-  const brand = useBrandSettings();
   return (
     <section className="relative bg-[#F5F6F8] overflow-hidden border-b border-slate-200">
       {/* Background Architectural Subtle Pattern */}
@@ -49,35 +44,6 @@ export const HeroBanner: React.FC = () => {
             <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed font-normal">
               Direct-from-quarry certified <strong className="text-[#14243A] font-semibold">River Sand</strong>, <strong className="text-[#14243A] font-semibold">VSI M-Sand</strong>, <strong className="text-[#14243A] font-semibold">53 Grade Cement</strong>, <strong className="text-[#14243A] font-semibold">TMT Steel</strong>, and <strong className="text-[#14243A] font-semibold">20mm Blue Metal Aggregates</strong>. 100% digital weighbridge slips and prompt hydraulic tipper delivery directly to your job site.
             </p>
-
-            {/* Clear Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-1">
-              <a
-                href="#catalog-section"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#F47B20] hover:bg-[#DC630D] text-white font-bold text-sm shadow-lg shadow-[#F47B20]/25 hover:shadow-xl hover:shadow-[#F47B20]/35 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-              >
-                <span>Explore Materials</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-
-              <a
-                href={brand.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-sm shadow-md shadow-[#159B68]/20 transition-all transform hover:-translate-y-0.5"
-              >
-                <MessageCircle className="w-4 h-4 text-white" />
-                <span>WhatsApp Direct</span>
-              </a>
-
-              <a
-                href={brand.telUrl}
-                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-semibold text-sm border border-slate-300 transition-all"
-              >
-                <PhoneCall className="w-4 h-4 text-[#F47B20]" />
-                <span>Call Hotline</span>
-              </a>
-            </div>
 
             {/* Trust Indicators and Service Benefits Grid */}
             <div className="pt-6 border-t border-slate-200/90 grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -125,28 +91,7 @@ export const HeroBanner: React.FC = () => {
                 className="w-full h-[320px] sm:h-[400px] lg:h-[460px] object-cover group-hover:scale-105 transition-transform duration-700"
                 loading="eager"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#14243A]/90 via-[#14243A]/20 to-transparent pointer-events-none"></div>
-
-              {/* Floating Bottom Info Card */}
-              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg text-[#14243A] flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#159B68] animate-pulse"></span>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[#F47B20]">Fleet Dispatch Active</span>
-                  </div>
-                  <p className="text-xs sm:text-sm font-extrabold text-[#14243A] mt-0.5">
-                    Daily Material Delivery to Sites
-                  </p>
-                  <p className="text-[10px] text-slate-500">
-                    Hyderabad • Secunderabad • Medchal • Ranga Reddy
-                  </p>
-                </div>
-
-                <div className="hidden sm:flex flex-col items-end">
-                  <span className="text-sm font-black text-[#F47B20]">48,000+</span>
-                  <span className="text-[10px] font-semibold text-slate-600">Tons Delivered</span>
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#14243A]/40 via-transparent to-transparent pointer-events-none"></div>
             </div>
 
             {/* Decorative Corner Badge */}

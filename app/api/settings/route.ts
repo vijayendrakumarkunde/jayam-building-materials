@@ -10,6 +10,7 @@ interface UpiMeta {
   upiId?: string;
   alternateUpiId?: string;
   merchantName?: string;
+  dumpingYardMapsUrl?: string;
 }
 
 function parseDeliveryNoticeAndMeta(rawNotice: string | null | undefined): {
@@ -23,6 +24,7 @@ function parseDeliveryNoticeAndMeta(rawNotice: string | null | undefined): {
         upiId: BRAND_INFO.upiId,
         alternateUpiId: BRAND_INFO.alternateUpiId,
         merchantName: BRAND_INFO.merchantName,
+        dumpingYardMapsUrl: BRAND_INFO.dumpingYardMapsUrl,
       },
     };
   }
@@ -45,6 +47,7 @@ function parseDeliveryNoticeAndMeta(rawNotice: string | null | undefined): {
       upiId: upiMeta.upiId || BRAND_INFO.upiId,
       alternateUpiId: upiMeta.alternateUpiId || BRAND_INFO.alternateUpiId,
       merchantName: upiMeta.merchantName || BRAND_INFO.merchantName,
+      dumpingYardMapsUrl: upiMeta.dumpingYardMapsUrl || BRAND_INFO.dumpingYardMapsUrl,
     },
   };
 }
@@ -62,6 +65,7 @@ export async function GET() {
           whatsapp: BRAND_INFO.whatsappNumber,
           whatsappNumber: BRAND_INFO.whatsappNumber,
           address: BRAND_INFO.address,
+          dumpingYardMapsUrl: BRAND_INFO.dumpingYardMapsUrl,
           operatingHours: BRAND_INFO.operatingHours,
           deliveryNotice: BRAND_INFO.deliveryNotice,
           upiId: BRAND_INFO.upiId,
@@ -87,6 +91,7 @@ export async function GET() {
           whatsapp: BRAND_INFO.whatsappNumber,
           whatsappNumber: BRAND_INFO.whatsappNumber,
           address: BRAND_INFO.address,
+          dumpingYardMapsUrl: BRAND_INFO.dumpingYardMapsUrl,
           operatingHours: BRAND_INFO.operatingHours,
           deliveryNotice: BRAND_INFO.deliveryNotice,
           upiId: BRAND_INFO.upiId,
@@ -107,6 +112,7 @@ export async function GET() {
       whatsapp: data.whatsapp_number || BRAND_INFO.whatsappNumber,
       whatsappNumber: data.whatsapp_number || BRAND_INFO.whatsappNumber,
       address: data.physical_address || BRAND_INFO.address,
+      dumpingYardMapsUrl: upiMeta.dumpingYardMapsUrl || BRAND_INFO.dumpingYardMapsUrl,
       operatingHours: data.operating_hours || BRAND_INFO.operatingHours,
       deliveryNotice: cleanNotice,
       upiId: upiMeta.upiId || BRAND_INFO.upiId,
@@ -135,6 +141,7 @@ export async function GET() {
           whatsapp: BRAND_INFO.whatsappNumber,
           whatsappNumber: BRAND_INFO.whatsappNumber,
           address: BRAND_INFO.address,
+          dumpingYardMapsUrl: BRAND_INFO.dumpingYardMapsUrl,
           operatingHours: BRAND_INFO.operatingHours,
           deliveryNotice: BRAND_INFO.deliveryNotice,
           upiId: BRAND_INFO.upiId,
@@ -164,6 +171,7 @@ export async function PUT(request: Request) {
       whatsapp,
       whatsappNumber,
       address,
+      dumpingYardMapsUrl,
       operatingHours,
       deliveryNotice,
       upiId,
@@ -185,6 +193,7 @@ export async function PUT(request: Request) {
       upiId: (upiId || BRAND_INFO.upiId).trim(),
       alternateUpiId: (alternateUpiId || BRAND_INFO.alternateUpiId).trim(),
       merchantName: (merchantName || BRAND_INFO.merchantName).trim(),
+      dumpingYardMapsUrl: (dumpingYardMapsUrl || BRAND_INFO.dumpingYardMapsUrl).trim(),
     };
     const deliveryNoticeWithMeta = `${cleanNotice}\n<!-- UPI_META: ${JSON.stringify(metaPayload)} -->`;
 
@@ -242,6 +251,7 @@ export async function PUT(request: Request) {
       whatsapp: savedData?.whatsapp_number || finalWhatsapp,
       whatsappNumber: savedData?.whatsapp_number || finalWhatsapp,
       address: savedData?.physical_address || finalAddress,
+      dumpingYardMapsUrl: parsedMeta.dumpingYardMapsUrl || metaPayload.dumpingYardMapsUrl,
       operatingHours: savedData?.operating_hours || finalHours,
       deliveryNotice: parsedNotice,
       upiId: parsedMeta.upiId || metaPayload.upiId,
