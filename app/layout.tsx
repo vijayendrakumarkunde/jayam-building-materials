@@ -13,6 +13,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: `${BRAND_INFO.name} | Premium Building Materials Marketplace`,
   description: `${BRAND_INFO.tagline} Direct-from-source River Sand, VSI M-Sand, 53 Grade Cement, Fe 550D TMT Steel, and Crushed Aggregates. Accurate weighbridge slips and prompt site tipper delivery.`,
+  icons: {
+    icon: "/images/logo-icon.png",
+    shortcut: "/images/logo-icon.png",
+    apple: "/images/logo-icon.png",
+  },
   keywords: [
     "Jayam Building Materials",
     "River Sand",

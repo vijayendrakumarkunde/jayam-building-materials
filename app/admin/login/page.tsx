@@ -65,8 +65,12 @@ export default function AdminLoginPage() {
         
         {/* Brand Header */}
         <div className="text-center space-y-3">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-orange-500 to-brand-orange-700 flex items-center justify-center shadow-xl shadow-brand-orange-500/25 mx-auto">
-            <HardHat className="w-9 h-9 text-white" />
+          <div className="w-18 h-18 p-2 rounded-2xl bg-white flex items-center justify-center shadow-xl shadow-black/30 mx-auto overflow-hidden border border-white/20">
+            <img
+              src="/images/logo.png"
+              alt="JAYAM Logo"
+              className="w-16 h-16 object-contain"
+            />
           </div>
 
           <div>

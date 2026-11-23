@@ -13,7 +13,7 @@ export const FloatingQuickContact: React.FC = () => {
       {/* Quick Greeting Popover (Desktop only to prevent mobile overlap) */}
       {showTooltip && (
         <div className="hidden sm:flex relative bg-brand-charcoal text-white text-xs py-2 px-3.5 rounded-xl shadow-2xl border border-brand-charcoal-700 items-center gap-2 animate-bounce">
-          <HardHat className="w-3.5 h-3.5 text-brand-orange-400" />
+          <img src="/images/logo-icon.png" alt="" className="w-4 h-4 object-contain inline-block" />
           <span>Need sand or material quotation?</span>
           <button
             onClick={() => setShowTooltip(false)}

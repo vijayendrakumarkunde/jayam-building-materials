@@ -58,8 +58,12 @@ export const Footer: React.FC = () => {
           {/* Brand Info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-orange-500 flex items-center justify-center shadow-lg text-white">
-                <HardHat className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-2xl bg-white p-1 flex items-center justify-center shadow-lg text-white overflow-hidden border border-white/20 shrink-0">
+                <img
+                  src="/images/logo.png"
+                  alt="JAYAM Building Materials Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <span className="text-xl font-black text-white tracking-tight">JAYAM</span>

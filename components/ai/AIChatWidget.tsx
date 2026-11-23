@@ -294,8 +294,8 @@ export const AIChatWidget: React.FC = () => {
           <div className="bg-gradient-to-r from-brand-charcoal to-brand-charcoal-900 text-white p-3.5 border-b border-brand-charcoal-700 flex flex-col gap-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 flex items-center justify-center text-white shadow-md">
-                  <HardHat className="w-5 h-5" />
+                <div className="w-9 h-9 rounded-xl bg-white p-1 flex items-center justify-center shadow-md overflow-hidden shrink-0">
+                  <img src="/images/logo.png" alt="Jayam Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">

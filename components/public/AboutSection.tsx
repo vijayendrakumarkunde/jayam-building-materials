@@ -36,8 +36,8 @@ export const AboutSection: React.FC = () => {
             </div>
 
             {/* Decorative Corner Badge */}
-            <div className="hidden sm:flex absolute -top-4 -left-4 w-20 h-20 rounded-2xl bg-brand-orange-500 text-white items-center justify-center shadow-xl rotate-3">
-              <HardHat className="w-10 h-10" />
+            <div className="hidden sm:flex absolute -top-4 -left-4 w-20 h-20 rounded-2xl bg-white p-2.5 items-center justify-center shadow-xl rotate-3 border border-slate-200">
+              <img src="/images/logo.png" alt="Jayam Logo" className="w-full h-full object-contain" />
             </div>
           </div>
 

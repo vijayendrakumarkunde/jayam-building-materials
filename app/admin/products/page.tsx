@@ -523,7 +523,7 @@ export default function AdminProductsPage() {
             <span>Materials & Products Catalogue</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Manage all 10 material categories, update photos from phone or web URLs, and adjust live wholesale rates in ₹.
+            Manage building materials, update photos from phone or web URLs, and adjust live wholesale rates in ₹.
           </p>
         </div>
 

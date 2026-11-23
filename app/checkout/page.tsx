@@ -191,7 +191,7 @@ export default function CheckoutPage() {
         {items.length === 0 && (
           <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
             <div className="flex items-center gap-2">
-              <HardHat className="w-5 h-5 text-brand-orange-600 shrink-0" />
+              <img src="/images/logo-icon.png" alt="" className="w-5 h-5 object-contain shrink-0" />
               <span>
                 <strong>Quick Test Mode:</strong> Showing sample order (16 Tons River Sand). You can also add materials from our catalog.
               </span>

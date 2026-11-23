@@ -77,14 +77,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-orange-500 to-brand-orange-700 flex items-center justify-center shadow-lg shadow-brand-orange-500/20 group-hover:scale-105 transition-transform">
-                <HardHat className="w-7 h-7 text-white" />
+              <div className="w-12 h-12 rounded-2xl bg-white p-1 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform overflow-hidden border border-white/20 shrink-0">
+                <img
+                  src="/images/logo.png"
+                  alt="JAYAM Building Materials Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white leading-none">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-white leading-none">
                   JAYAM
                 </span>
-                <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-brand-orange-400 uppercase mt-0.5">
+                <span className="text-[10px] sm:text-xs font-bold tracking-widest text-brand-orange-400 uppercase mt-0.5">
                   Building Materials
                 </span>
               </div>

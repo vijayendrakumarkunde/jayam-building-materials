@@ -17,7 +17,7 @@ export default function AboutPage() {
       <div className="bg-brand-charcoal text-white py-16 px-4 sm:px-6 lg:px-8 border-b border-brand-charcoal-800">
         <div className="max-w-7xl mx-auto text-center max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-orange-500/20 text-brand-orange-400 text-xs font-bold uppercase tracking-wider mb-4 border border-brand-orange-500/30">
-            <HardHat className="w-4 h-4" />
+            <img src="/images/logo-icon.png" alt="" className="w-4 h-4 object-contain" />
             <span>The Jayam Story</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">

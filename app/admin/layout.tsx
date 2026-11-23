@@ -63,8 +63,12 @@ export default function AdminLayout({
       <aside className="hidden lg:flex lg:flex-col w-64 bg-brand-charcoal-950 border-r border-brand-charcoal-800 shrink-0 select-none">
         {/* Brand Header */}
         <div className="h-20 flex items-center px-6 border-b border-brand-charcoal-800 gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-orange-500 to-brand-orange-600 flex items-center justify-center text-white shadow-lg shadow-brand-orange-500/20">
-            <HardHat className="w-6 h-6" />
+          <div className="w-11 h-11 rounded-2xl bg-white p-1 flex items-center justify-center shadow-lg overflow-hidden border border-white/20 shrink-0">
+            <img
+              src="/images/logo.png"
+              alt="JAYAM Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <span className="text-base font-black text-white tracking-tight block">JAYAM</span>
