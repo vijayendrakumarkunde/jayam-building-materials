@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error("Admin login error:", error);
     return NextResponse.json(
-      { error: "Server error during authentication." },
+      { error: error?.message || "Server error during authentication." },
       { status: 500 }
     );
   }
