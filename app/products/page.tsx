@@ -7,7 +7,6 @@ import { Footer } from "@/components/public/Footer";
 import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
 import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { ProductCard } from "@/components/public/ProductCard";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 import { Product, MeasurementUnit } from "@/lib/types";
@@ -311,7 +310,6 @@ function ProductsContent() {
 
       <Footer />
       <FloatingQuickContact />
-      <CartDrawer />
     </div>
   );
 }

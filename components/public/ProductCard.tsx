@@ -4,16 +4,17 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { 
   Plus, 
+  Minus,
   Check, 
   ShoppingCart, 
   MessageCircle, 
   Eye, 
-  CheckCircle2, 
   Truck
 } from "lucide-react";
 import { Product } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
 import { useBrandSettings } from "@/lib/utils/settingsStore";
+import { useCart } from "@/lib/context/CartContext";
 import { ProductDetailModal } from "./ProductDetailModal";
 
 interface ProductCardProps {
@@ -24,23 +25,42 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  onAddToCart,
-  isAddedToCart = false,
+  onAddToCart: propOnAddToCart,
+  isAddedToCart: propIsAddedToCart = false,
 }) => {
   const brand = useBrandSettings();
+  const cart = useCart();
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(() => product.minOrderQuantity || 1);
   const [justAdded, setJustAdded] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  // Read current quantity in cart for this product
+  const inCartQty = cart.getItemQuantity(product.id);
+  const isAdded = propIsAddedToCart || inCartQty > 0;
+  const onAddToCart = propOnAddToCart || cart.addToCart;
 
   // Compute MRP and Discount
   const mrp = product.mrpPrice || Math.round(product.price * 1.35 / 50) * 50;
   const discount = product.discountPercent || Math.round(((mrp - product.price) / mrp) * 100);
+
+  const handleIncrement = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrement = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedQuantity((prev) => Math.max(1, prev - 1));
+  };
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!product.inStock) return;
     if (onAddToCart) {
-      onAddToCart(product);
+      onAddToCart(product, selectedQuantity);
       setJustAdded(true);
       setTimeout(() => setJustAdded(false), 2000);
     }
@@ -145,51 +165,107 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
 
-        {/* Card Action Footer: View Details Button & Add to Cart Button */}
-        <div className="pt-3.5 mt-3 border-t border-slate-100 grid grid-cols-2 gap-2">
-          
-          {/* 1. View Details Button */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsDetailModalOpen(true);
-            }}
-            className="w-full py-2 px-2.5 rounded-xl border border-slate-200 hover:border-[#14243A] bg-white hover:bg-[#F5F6F8] text-[#14243A] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+        {/* Quantity Controls & In-Cart Status */}
+        <div className="pt-3 mt-3 border-t border-slate-100 space-y-2.5">
+          {/* Pre-Add Quantity Plus/Minus Selector */}
+          <div 
+            className="flex items-center justify-between gap-2 bg-[#F8F9FA] p-2 rounded-xl border border-slate-200/80"
+            onClick={(e) => e.stopPropagation()}
           >
-            <Eye className="w-3.5 h-3.5 text-slate-500" />
-            <span>Details</span>
-          </button>
+            <div className="flex items-center gap-1 text-xs font-bold text-slate-700">
+              <span>Qty:</span>
+              <span className="text-[11px] font-normal text-slate-400">({product.unit}s)</span>
+            </div>
 
-          {/* 2. Add to Cart Button */}
-          {product.inStock ? (
-            <button
-              type="button"
-              onClick={handleAdd}
-              className={`w-full py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 ${
-                isAddedToCart || justAdded
-                  ? "bg-[#159B68] text-white"
-                  : "bg-[#F47B20] hover:bg-[#DC630D] text-white shadow-[#F47B20]/25"
-              }`}
-            >
-              {isAddedToCart || justAdded ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Added</span>
-                </>
-              ) : (
-                <>
-                  <ShoppingCart className="w-3.5 h-3.5" />
-                  <span>Add to Cart</span>
-                </>
-              )}
-            </button>
-          ) : (
-            <div className="w-full py-2 px-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold text-center flex items-center justify-center">
-              Unavailable
+            <div className="flex items-center bg-white border border-slate-300 rounded-lg shadow-2xs overflow-hidden">
+              <button
+                type="button"
+                onClick={handleDecrement}
+                disabled={selectedQuantity <= 1}
+                className="w-7 h-7 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-30 disabled:hover:bg-white transition-colors"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="w-3 h-3" />
+              </button>
+              
+              <span className="w-8 text-center text-xs font-black text-[#14243A] select-none">
+                {selectedQuantity}
+              </span>
+
+              <button
+                type="button"
+                onClick={handleIncrement}
+                className="w-7 h-7 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                aria-label="Increase quantity"
+              >
+                <Plus className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+
+          {/* Already in Cart Badge */}
+          {inCartQty > 0 && (
+            <div className="flex items-center justify-between text-[11px] font-bold text-[#159B68] bg-[#E8F7F0] px-2.5 py-1 rounded-lg border border-emerald-200/70">
+              <span className="flex items-center gap-1">
+                <Check className="w-3 h-3 text-[#159B68]" /> In your cart:
+              </span>
+              <span>{inCartQty} {product.unit}s</span>
             </div>
           )}
 
+          {/* Action Footer: Details & Add to Cart */}
+          <div className="grid grid-cols-2 gap-2">
+            
+            {/* View Details Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDetailModalOpen(true);
+              }}
+              className="w-full py-2.5 px-2 rounded-xl border border-slate-200 hover:border-[#14243A] bg-white hover:bg-[#F5F6F8] text-[#14243A] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+            >
+              <Eye className="w-3.5 h-3.5 text-slate-500" />
+              <span>Details</span>
+            </button>
+
+            {/* Add to Cart Button */}
+            {product.inStock ? (
+              <button
+                type="button"
+                onClick={handleAdd}
+                className={`w-full py-2.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 ${
+                  justAdded
+                    ? "bg-[#159B68] text-white"
+                    : inCartQty > 0
+                    ? "bg-[#14243A] hover:bg-[#20252D] text-white"
+                    : "bg-[#F47B20] hover:bg-[#DC630D] text-white shadow-[#F47B20]/25"
+                }`}
+              >
+                {justAdded ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Added!</span>
+                  </>
+                ) : inCartQty > 0 ? (
+                  <>
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add More</span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart className="w-3.5 h-3.5" />
+                    <span>Add to Cart</span>
+                  </>
+                )}
+              </button>
+            ) : (
+              <div className="w-full py-2.5 px-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold text-center flex items-center justify-center">
+                Unavailable
+              </div>
+            )}
+
+          </div>
         </div>
 
       </div>
@@ -200,7 +276,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         isOpen={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
         onAddToCart={onAddToCart}
-        isAddedToCart={isAddedToCart}
+        isAddedToCart={isAdded}
       />
     </>
   );

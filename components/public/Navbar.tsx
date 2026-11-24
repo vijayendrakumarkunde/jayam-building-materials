@@ -230,6 +230,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Products Catalogue</span>
             </Link>
             <Link
+              href="/cart"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-base font-semibold text-slate-700 hover:bg-[#F5F6F8] hover:text-[#F47B20]"
+            >
+              <span className="flex items-center gap-2">
+                <ShoppingCart className="w-4 h-4 text-[#F47B20]" /> Shopping Cart
+              </span>
+              {cartCount > 0 && (
+                <span className="bg-[#F47B20] text-white text-xs font-black px-2 py-0.5 rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+            <Link
               href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-base font-semibold text-slate-700 hover:bg-[#F5F6F8] hover:text-[#F47B20]"

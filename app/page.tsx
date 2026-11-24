@@ -11,7 +11,6 @@ import { AboutSection } from "@/components/public/AboutSection";
 import { ContactSection } from "@/components/public/ContactSection";
 import { Footer } from "@/components/public/Footer";
 import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 import { Product } from "@/lib/types";
@@ -226,9 +225,6 @@ export default function HomePage() {
 
       {/* 13. Floating WhatsApp and Phone CTA */}
       <FloatingQuickContact />
-
-      {/* 14. Shopping Cart Drawer */}
-      <CartDrawer />
     </div>
   );
 }

@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { BRAND_INFO } from "@/lib/constants";
 import { CartProvider } from "@/lib/context/CartContext";
+import { CartDrawer } from "@/components/cart/CartDrawer";
+import { CartToast } from "@/components/cart/CartToast";
 import { AIChatWidget } from "@/components/ai/AIChatWidget";
 
 export const viewport: Viewport = {
@@ -42,6 +44,8 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-slate-50 text-brand-charcoal antialiased">
         <CartProvider>
           {children}
+          <CartDrawer />
+          <CartToast />
           <AIChatWidget />
         </CartProvider>
       </body>

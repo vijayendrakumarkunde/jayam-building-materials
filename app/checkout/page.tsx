@@ -167,6 +167,8 @@ export default function CheckoutPage() {
               <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
               <Link href="/products" className="hover:underline">Materials</Link>
               <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+              <Link href="/cart" className="hover:underline">Cart</Link>
+              <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
               <span className="text-white">Checkout & Booking</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
@@ -177,12 +179,20 @@ export default function CheckoutPage() {
             </p>
           </div>
 
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-300 hover:text-brand-orange-400 self-start sm:self-auto bg-brand-charcoal-800 px-3.5 py-2 rounded-xl border border-brand-charcoal-700 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Add More Materials
-          </Link>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <Link
+              href="/cart"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-200 hover:text-white bg-[#1F334E] px-3.5 py-2 rounded-xl border border-slate-700 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" /> Review Cart
+            </Link>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-200 hover:text-white bg-[#1F334E] px-3.5 py-2 rounded-xl border border-slate-700 transition-colors"
+            >
+              Add More Materials
+            </Link>
+          </div>
         </div>
       </div>
 
