@@ -114,9 +114,7 @@ function ProductsContent() {
           </button>
           {CATEGORIES_DATA.map((cat) => {
             const isActive = selectedCategory === cat.slug;
-            const count = products.filter(
-              (p) => p.categorySlug === cat.slug || (cat.slug === "sand" && p.categorySlug === "aggregates")
-            ).length;
+            const count = products.filter((p) => isProductInCategory(p, cat.slug)).length;
             return (
               <button
                 key={cat.id}

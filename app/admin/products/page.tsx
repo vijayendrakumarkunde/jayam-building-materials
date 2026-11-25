@@ -69,18 +69,33 @@ function isProductInCategory(p: Product, catSlug: string): boolean {
   const pName = (p.name || "").toLowerCase();
 
   if (catSlug === "sand") {
+    const isAggregate =
+      pCat === "aggregates" ||
+      cName.includes("aggregate") ||
+      pName.includes("aggregate") ||
+      pName.includes("blue metal") ||
+      pName.includes("chips");
+
+    if (isAggregate) return false;
+
     return (
       pCat === "sand" ||
       pCat === "river-sand" ||
       pCat === "m-sand" ||
       pCat === "plastering-sand" ||
+      cName.includes("sand") ||
+      pName.includes("sand")
+    );
+  }
+
+  if (catSlug === "aggregates") {
+    return (
       pCat === "aggregates" ||
       pCat === "gravel" ||
-      cName.includes("sand") ||
       cName.includes("aggregate") ||
-      pName.includes("sand") ||
       pName.includes("aggregate") ||
-      pName.includes("blue metal")
+      pName.includes("blue metal") ||
+      pName.includes("chips")
     );
   }
 
@@ -167,7 +182,7 @@ export default function AdminProductsPage() {
   const [formData, setFormData] = useState({
     name: "",
     categorySlug: "sand",
-    categoryName: "Sand & Aggregates",
+    categoryName: "River Sand & M-Sand",
     productType: "Natural Sand",
     price: "",
     mrpPrice: "",
@@ -647,7 +662,7 @@ export default function AdminProductsPage() {
       name: formData.name,
       slug: formData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""),
       categorySlug: formData.categorySlug,
-      categoryName: matchedCat?.name || "Sand & Aggregates",
+      categoryName: matchedCat?.name || "River Sand & M-Sand",
       productType: formData.productType || "Building Material",
       description: formData.description || "Premium construction grade material.",
       price: Number(formData.price),

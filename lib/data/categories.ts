@@ -1,15 +1,25 @@
 import { Category } from "../types";
 
 export const CATEGORIES_DATA: Category[] = [
-  // ==================== PRIMARY 6 CARDS (BUILDERS9 PASTEL CARDS) ====================
+  // ==================== PRIMARY CATEGORIES (BUILDERS9 PASTEL CARDS) ====================
   {
     id: "cat-sand",
-    name: "Sand & Aggregates",
+    name: "River Sand & M-Sand",
     slug: "sand",
-    description: "Triple-washed river sand, Kattubadi sand, VSI M-sand, P-sand, and 20mm/40mm blue metal stones.",
+    description: "Triple-washed river sand, Kattubadi masonry sand, VSI M-sand, and super-fine P-sand.",
     imageUrl: "/images/products/river-sand.jpg",
-    itemCount: 9,
+    itemCount: 7,
     bgColor: "#FAF0DC", // Warm Golden Sand
+    featured: true,
+  },
+  {
+    id: "cat-aggregates",
+    name: "Blue Metal Aggregates",
+    slug: "aggregates",
+    description: "Machine-crushed 10mm, 20mm, and 40mm hard blue granite stone aggregates for RCC & foundations.",
+    imageUrl: "/images/products/aggregates-category.jpg",
+    itemCount: 4,
+    bgColor: "#EAEFF5", // Soft Granite Slate
     featured: true,
   },
   {

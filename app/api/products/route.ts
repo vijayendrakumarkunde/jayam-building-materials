@@ -55,18 +55,19 @@ export async function GET() {
       // Normalize category slug and name to match Builders9 primary categories
       const rawCatSlug = (staticMatch?.categorySlug || p.categories?.slug || "sand").toLowerCase();
       let normalizedCategorySlug = rawCatSlug;
-      let normalizedCategoryName = staticMatch?.categoryName || p.categories?.name || "Sand & Aggregates";
+      let normalizedCategoryName = staticMatch?.categoryName || p.categories?.name || "River Sand & M-Sand";
 
       if (
         rawCatSlug === "sand" ||
         rawCatSlug === "river-sand" ||
         rawCatSlug === "m-sand" ||
-        rawCatSlug === "plastering-sand" ||
-        rawCatSlug === "aggregates" ||
-        rawCatSlug === "gravel"
+        rawCatSlug === "plastering-sand"
       ) {
         normalizedCategorySlug = "sand";
-        normalizedCategoryName = "Sand & Aggregates";
+        normalizedCategoryName = "River Sand & M-Sand";
+      } else if (rawCatSlug === "aggregates" || rawCatSlug === "gravel") {
+        normalizedCategorySlug = "aggregates";
+        normalizedCategoryName = "Blue Metal Aggregates";
       } else if (rawCatSlug === "cement") {
         normalizedCategorySlug = "cement";
         normalizedCategoryName = "Cement";

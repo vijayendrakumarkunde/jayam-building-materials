@@ -150,18 +150,33 @@ export function isProductInCategory(product: Product, categorySlug: string): boo
   const pName = (product.name || "").toLowerCase();
 
   if (categorySlug === "sand") {
+    const isAggregate =
+      pCat === "aggregates" ||
+      cName.includes("aggregate") ||
+      pName.includes("aggregate") ||
+      pName.includes("blue metal") ||
+      pName.includes("chips");
+
+    if (isAggregate) return false;
+
     return (
       pCat === "sand" ||
       pCat === "river-sand" ||
       pCat === "m-sand" ||
       pCat === "plastering-sand" ||
+      cName.includes("sand") ||
+      pName.includes("sand")
+    );
+  }
+
+  if (categorySlug === "aggregates") {
+    return (
       pCat === "aggregates" ||
       pCat === "gravel" ||
-      cName.includes("sand") ||
       cName.includes("aggregate") ||
-      pName.includes("sand") ||
       pName.includes("aggregate") ||
-      pName.includes("blue metal")
+      pName.includes("blue metal") ||
+      pName.includes("chips")
     );
   }
 

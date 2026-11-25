@@ -38,8 +38,8 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
           </p>
         </div>
 
-        {/* PRIMARY 6 CARDS PASTEL GRID */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
+        {/* PRIMARY CARDS PASTEL GRID */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-6">
           {primaryCategories.map((cat) => {
             const isSelected = selectedCategory === cat.slug;
             return (
