@@ -110,8 +110,13 @@ export async function GET() {
       };
     });
 
+    // Merge any static products that are not in the DB so all catalog categories are complete
+    const dbSlugs = new Set(products.map((p) => p.slug));
+    const missingStaticProducts = PRODUCTS_DATA.filter((sp) => !dbSlugs.has(sp.slug));
+    const finalProductsList = [...products, ...missingStaticProducts];
+
     return NextResponse.json(
-      { products, source: "database", count: products.length },
+      { products: finalProductsList, source: "database", count: finalProductsList.length },
       {
         headers: {
           "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",

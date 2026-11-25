@@ -89,6 +89,14 @@ function ProductsContent() {
     return CATEGORIES_DATA.find((c) => c.slug === selectedCategory);
   }, [selectedCategory]);
 
+  const handleCategorySelect = (slug: string) => {
+    setSelectedCategory(slug);
+    if (typeof window !== "undefined") {
+      const newUrl = slug === "all" ? "/products" : `/products?category=${slug}`;
+      window.history.replaceState(null, "", newUrl);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#20252D]">
       <Navbar
@@ -103,7 +111,7 @@ function ProductsContent() {
             <Layers className="w-3.5 h-3.5 text-[#F47B20]" /> Category:
           </span>
           <button
-            onClick={() => setSelectedCategory("all")}
+            onClick={() => handleCategorySelect("all")}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
               selectedCategory === "all"
                 ? "bg-[#14243A] text-white shadow-xs"
@@ -118,7 +126,7 @@ function ProductsContent() {
             return (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategory(cat.slug)}
+                onClick={() => handleCategorySelect(cat.slug)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
                   isActive
                     ? "bg-[#F47B20] text-white shadow-xs"
@@ -147,7 +155,7 @@ function ProductsContent() {
                 {(selectedCategory !== "all" || selectedUnit !== "all" || searchQuery) && (
                   <button
                     onClick={() => {
-                      setSelectedCategory("all");
+                      handleCategorySelect("all");
                       setSelectedUnit("all");
                       setSearchQuery("");
                     }}
@@ -165,7 +173,7 @@ function ProductsContent() {
                 </label>
                 <div className="space-y-1 max-h-60 overflow-y-auto pr-1">
                   <button
-                    onClick={() => setSelectedCategory("all")}
+                    onClick={() => handleCategorySelect("all")}
                     className={`w-full text-left px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center justify-between ${
                       selectedCategory === "all"
                         ? "bg-[#14243A] text-white"
@@ -179,7 +187,7 @@ function ProductsContent() {
                   {CATEGORIES_DATA.map((cat) => (
                     <button
                       key={cat.id}
-                      onClick={() => setSelectedCategory(cat.slug)}
+                      onClick={() => handleCategorySelect(cat.slug)}
                       className={`w-full text-left px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors flex items-center justify-between ${
                         selectedCategory === cat.slug
                           ? "bg-[#F47B20] text-white"
@@ -188,7 +196,7 @@ function ProductsContent() {
                     >
                       <span className="truncate">{cat.name}</span>
                       <span className="text-[10px] opacity-75">
-                        {products.filter((p) => p.categorySlug === cat.slug).length}
+                        {products.filter((p) => isProductInCategory(p, cat.slug)).length}
                       </span>
                     </button>
                   ))}
@@ -281,7 +289,7 @@ function ProductsContent() {
                 </p>
                 <button
                   onClick={() => {
-                    setSelectedCategory("all");
+                    handleCategorySelect("all");
                     setSelectedUnit("all");
                     setSearchQuery("");
                   }}
