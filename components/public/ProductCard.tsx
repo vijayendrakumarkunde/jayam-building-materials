@@ -78,11 +78,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <>
       <div 
-        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-4 sm:p-5 hover:shadow-xl hover:border-[#F47B20]/40 transition-all duration-300 relative"
+        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-3 sm:p-5 hover:shadow-xl hover:border-[#F47B20]/40 transition-all duration-300 relative"
       >
         <div>
           {/* Visual Image Container with Discount & Stock Badges */}
-          <div className="relative h-44 sm:h-52 w-full rounded-2xl overflow-hidden bg-[#F5F6F8] flex items-center justify-center p-3 mb-4 group-hover:bg-[#F0F2F5] transition-colors border border-slate-100">
+          <div className="relative h-32 sm:h-52 w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#F5F6F8] flex items-center justify-center p-2 sm:p-3 mb-2.5 sm:mb-4 group-hover:bg-[#F0F2F5] transition-colors border border-slate-100">
             
             <img
               src={product.images[0]}
@@ -92,23 +92,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             />
 
             {/* Top-Left Discount Badge */}
-            <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1">
+            <div className="absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10 flex flex-col gap-1">
               {discount > 0 && (
-                <span className="bg-[#14243A] text-white text-[10px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                <span className="bg-[#14243A] text-white text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full shadow-xs">
                   {discount}% OFF
                 </span>
               )}
             </div>
 
             {/* Top-Right Availability Status Pill */}
-            <div className="absolute top-2.5 right-2.5 z-10">
+            <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-10">
               {product.inStock ? (
-                <span className="inline-flex items-center gap-1 bg-[#E8F7F0] text-[#159B68] text-[10px] sm:text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200/80 shadow-xs">
+                <span className="inline-flex items-center gap-1 bg-[#E8F7F0] text-[#159B68] text-[9px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full border border-emerald-200/80 shadow-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#159B68]"></span>
                   <span>In Stock</span>
                 </span>
               ) : (
-                <span className="bg-rose-50 text-rose-600 text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full border border-rose-200 shadow-xs">
+                <span className="bg-rose-50 text-rose-600 text-[9px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded-full border border-rose-200 shadow-xs">
                   Out of Stock
                 </span>
               )}
@@ -120,65 +120,65 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="absolute bottom-2.5 right-2.5 z-10 w-8 h-8 rounded-full bg-[#159B68] text-white flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#108055] hover:scale-110"
+              className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-2.5 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#159B68] text-white flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#108055] hover:scale-110"
               title="Inquire on WhatsApp"
             >
-              <MessageCircle className="w-4 h-4 fill-white" />
+              <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white" />
             </a>
           </div>
 
           {/* Product Category & Name */}
           <div className="space-y-1">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#F47B20] block">
+            <span className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-[#F47B20] block">
               {product.categoryName}
             </span>
 
-            <h3 className="font-extrabold text-sm sm:text-base text-[#14243A] group-hover:text-[#F47B20] transition-colors line-clamp-1 leading-snug">
+            <h3 className="font-extrabold text-xs sm:text-base text-[#14243A] group-hover:text-[#F47B20] transition-colors line-clamp-2 leading-tight sm:leading-snug min-h-[2rem]">
               {product.name}
             </h3>
 
-            {/* Product Description */}
-            <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed min-h-[2rem]">
+            {/* Product Description (Hidden on mobile 2-col for clean, aligned height) */}
+            <p className="hidden sm:block text-xs text-slate-500 line-clamp-2 leading-relaxed min-h-[2rem]">
               {product.description}
             </p>
 
             {/* Price & Unit Section */}
-            <div className="pt-2 flex items-baseline justify-between border-t border-slate-100 mt-2">
+            <div className="pt-2 flex items-baseline justify-between border-t border-slate-100 mt-1.5 sm:mt-2">
               <div>
                 {mrp > product.price && (
-                  <span className="text-[11px] text-slate-400 line-through font-medium block">
+                  <span className="text-[10px] sm:text-[11px] text-slate-400 line-through font-medium block">
                     ₹{mrp.toLocaleString("en-IN")}.00
                   </span>
                 )}
                 <div className="flex items-baseline gap-1">
-                  <span className="text-base sm:text-lg font-black text-[#14243A] tracking-tight">
+                  <span className="text-sm sm:text-lg font-black text-[#14243A] tracking-tight">
                     ₹{product.price.toLocaleString("en-IN")}.00
                   </span>
-                  <span className="text-xs text-slate-500 font-semibold">
+                  <span className="text-[10px] sm:text-xs text-slate-500 font-semibold">
                     /{product.unit}
                   </span>
                 </div>
               </div>
 
               {/* Delivery Unit Badge */}
-              <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-[#F5F6F8] px-2 py-1 rounded-md">
+              <div className="hidden sm:flex items-center gap-1 text-[10px] font-semibold text-slate-400 bg-[#F5F6F8] px-2 py-1 rounded-md">
                 <Truck className="w-3 h-3 text-slate-500" />
-                <span>Tipper / Truck</span>
+                <span>Tipper</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Quantity Controls & In-Cart Status */}
-        <div className="pt-3 mt-3 border-t border-slate-100 space-y-2.5">
+        <div className="pt-2.5 sm:pt-3 mt-2 sm:mt-3 border-t border-slate-100 space-y-2">
           {/* Pre-Add Quantity Plus/Minus Selector */}
           <div 
-            className="flex items-center justify-between gap-2 bg-[#F8F9FA] p-2 rounded-xl border border-slate-200/80"
+            className="flex items-center justify-between gap-1 sm:gap-2 bg-[#F8F9FA] p-1.5 sm:p-2 rounded-xl border border-slate-200/80"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-1 text-xs font-bold text-slate-700">
+            <div className="flex items-center gap-0.5 sm:gap-1 text-[11px] sm:text-xs font-bold text-slate-700">
               <span>Qty:</span>
-              <span className="text-[11px] font-normal text-slate-400">({product.unit}s)</span>
+              <span className="text-[10px] sm:text-[11px] font-normal text-slate-400 hidden xs:inline">({product.unit}s)</span>
             </div>
 
             <div className="flex items-center bg-white border border-slate-300 rounded-lg shadow-2xs overflow-hidden">
@@ -186,20 +186,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 type="button"
                 onClick={handleDecrement}
                 disabled={selectedQuantity <= 1}
-                className="w-7 h-7 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-30 disabled:hover:bg-white transition-colors"
+                className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-30 disabled:hover:bg-white transition-colors"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-3 h-3" />
               </button>
               
-              <span className="w-8 text-center text-xs font-black text-[#14243A] select-none">
+              <span className="w-6 sm:w-8 text-center text-[11px] sm:text-xs font-black text-[#14243A] select-none">
                 {selectedQuantity}
               </span>
 
               <button
                 type="button"
                 onClick={handleIncrement}
-                className="w-7 h-7 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-3 h-3" />
@@ -209,36 +209,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Already in Cart Badge */}
           {mounted && inCartQty > 0 && (
-            <div className="flex items-center justify-between text-[11px] font-bold text-[#159B68] bg-[#E8F7F0] px-2.5 py-1 rounded-lg border border-emerald-200/70">
+            <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-bold text-[#159B68] bg-[#E8F7F0] px-2 py-0.5 sm:py-1 rounded-lg border border-emerald-200/70">
               <span className="flex items-center gap-1">
-                <Check className="w-3 h-3 text-[#159B68]" /> In your cart:
+                <Check className="w-3 h-3 text-[#159B68]" /> In cart:
               </span>
               <span>{inCartQty} {product.unit}s</span>
             </div>
           )}
 
-          {/* Action Footer: Details & Add to Cart */}
-          <div className="grid grid-cols-2 gap-2">
+          {/* Action Footer: Add to Cart & Details */}
+          <div className="flex flex-col sm:grid sm:grid-cols-2 gap-1.5 sm:gap-2">
             
-            {/* View Details Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsDetailModalOpen(true);
-              }}
-              className="w-full py-2.5 px-2 rounded-xl border border-slate-200 hover:border-[#14243A] bg-white hover:bg-[#F5F6F8] text-[#14243A] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
-            >
-              <Eye className="w-3.5 h-3.5 text-slate-500" />
-              <span>Details</span>
-            </button>
-
-            {/* Add to Cart Button */}
+            {/* Add to Cart Button (Prominent on mobile) */}
             {product.inStock ? (
               <button
                 type="button"
                 onClick={handleAdd}
-                className={`w-full py-2.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 ${
+                className={`w-full py-2 sm:py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm transition-all active:scale-95 ${
                   justAdded
                     ? "bg-[#159B68] text-white"
                     : mounted && inCartQty > 0
@@ -264,10 +251,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 )}
               </button>
             ) : (
-              <div className="w-full py-2.5 px-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold text-center flex items-center justify-center">
+              <div className="w-full py-2 sm:py-2.5 px-2 rounded-xl bg-slate-100 text-slate-400 text-[11px] sm:text-xs font-bold text-center flex items-center justify-center">
                 Unavailable
               </div>
             )}
+
+            {/* View Details Button */}
+            <button
+              type="button"
+              onClick={() => setIsDetailModalOpen(true)}
+              className="w-full py-1.5 sm:py-2.5 px-2 rounded-xl border border-slate-200 hover:border-[#14243A] bg-white hover:bg-[#F5F6F8] text-[#14243A] text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 sm:gap-1.5 transition-all"
+            >
+              <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500" />
+              <span>Details</span>
+            </button>
 
           </div>
         </div>
