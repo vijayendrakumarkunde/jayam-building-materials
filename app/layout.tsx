@@ -4,7 +4,6 @@ import { BRAND_INFO } from "@/lib/constants";
 import { CartProvider } from "@/lib/context/CartContext";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CartToast } from "@/components/cart/CartToast";
-import { AIChatWidget } from "@/components/ai/AIChatWidget";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -46,7 +45,6 @@ export default function RootLayout({
           {children}
           <CartDrawer />
           <CartToast />
-          <AIChatWidget />
         </CartProvider>
       </body>
     </html>
