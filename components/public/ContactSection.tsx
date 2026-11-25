@@ -250,7 +250,7 @@ export const ContactSection: React.FC = () => {
                         <option>Red Clay Bricks</option>
                         <option>20mm Blue Metal Aggregates</option>
                         <option>40mm Foundation Aggregate</option>
-                        <option>Other Building Materials</option>
+                        <option>Natural Red Soil & Earth</option>
                       </select>
                     </div>
 

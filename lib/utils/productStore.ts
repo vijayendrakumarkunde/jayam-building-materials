@@ -101,10 +101,21 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
   const deletedIds = new Set(getDeletedProductIds());
   const overrides = getStoredOverrides();
 
-  // Filter out removed products by id or slug
-  const activeBase = baseProducts.filter(
-    (p) => !deletedIds.has(p.id) && (!p.slug || !deletedIds.has(p.slug))
-  );
+  // Filter out removed products by id or slug and electrical items
+  const activeBase = baseProducts.filter((p) => {
+    if (deletedIds.has(p.id) || (p.slug && deletedIds.has(p.slug))) return false;
+    const pSlug = (p.slug || "").toLowerCase();
+    const pName = (p.name || "").toLowerCase();
+    const pCat = (p.categorySlug || "").toLowerCase();
+    const isElectrical =
+      pCat === "electricals" ||
+      pCat === "other-materials" ||
+      pSlug.includes("polycab") ||
+      pSlug.includes("wire") ||
+      pName.includes("polycab") ||
+      pName.includes("wire");
+    return !isElectrical;
+  });
 
   if (!overrides || Object.keys(overrides).length === 0) {
     return activeBase;

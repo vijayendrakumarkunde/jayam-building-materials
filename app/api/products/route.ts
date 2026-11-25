@@ -28,8 +28,25 @@ export async function GET() {
       return NextResponse.json({ products: PRODUCTS_DATA, source: "fallback" });
     }
 
+    // Filter out removed electrical/lighting products from DB data
+    const filteredDbData = (data || []).filter((p: any) => {
+      const slug = (p.slug || "").toLowerCase();
+      const name = (p.name || "").toLowerCase();
+      const catSlug = (p.categories?.slug || "").toLowerCase();
+      const isElectrical =
+        catSlug === "electricals" ||
+        catSlug === "other-materials" ||
+        slug.includes("polycab") ||
+        slug.includes("wire") ||
+        slug.includes("switch") ||
+        slug.includes("elec-") ||
+        name.includes("polycab") ||
+        name.includes("wire");
+      return !isElectrical;
+    });
+
     // Map DB rows to canonical Product shape
-    const products: Product[] = data.map((p: any) => {
+    const products: Product[] = filteredDbData.map((p: any) => {
       // Find matching static fallback if images or specs need enriching
       const staticMatch = PRODUCTS_DATA.find((sp) => sp.slug === p.slug || sp.id === p.id);
 

@@ -28,7 +28,7 @@ export const INITIAL_CATEGORIES = [
   { id: "gravel", name: "Gravel", slug: "gravel", icon: "CircleDot" },
   { id: "aggregates", name: "Aggregates", slug: "aggregates", icon: "Shapes" },
   { id: "stones", name: "Stones", slug: "stones", icon: "Gem" },
-  { id: "other-materials", name: "Other Building Materials", slug: "other-materials", icon: "PackagePlus" },
+  { id: "red-soil", name: "Red Soil", slug: "red-soil", icon: "Mountain" },
 ] as const;
 
 export const MEASUREMENT_UNITS = [
