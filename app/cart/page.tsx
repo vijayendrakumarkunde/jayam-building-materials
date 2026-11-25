@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   ShoppingCart, 
@@ -27,6 +27,7 @@ import { formatCurrency } from "@/lib/utils";
 
 export default function CartPage() {
   const brand = useBrandSettings();
+  const [mounted, setMounted] = useState(false);
   const { 
     items, 
     updateQuantity, 
@@ -35,6 +36,10 @@ export default function CartPage() {
     subtotal, 
     totalItemCount 
   } = useCart();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const whatsappCheckoutMessage = encodeURIComponent(
     `Hello Jayam Building Materials,\nI want to book the following materials for site delivery:\n\n` +
@@ -73,7 +78,7 @@ export default function CartPage() {
               </p>
             </div>
 
-            {items.length > 0 && (
+            {mounted && items.length > 0 && (
               <span className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-white/10 text-[#F47B20] text-xs font-bold border border-white/10">
                 {items.length} {items.length === 1 ? "Material" : "Materials"} · {totalItemCount} Total Units
               </span>
@@ -84,7 +89,11 @@ export default function CartPage() {
 
       {/* Main Cart Content */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {items.length === 0 ? (
+        {!mounted ? (
+          <div className="bg-white rounded-3xl p-12 text-center text-xs text-slate-400">
+            Loading your cart...
+          </div>
+        ) : items.length === 0 ? (
           /* Empty State */
           <div className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-200/90 shadow-sm text-center max-w-2xl mx-auto space-y-4">
             <div className="w-20 h-20 rounded-3xl bg-[#F5F6F8] text-slate-400 flex items-center justify-center mx-auto border border-slate-200">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   Phone, 
@@ -32,7 +32,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const brand = useBrandSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const cart = useCart();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const cartCount = propCartCount !== undefined ? propCartCount : cart.items.length;
   const onOpenCart = propOnOpenCart || cart.openCart;
@@ -170,7 +175,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 title="View Shopping Cart"
               >
                 <ShoppingCart className="w-5 h-5 text-slate-700 group-hover:text-[#F47B20] transition-colors" />
-                {cartCount > 0 && (
+                {mounted && cartCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 bg-[#F47B20] text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md">
                     {cartCount}
                   </span>
@@ -238,7 +243,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="flex items-center gap-2">
                 <ShoppingCart className="w-4 h-4 text-[#F47B20]" /> Shopping Cart
               </span>
-              {cartCount > 0 && (
+              {mounted && cartCount > 0 && (
                 <span className="bg-[#F47B20] text-white text-xs font-black px-2 py-0.5 rounded-full">
                   {cartCount}
                 </span>

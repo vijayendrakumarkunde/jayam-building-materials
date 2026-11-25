@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   Plus, 
@@ -33,10 +33,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const [selectedQuantity, setSelectedQuantity] = useState<number>(() => product.minOrderQuantity || 1);
   const [justAdded, setJustAdded] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Read current quantity in cart for this product
   const inCartQty = cart.getItemQuantity(product.id);
-  const isAdded = propIsAddedToCart || inCartQty > 0;
+  const isAdded = propIsAddedToCart || (mounted && inCartQty > 0);
   const onAddToCart = propOnAddToCart || cart.addToCart;
 
   // Compute MRP and Discount
@@ -203,7 +208,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
 
           {/* Already in Cart Badge */}
-          {inCartQty > 0 && (
+          {mounted && inCartQty > 0 && (
             <div className="flex items-center justify-between text-[11px] font-bold text-[#159B68] bg-[#E8F7F0] px-2.5 py-1 rounded-lg border border-emerald-200/70">
               <span className="flex items-center gap-1">
                 <Check className="w-3 h-3 text-[#159B68]" /> In your cart:
@@ -236,7 +241,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 className={`w-full py-2.5 px-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all active:scale-95 ${
                   justAdded
                     ? "bg-[#159B68] text-white"
-                    : inCartQty > 0
+                    : mounted && inCartQty > 0
                     ? "bg-[#14243A] hover:bg-[#20252D] text-white"
                     : "bg-[#F47B20] hover:bg-[#DC630D] text-white shadow-[#F47B20]/25"
                 }`}
@@ -246,7 +251,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <Check className="w-3.5 h-3.5" />
                     <span>Added!</span>
                   </>
-                ) : inCartQty > 0 ? (
+                ) : mounted && inCartQty > 0 ? (
                   <>
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add More</span>
