@@ -3,7 +3,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Navbar } from "@/components/public/Navbar";
 import { HeroBanner } from "@/components/public/HeroBanner";
-import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { CategoryGrid } from "@/components/public/CategoryGrid";
 import { ProductCard } from "@/components/public/ProductCard";
 import { WhyChooseUs } from "@/components/public/WhyChooseUs";
@@ -85,10 +84,7 @@ export default function HomePage() {
       {/* 3. Popular Building Materials Section */}
       <CategoryGrid />
 
-      {/* 4. Delivery Notice Banner */}
-      <DeliveryNoticeBanner />
-
-      {/* 5. Featured Products & Specific Material Varieties Section */}
+      {/* 4. Featured Products & Specific Material Varieties Section */}
       <section id="catalog-section" className="py-12 sm:py-16 bg-white border-b border-slate-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           

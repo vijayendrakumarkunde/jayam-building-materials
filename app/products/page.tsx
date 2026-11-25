@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/public/Navbar";
 import { Footer } from "@/components/public/Footer";
 import { FloatingQuickContact } from "@/components/public/FloatingQuickContact";
-import { DeliveryNoticeBanner } from "@/components/public/DeliveryNoticeBanner";
 import { ProductCard } from "@/components/public/ProductCard";
 import { PRODUCTS_DATA } from "@/lib/data/products";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
@@ -86,38 +85,16 @@ function ProductsContent() {
     return new Set(items.map((i) => i.product.id));
   }, [items]);
 
+  const currentCategory = useMemo(() => {
+    return CATEGORIES_DATA.find((c) => c.slug === selectedCategory);
+  }, [selectedCategory]);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#20252D]">
       <Navbar
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
-
-      <DeliveryNoticeBanner />
-
-      {/* Page Header in Deep Navy */}
-      <div className="bg-[#14243A] text-white py-10 sm:py-14 px-4 sm:px-6 lg:px-8 border-b border-[#0F1B2B]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#F47B20] text-xs font-bold uppercase tracking-wider mb-2 border border-white/10">
-              <Sparkles className="w-3.5 h-3.5 text-[#F47B20]" />
-              <span>Direct-from-Quarry & Depot Inventory</span>
-            </div>
-            <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              Building Materials Catalogue
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
-              Wholesale pricing for Triple-Washed River Sand, VSI M-Sand, 53 Grade Cement, TMT Steel, Aggregates, Bricks, Blocks, and Foundation Stones with digital weighbridge guarantee.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span className="text-xs bg-[#1F334E] text-slate-200 px-4 py-2 rounded-xl border border-slate-700 font-bold shadow-xs">
-              Showing <strong>{filteredProducts.length}</strong> Materials
-            </span>
-          </div>
-        </div>
-      </div>
 
       {/* Fast Category Filter Strip */}
       <div className="bg-[#F5F6F8] border-b border-slate-200 sticky top-16 z-20 py-2.5 px-4 shadow-xs">
@@ -158,7 +135,7 @@ function ProductsContent() {
       </div>
 
       {/* Main Catalog Workspace */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-1 w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 flex-1 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Sidebar Filters (Desktop 3 Cols) */}
@@ -272,7 +249,31 @@ function ProductsContent() {
           </aside>
 
           {/* Right Product Grid */}
-          <section className="lg:col-span-9 space-y-6">
+          <section className="lg:col-span-9 space-y-4">
+            {/* Direct Materials Category Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-200 gap-2">
+              <div>
+                <h1 className="text-xl sm:text-2xl font-black text-[#14243A]">
+                  {currentCategory ? currentCategory.name : "All Building Materials"}
+                </h1>
+                <p className="text-xs text-slate-500">
+                  Showing <strong className="text-[#F47B20] font-bold">{filteredProducts.length}</strong> materials ready for direct dispatch
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between sm:justify-end gap-2">
+                <span className="text-xs font-semibold text-slate-500">Sort:</span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="text-xs p-2 rounded-xl border border-slate-300 bg-white font-semibold text-slate-700 focus:outline-none focus:border-[#F47B20]"
+                >
+                  <option value="featured">Featured First</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                </select>
+              </div>
+            </div>
             {filteredProducts.length === 0 ? (
               <div className="text-center py-20 bg-[#F5F6F8] rounded-3xl border border-dashed border-slate-300 p-8 shadow-xs">
                 <Search className="w-12 h-12 text-slate-300 mx-auto mb-3" />
