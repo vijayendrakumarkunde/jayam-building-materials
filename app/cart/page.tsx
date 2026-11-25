@@ -230,10 +230,11 @@ export default function CartPage() {
                           <button
                             type="button"
                             onClick={() => removeFromCart(item.product.id)}
-                            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors border border-slate-200 hover:border-rose-200"
                             title="Remove material from cart"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3.5 h-3.5 text-rose-500" />
+                            <span>Remove</span>
                           </button>
                         </div>
                       </div>

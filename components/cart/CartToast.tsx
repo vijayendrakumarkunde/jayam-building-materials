@@ -24,11 +24,11 @@ export const CartToast: React.FC = () => {
         {/* Message Content */}
         <div className="flex-1 min-w-0 pr-6">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black tracking-wide text-white uppercase">
-              Material Added to Cart
+            <span className="text-xs font-black tracking-wide text-white">
+              Material added to cart successfully
             </span>
             <span className="px-1.5 py-0.5 rounded-md bg-[#F47B20] text-white text-[10px] font-bold">
-              {items.length} {items.length === 1 ? "item" : "items"}
+              {items.length} {items.length === 1 ? "material" : "materials"}
             </span>
           </div>
 
@@ -38,23 +38,13 @@ export const CartToast: React.FC = () => {
 
           {/* Action Row */}
           <div className="flex items-center gap-3 mt-3">
-            <button
-              onClick={() => {
-                dismissToast();
-                openCart();
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F47B20] hover:bg-[#DC630D] text-white text-xs font-bold transition-colors shadow-sm"
-            >
-              <ShoppingCart className="w-3.5 h-3.5" />
-              <span>View Cart</span>
-            </button>
-
             <Link
               href="/cart"
               onClick={dismissToast}
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-300 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#F47B20] hover:bg-[#DC630D] text-white text-xs font-bold transition-colors shadow-sm"
             >
-              <span>Full Cart Page</span>
+              <ShoppingCart className="w-3.5 h-3.5" />
+              <span>View Cart</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

@@ -162,19 +162,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Shopping Cart & Call CTA */}
             <div className="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
-              {/* Shopping Cart Button */}
-              <button
-                onClick={onOpenCart}
+              {/* Shopping Cart Icon (Navigates to /cart Page) */}
+              <Link
+                href="/cart"
                 className="relative p-2.5 rounded-xl bg-[#F5F6F8] hover:bg-slate-200/80 text-slate-800 border border-slate-200 transition-all flex items-center justify-center group"
                 aria-label="View shopping cart"
+                title="View Shopping Cart"
               >
                 <ShoppingCart className="w-5 h-5 text-slate-700 group-hover:text-[#F47B20] transition-colors" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-[#F47B20] text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-bounce">
+                  <span className="absolute -top-1.5 -right-1.5 bg-[#F47B20] text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md">
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </Link>
 
               {/* Instant Call CTA Button */}
               <a

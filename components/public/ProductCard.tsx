@@ -73,8 +73,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <>
       <div 
-        onClick={() => setIsDetailModalOpen(true)}
-        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-4 sm:p-5 hover:shadow-xl hover:border-[#F47B20]/40 transition-all duration-300 relative cursor-pointer"
+        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 p-4 sm:p-5 hover:shadow-xl hover:border-[#F47B20]/40 transition-all duration-300 relative"
       >
         <div>
           {/* Visual Image Container with Discount & Stock Badges */}
