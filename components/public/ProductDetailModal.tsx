@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   X, 
   Check, 
@@ -36,6 +36,25 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [quantity, setQuantity] = useState<number>(product?.minOrderQuantity || 1);
   const [justAdded, setJustAdded] = useState(false);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen || !product) return null;
 
   const mrp = product.mrpPrice || Math.round(product.price * 1.35 / 50) * 50;
@@ -56,35 +75,47 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   );
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
       {/* Backdrop click to close */}
-      <div className="fixed inset-0" onClick={onClose}></div>
+      <div 
+        className="fixed inset-0" 
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       {/* Modal Dialog */}
-      <div className="relative bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
-        
-        {/* Header Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-[#F5F6F8]">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#F47B20]">
+      <div 
+        className="relative bg-white rounded-t-3xl sm:rounded-3xl max-w-2xl w-full max-h-[90dvh] sm:max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in fade-in slide-in-from-bottom-8 sm:zoom-in-95 duration-200"
+        role="dialog"
+        aria-modal="true"
+      >
+        {/* Header Bar - Sticky and Always Visible at Top */}
+        <div className="shrink-0 sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 pt-4 pb-3 sm:py-3.5 border-b border-slate-200 bg-[#F5F6F8]">
+          {/* Mobile pull indicator */}
+          <div className="sm:hidden absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1.5 rounded-full bg-slate-300"></div>
+
+          <div className="flex items-center gap-2 truncate pr-2 mt-1 sm:mt-0">
+            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#F47B20] shrink-0">
               {product.categoryName}
             </span>
             <span className="text-slate-400">•</span>
-            <span className="text-xs font-medium text-slate-500">
+            <span className="text-[11px] sm:text-xs font-medium text-slate-500 truncate">
               {product.productType || "Building Material"}
             </span>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center border border-slate-200 transition-colors"
+            aria-label="Close details dialog"
+            className="w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-slate-200 hover:bg-slate-300 active:bg-slate-400 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-colors shrink-0 shadow-xs cursor-pointer touch-manipulation mt-1 sm:mt-0"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5 sm:w-4 sm:h-4 stroke-[2.5]" />
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
+        {/* Modal Body - Scrollable */}
+        <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-5 sm:space-y-6">
           
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-start">
             {/* Product Image */}
@@ -198,30 +229,41 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
         </div>
 
-        {/* Modal Action Footer */}
-        <div className="px-6 py-4 bg-[#F5F6F8] border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-left w-full sm:w-auto">
-            <span className="text-[11px] text-slate-500 block">Total Estimated Cost:</span>
-            <span className="text-xl font-black text-[#14243A]">
-              ₹{subtotal.toLocaleString("en-IN")}.00
-            </span>
+        {/* Modal Action Footer - Sticky at bottom */}
+        <div className="shrink-0 sticky bottom-0 z-30 px-4 sm:px-6 py-3 sm:py-3.5 bg-[#F5F6F8] border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center justify-between w-full sm:w-auto">
+            <div>
+              <span className="text-[10px] sm:text-[11px] text-slate-500 block">Total Estimated Cost:</span>
+              <span className="text-lg sm:text-xl font-black text-[#14243A]">
+                ₹{subtotal.toLocaleString("en-IN")}.00
+              </span>
+            </div>
+
+            {/* Quick close button on mobile footer for thumb convenience */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="sm:hidden text-xs font-bold text-slate-600 hover:text-slate-900 px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white shadow-2xs active:bg-slate-100"
+            >
+              Close
+            </button>
           </div>
 
-          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <a
               href={`https://wa.me/91${brand.whatsappNumber}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-xs transition-colors shadow-xs"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#159B68] hover:bg-[#108055] text-white font-bold text-xs transition-colors shadow-xs"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>Inquire WhatsApp</span>
+              <span>WhatsApp</span>
             </a>
 
             <button
               onClick={handleAdd}
               disabled={!product.inStock}
-              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
                 isAddedToCart || justAdded
                   ? "bg-[#159B68] text-white"
                   : "bg-[#F47B20] hover:bg-[#DC630D] text-white shadow-md shadow-[#F47B20]/25"
@@ -230,7 +272,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {isAddedToCart || justAdded ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span>Added to Cart</span>
+                  <span>Added</span>
                 </>
               ) : (
                 <>
