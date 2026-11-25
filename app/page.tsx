@@ -83,14 +83,7 @@ export default function HomePage() {
       <HeroBanner />
 
       {/* 3. Popular Building Materials Section */}
-      <CategoryGrid
-        selectedCategory={selectedCategory}
-        onSelectCategory={(slug) => {
-          setSelectedCategory(slug || "sand");
-          const el = document.getElementById("catalog-section");
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }}
-      />
+      <CategoryGrid />
 
       {/* 4. Delivery Notice Banner */}
       <DeliveryNoticeBanner />

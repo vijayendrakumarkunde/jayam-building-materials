@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 
@@ -42,11 +43,11 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
           {primaryCategories.map((cat) => {
             const isSelected = selectedCategory === cat.slug;
             return (
-              <div
+              <Link
                 key={cat.id}
-                onClick={() => onSelectCategory ? onSelectCategory(cat.slug) : undefined}
+                href={`/products?category=${cat.slug}`}
                 style={{ backgroundColor: cat.bgColor || "#F5F6F8" }}
-                className={`rounded-3xl p-4 sm:p-6 flex flex-col justify-between h-[230px] sm:h-[290px] relative overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border ${
+                className={`rounded-3xl p-4 sm:p-6 flex flex-col justify-between h-[230px] sm:h-[290px] relative overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border ${
                   isSelected
                     ? "ring-2 ring-[#F47B20] ring-offset-2 border-transparent shadow-lg"
                     : "border-slate-200/80 hover:border-[#F47B20]/40"
@@ -79,7 +80,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-2xl pointer-events-none"></div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
@@ -109,10 +110,10 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
               {moreCategories.map((cat) => {
                 const isSelected = selectedCategory === cat.slug;
                 return (
-                  <div
+                  <Link
                     key={cat.id}
-                    onClick={() => onSelectCategory ? onSelectCategory(cat.slug) : undefined}
-                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border cursor-pointer transition-all duration-200 ${
+                    href={`/products?category=${cat.slug}`}
+                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 ${
                       isSelected
                         ? "bg-[#F5F6F8] border-[#14243A] ring-1 ring-[#14243A] shadow-xs"
                         : "bg-[#FAFAFA] border-slate-200/80 hover:bg-[#F5F6F8] hover:border-slate-300"
@@ -138,7 +139,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
                     <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-slate-700 hover:bg-[#F47B20] hover:text-white transition-colors shrink-0">
                       <ArrowRight className="w-4 h-4" />
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
