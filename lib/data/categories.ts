@@ -72,16 +72,4 @@ export const CATEGORIES_DATA: Category[] = [
     bgColor: "#FDF0ED", // Soft Red Clay
     featured: true,
   },
-
-  // ==================== "MORE CATEGORIES" SECTION ====================
-  {
-    id: "cat-electricals",
-    name: "Electricals & Lighting",
-    slug: "electricals",
-    description: "Concealed wiring cables, modular switches, MCBs, distribution boards & conduits.",
-    imageUrl: "/images/products/polycab-wire.jpg",
-    itemCount: 2,
-    bgColor: "#FFF8E7",
-    isMoreCategory: true,
-  },
 ];

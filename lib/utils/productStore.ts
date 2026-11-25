@@ -218,16 +218,6 @@ export function isProductInCategory(product: Product, categorySlug: string): boo
     );
   }
 
-  if (categorySlug === "electricals") {
-    return (
-      pCat === "electricals" ||
-      pCat === "other-materials" ||
-      cName.includes("electrical") ||
-      pName.includes("wire") ||
-      pName.includes("cable")
-    );
-  }
-
   return pCat === categorySlug;
 }
 

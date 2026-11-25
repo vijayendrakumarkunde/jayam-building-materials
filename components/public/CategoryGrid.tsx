@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { CATEGORIES_DATA } from "@/lib/data/categories";
 
 interface CategoryGridProps {
@@ -14,10 +14,6 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
   selectedCategory,
   onSelectCategory,
 }) => {
-  // Separate into Primary Grid and More Categories
-  const primaryCategories = CATEGORIES_DATA.filter((c) => !c.isMoreCategory);
-  const moreCategories = CATEGORIES_DATA.filter((c) => c.isMoreCategory);
-
   return (
     <section id="category-menu" className="py-12 sm:py-16 bg-[#F5F6F8] border-b border-slate-200 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
@@ -40,7 +36,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
 
         {/* PRIMARY CARDS PASTEL GRID */}
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-6">
-          {primaryCategories.map((cat) => {
+          {CATEGORIES_DATA.map((cat) => {
             const isSelected = selectedCategory === cat.slug;
             return (
               <Link
@@ -84,68 +80,6 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
             );
           })}
         </div>
-
-        {/* "MORE CATEGORIES" SECTION */}
-        {moreCategories.length > 0 && (
-          <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-xs space-y-4">
-            
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div>
-                <h3 className="text-base sm:text-lg font-black text-[#14243A]">
-                  Additional Construction Supplies
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Concealed wiring, electrical conduits and fittings in stock
-                </p>
-              </div>
-
-              <span className="bg-[#FFF7ED] text-[#F47B20] text-xs font-black px-3 py-1 rounded-full border border-[#F47B20]/20">
-                {moreCategories.length} more
-              </span>
-            </div>
-
-            {/* List Rows */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {moreCategories.map((cat) => {
-                const isSelected = selectedCategory === cat.slug;
-                return (
-                  <Link
-                    key={cat.id}
-                    href={`/products?category=${cat.slug}`}
-                    className={`flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 ${
-                      isSelected
-                        ? "bg-[#F5F6F8] border-[#14243A] ring-1 ring-[#14243A] shadow-xs"
-                        : "bg-[#FAFAFA] border-slate-200/80 hover:bg-[#F5F6F8] hover:border-slate-300"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <img
-                        src={cat.imageUrl}
-                        alt={cat.name}
-                        className="w-12 h-12 rounded-xl object-cover bg-white p-1 border border-slate-200 shrink-0 shadow-xs"
-                        loading="lazy"
-                      />
-                      <div>
-                        <h4 className="font-extrabold text-sm sm:text-base text-[#14243A]">
-                          {cat.name}
-                        </h4>
-                        <p className="text-xs text-slate-500 font-medium">
-                          {cat.itemCount} products available
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-slate-700 hover:bg-[#F47B20] hover:text-white transition-colors shrink-0">
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-
-          </div>
-        )}
 
       </div>
     </section>

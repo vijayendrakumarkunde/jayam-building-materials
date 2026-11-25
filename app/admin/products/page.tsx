@@ -137,16 +137,6 @@ function isProductInCategory(p: Product, catSlug: string): boolean {
     );
   }
 
-  if (catSlug === "electricals") {
-    return (
-      pCat === "electricals" ||
-      pCat === "other-materials" ||
-      cName.includes("electrical") ||
-      pName.includes("wire") ||
-      pName.includes("cable")
-    );
-  }
-
   return pCat === catSlug;
 }
 

@@ -83,9 +83,6 @@ export async function GET() {
       } else if (rawCatSlug === "red-soil") {
         normalizedCategorySlug = "red-soil";
         normalizedCategoryName = "Red Soil & Landscaping";
-      } else if (rawCatSlug === "electricals" || rawCatSlug === "other-materials") {
-        normalizedCategorySlug = "electricals";
-        normalizedCategoryName = "Electricals & Lighting";
       }
 
       return {
