@@ -37,11 +37,11 @@ export async function GET() {
         catSlug === "electricals" ||
         catSlug === "other-materials" ||
         slug.includes("polycab") ||
-        slug.includes("wire") ||
+        slug.includes("copper-wire") ||
         slug.includes("switch") ||
         slug.includes("elec-") ||
         name.includes("polycab") ||
-        name.includes("wire");
+        name.includes("copper wire");
       return !isElectrical;
     });
 

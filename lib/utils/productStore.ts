@@ -111,9 +111,10 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
       pCat === "electricals" ||
       pCat === "other-materials" ||
       pSlug.includes("polycab") ||
-      pSlug.includes("wire") ||
+      pSlug.includes("copper-wire") ||
+      pSlug.includes("elec-") ||
       pName.includes("polycab") ||
-      pName.includes("wire");
+      pName.includes("copper wire");
     return !isElectrical;
   });
 
