@@ -62,11 +62,22 @@ export async function GET() {
           !url.includes("photo-1584467735871")
       );
 
+      // Check if DB image is an old generic placeholder or mismatched test upload
+      const isPlaceholderOrMismatched =
+        validDbImages.length === 0 ||
+        validDbImages.every((url: string) =>
+          url === "/images/products/cement-bags.jpg" ||
+          url === "/images/products/cement-brands.jpg" ||
+          url.includes("1795438739083-1000067793.png")
+        );
+
       const finalImages =
-        validDbImages.length > 0
+        !isPlaceholderOrMismatched && validDbImages.length > 0
           ? validDbImages
           : staticMatch?.images && staticMatch.images.length > 0
           ? staticMatch.images
+          : validDbImages.length > 0
+          ? validDbImages
           : ["/images/products/river-sand.jpg"];
 
       // Normalize category slug and name to match Builders9 primary categories

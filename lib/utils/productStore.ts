@@ -118,21 +118,38 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
     return !isElectrical;
   });
 
-  if (!overrides || Object.keys(overrides).length === 0) {
-    return activeBase;
-  }
-
   return activeBase.map((p) => {
+    // Find static product definition
+    const staticProduct = PRODUCTS_DATA.find((sp) => sp.slug === p.slug || sp.id === p.id);
+    const staticImages = staticProduct?.images || [];
+
+    // Resolve images: if current images are generic placeholder or old mismatched upload, use staticImages
+    let currentImages = p.images || [];
+    const isGeneric =
+      currentImages.length === 0 ||
+      currentImages.every(
+        (url) =>
+          url === "/images/products/cement-bags.jpg" ||
+          url === "/images/products/cement-brands.jpg" ||
+          url.includes("1795438739083-1000067793.png")
+      );
+
+    if (isGeneric && staticImages.length > 0) {
+      currentImages = staticImages;
+    }
+
     // Match by id or by slug
-    const ov = overrides[p.id] || (p.slug ? overrides[p.slug] : undefined);
-    if (!ov) return p;
+    const ov = overrides ? (overrides[p.id] || (p.slug ? overrides[p.slug] : undefined)) : undefined;
+    if (!ov) return { ...p, images: currentImages };
 
     const hasCustomValidImage =
       ov.images &&
       ov.images.length > 0 &&
       !ov.images[0].includes("photo-1600585154340") &&
       !ov.images[0].includes("photo-1541888946425") &&
-      !ov.images[0].includes("photo-1584467735871");
+      !ov.images[0].includes("photo-1584467735871") &&
+      !ov.images[0].includes("cement-bags.jpg") &&
+      !ov.images[0].includes("1795438739083-1000067793.png");
 
     return {
       ...p,
@@ -141,7 +158,7 @@ export function getMergedProducts(baseProducts: Product[] = PRODUCTS_DATA): Prod
       mrpPrice: ov.mrpPrice !== undefined ? ov.mrpPrice : p.mrpPrice,
       inStock: ov.inStock !== undefined ? ov.inStock : p.inStock,
       stockQuantity: ov.stockQuantity !== undefined ? ov.stockQuantity : p.stockQuantity,
-      images: hasCustomValidImage ? ov.images! : (p.images && p.images.length > 0 ? p.images : ov.images || []),
+      images: hasCustomValidImage ? ov.images! : currentImages,
       unit: (ov.unit as any) || p.unit,
       gradeOrType: ov.gradeOrType || p.gradeOrType,
       description: ov.description || p.description,
