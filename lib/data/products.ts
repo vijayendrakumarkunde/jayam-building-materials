@@ -326,7 +326,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 1200,
     images: [
-      "/images/products/cement-bags.jpg",
+      "/images/products/cement-ultratech.jpg",
     ],
     isFeatured: true,
     isBestseller: true,
@@ -355,7 +355,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 950,
     images: [
-      "/images/products/cement-bags.jpg",
+      "/images/products/cement-jsw.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -382,7 +382,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 800,
     images: [
-      "/images/products/cement-bags.jpg",
+      "/images/products/cement-acc.jpg",
     ],
     isFeatured: true,
     specifications: {
@@ -409,7 +409,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 700,
     images: [
-      "/images/products/cement-bags.jpg",
+      "/images/products/cement-bharathi.jpg",
     ],
     specifications: {
       "Brand": "Bharathi Cement",
@@ -435,7 +435,7 @@ export const PRODUCTS_DATA: Product[] = [
     inStock: true,
     stockQuantity: 550,
     images: [
-      "/images/products/cement-bags.jpg",
+      "/images/products/cement-ramco.jpg",
     ],
     specifications: {
       "Brand": "Ramco Cements",
