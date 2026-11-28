@@ -89,6 +89,7 @@ export async function createGuestOrder(orderPayload: {
   customerPhone: string;
   alternatePhone?: string;
   deliveryAddress: string;
+  locationUrl?: string;
   landmark?: string;
   city?: string;
   roadAccess?: string;
@@ -106,6 +107,10 @@ export async function createGuestOrder(orderPayload: {
     return { success: true, orderReference: orderPayload.orderReference, mode: "local" };
   }
 
+  const finalDeliveryAddress = orderPayload.locationUrl && !orderPayload.deliveryAddress.includes(orderPayload.locationUrl)
+    ? `${orderPayload.deliveryAddress} (📍 Location: ${orderPayload.locationUrl})`
+    : orderPayload.deliveryAddress;
+
   // 1. Upsert customer
   const { data: customerData } = await supabase
     .from("customers")
@@ -113,16 +118,17 @@ export async function createGuestOrder(orderPayload: {
       full_name: orderPayload.customerName,
       phone: orderPayload.customerPhone,
       alternate_phone: orderPayload.alternatePhone,
-      default_address: orderPayload.deliveryAddress,
+      default_address: finalDeliveryAddress,
     }, { onConflict: "phone" })
     .select("id")
     .single();
 
   const customerId = customerData?.id || null;
 
-  // Format special instructions to include payment details
+  // Format special instructions to include payment details and location pin
   const formattedInstructions = [
     orderPayload.specialInstructions,
+    orderPayload.locationUrl ? `[📍 GPS Location Pin: ${orderPayload.locationUrl}]` : null,
     orderPayload.paymentMethod ? `[Payment: ${orderPayload.paymentMethod}]` : null,
     orderPayload.tokenAmount ? `[Token Deposit: ₹${orderPayload.tokenAmount}]` : null,
     orderPayload.utrNumber ? `[UPI UTR: ${orderPayload.utrNumber}]` : null,
@@ -137,7 +143,7 @@ export async function createGuestOrder(orderPayload: {
       customer_name: orderPayload.customerName,
       customer_phone: orderPayload.customerPhone,
       alternate_phone: orderPayload.alternatePhone,
-      delivery_address: orderPayload.deliveryAddress,
+      delivery_address: finalDeliveryAddress,
       landmark: orderPayload.landmark,
       city: orderPayload.city || "Hyderabad Region",
       road_access: orderPayload.roadAccess,

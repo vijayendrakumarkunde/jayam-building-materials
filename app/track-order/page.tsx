@@ -132,17 +132,29 @@ export default function TrackOrderPage() {
           <form onSubmit={handleTrack} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Registered Mobile Number *
-                </label>
-                <input
-                  type="tel"
-                  required
-                  placeholder="e.g. 9876543210"
-                  value={mobileNumber}
-                  onChange={(e) => setMobileNumber(e.target.value)}
-                  className="w-full text-sm px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500"
-                />
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Registered Mobile Number *
+                  </label>
+                  <span className={`text-[10px] font-semibold ${mobileNumber.length === 10 ? "text-emerald-600" : "text-slate-400"}`}>
+                    {mobileNumber.length}/10 digits
+                  </span>
+                </div>
+                <div className="relative flex items-center">
+                  <div className="absolute left-3 flex items-center gap-1 text-xs font-bold text-slate-500 border-r border-slate-300 pr-2 pointer-events-none select-none">
+                    <span>+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    required
+                    inputMode="numeric"
+                    maxLength={10}
+                    placeholder="9876543210"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                    className="w-full text-sm pl-16 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 tracking-wider"
+                  />
+                </div>
               </div>
 
               <div>

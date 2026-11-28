@@ -41,6 +41,7 @@ export function buildWhatsAppOrderMessage(order: {
   customerPhone: string;
   alternatePhone?: string;
   deliveryAddress: string;
+  locationUrl?: string;
   landmark?: string;
   cityOrArea?: string;
   roadAccess?: string;
@@ -66,6 +67,7 @@ export function buildWhatsAppOrderMessage(order: {
     `👤 *Customer*: ${order.customerName}\n` +
     `📞 *Phone*: ${order.customerPhone}` + (order.alternatePhone ? ` (Alt: ${order.alternatePhone})` : ``) + `\n` +
     `📍 *Site Address*: ${order.deliveryAddress}\n` +
+    (order.locationUrl ? `🌐 *Google Maps Location Pin*: ${order.locationUrl}\n` : ``) +
     (order.landmark ? `🏛️ *Landmark*: ${order.landmark}\n` : ``) +
     `🛣️ *Road Access*: ${order.roadAccess || "10-Wheeler Tipper"}\n` +
     `🕒 *Preferred Time*: ${order.preferredDate || "Earliest Slot"}\n` +

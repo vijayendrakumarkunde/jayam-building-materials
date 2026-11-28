@@ -218,17 +218,29 @@ export const ContactSection: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#14243A] mb-1">
-                        Mobile Number *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="e.g. 98765 43210"
-                        className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-[#F47B20] focus:ring-1 focus:ring-[#F47B20]"
-                      />
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-bold text-[#14243A]">
+                          Mobile Number *
+                        </label>
+                        <span className={`text-[10px] font-semibold ${formData.phone.length === 10 ? "text-emerald-600" : "text-slate-400"}`}>
+                          {formData.phone.length}/10 digits
+                        </span>
+                      </div>
+                      <div className="relative flex items-center">
+                        <div className="absolute left-3 flex items-center gap-1 text-xs font-bold text-slate-500 border-r border-slate-300 pr-2 pointer-events-none select-none">
+                          <span>+91</span>
+                        </div>
+                        <input
+                          type="tel"
+                          required
+                          inputMode="numeric"
+                          maxLength={10}
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
+                          placeholder="9876543210"
+                          className="w-full text-sm pl-16 pr-3.5 py-2.5 rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-[#F47B20] focus:ring-1 focus:ring-[#F47B20] tracking-wider"
+                        />
+                      </div>
                     </div>
                   </div>
 

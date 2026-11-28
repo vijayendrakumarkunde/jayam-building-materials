@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/public/Navbar";
@@ -33,7 +33,9 @@ import {
   Check,
   ExternalLink,
   Sparkles,
-  Zap
+  Zap,
+  Navigation,
+  AlertCircle
 } from "lucide-react";
 
 export default function CheckoutPage() {
@@ -48,6 +50,17 @@ export default function CheckoutPage() {
   const [paymentChoice, setPaymentChoice] = useState<"upi" | "site">("upi");
   const [utrNumber, setUtrNumber] = useState("");
   const [copiedUpi, setCopiedUpi] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Validation & Location States
+  const [phoneError, setPhoneError] = useState("");
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [locationUrl, setLocationUrl] = useState("");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Website Form State (Guest checkout - no login required!)
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,20 +90,88 @@ export default function CheckoutPage() {
 
   const payableAmount = checkoutSubtotal;
 
+  // GPS Current Site Location Detection
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser. You can paste your Google Maps or WhatsApp location link below.");
+      return;
+    }
+
+    setIsLocating(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude.toFixed(6);
+        const lng = position.coords.longitude.toFixed(6);
+        const mapUrl = `https://maps.google.com/?q=${lat},${lng}`;
+        
+        setLocationUrl(mapUrl);
+        setIsLocating(false);
+
+        // If delivery address is empty, set a helpful prompt
+        if (!formData.deliveryAddress.trim()) {
+          setFormData((prev) => ({
+            ...prev,
+            deliveryAddress: `Construction Site Location (GPS: ${lat}, ${lng})`,
+          }));
+        }
+      },
+      (err) => {
+        setIsLocating(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          setLocationError("Location permission was denied. You can paste your Google Maps or WhatsApp location pin link below.");
+        } else {
+          setLocationError("Could not retrieve GPS coordinates. Please enter your address or paste your Google Maps link below.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
+
   // Formatted WhatsApp Message
   const whatsappCheckoutMessage = encodeURIComponent(
     `Hello Jayam Building Materials,\nI want to book the following materials for site delivery:\n\n` +
       checkoutItems
         .map(
           (i, idx) =>
-            `${idx + 1}. *${i.product.name}*\n   Quantity: ${i.quantity} ${i.product.unit}\n   Rate: ₹${i.product.price} / ${i.product.unit} (₹${i.product.price * i.quantity})`
+            `${idx + 1}. *${i.product.name}*\n   Quantity: ${i.quantity} ${i.product.unit}\n   Rate: ₹${i.product.price} / ${i.product.unit} (₹${(i.product.price * i.quantity).toLocaleString("en-IN")})`
         )
         .join("\n\n") +
-      `\n\nEstimated Materials Value: ₹${checkoutSubtotal}\nPlease confirm vehicle availability and transport charges to my site.`
+      `\n\nEstimated Materials Value: ₹${checkoutSubtotal.toLocaleString("en-IN")}\n` +
+      (locationUrl ? `📍 *Site Location Pin*: ${locationUrl.trim()}\n` : ``) +
+      `Please confirm vehicle availability and transport charges to my site.`
   );
 
   const handleWebsiteBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Strict 10-digit phone number validation
+    const cleanPhone = formData.phone.replace(/\D/g, "");
+    if (cleanPhone.length !== 10) {
+      setPhoneError("Please enter a valid 10-digit mobile number.");
+      const phoneInput = document.getElementById("phone-input");
+      phoneInput?.focus();
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+      setPhoneError("Mobile number must be a valid 10-digit Indian number starting with 6, 7, 8, or 9.");
+      const phoneInput = document.getElementById("phone-input");
+      phoneInput?.focus();
+      return;
+    }
+
+    // Alternate phone validation if provided
+    if (formData.alternatePhone) {
+      const cleanAlt = formData.alternatePhone.replace(/\D/g, "");
+      if (cleanAlt.length !== 10) {
+        setPhoneError("Alternate mobile number must be exactly 10 digits if provided.");
+        return;
+      }
+    }
+
+    setPhoneError("");
     setIsSubmitting(true);
 
     // Generate unique human-readable order reference ID (e.g. JBM-2026-4921)
@@ -109,17 +190,22 @@ export default function CheckoutPage() {
         ? `Paid via UPI (UTR: ${utrNumber.trim()})` 
         : "Pending UPI Verification";
 
+    const fullAddress = locationUrl && !formData.deliveryAddress.includes(locationUrl)
+      ? `${formData.deliveryAddress.trim()}\n📍 Site Location Map: ${locationUrl.trim()}`
+      : formData.deliveryAddress.trim();
+
     const orderDetails = {
       orderReference: orderRef,
-      customerName: formData.fullName,
-      customerPhone: formData.phone,
-      alternatePhone: formData.alternatePhone,
-      deliveryAddress: formData.deliveryAddress,
-      landmark: formData.landmark,
+      customerName: formData.fullName.trim(),
+      customerPhone: cleanPhone,
+      alternatePhone: formData.alternatePhone.trim() || undefined,
+      deliveryAddress: fullAddress,
+      locationUrl: locationUrl.trim() || undefined,
+      landmark: formData.landmark.trim() || undefined,
       cityOrArea: formData.cityOrArea,
       roadAccess: formData.roadAccess,
       preferredDate: formData.preferredDate || "Earliest Available Tipper Slot",
-      specialInstructions: formData.specialInstructions,
+      specialInstructions: formData.specialInstructions.trim() || undefined,
       items: checkoutItems,
       subtotal: checkoutSubtotal,
       paymentMethod: paymentMethodLabel,
@@ -311,39 +397,106 @@ export default function CheckoutPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Mobile Number (For Order Tracking) *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="e.g. 9876543210"
-                        className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500"
-                      />
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                          Mobile Number *
+                        </label>
+                        <span className={`text-[11px] font-semibold ${formData.phone.length === 10 ? "text-emerald-600" : "text-slate-400"}`}>
+                          {formData.phone.length}/10 digits
+                        </span>
+                      </div>
+                      <div className="relative flex items-center">
+                        <div className="absolute left-3 flex items-center gap-1 text-xs font-bold text-slate-600 border-r border-slate-300 pr-2.5 pointer-events-none select-none">
+                          <span className="text-sm">🇮🇳</span>
+                          <span>+91</span>
+                        </div>
+                        <input
+                          id="phone-input"
+                          type="tel"
+                          required
+                          inputMode="numeric"
+                          maxLength={10}
+                          value={formData.phone}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+                            setFormData({ ...formData, phone: val });
+                            if (phoneError && val.length === 10) setPhoneError("");
+                          }}
+                          placeholder="9876543210"
+                          className={`w-full text-sm pl-20 pr-4 py-2.5 rounded-xl border ${
+                            phoneError ? "border-rose-500 ring-1 ring-rose-200" : "border-slate-300 focus:border-brand-orange-500 focus:ring-brand-orange-500"
+                          } focus:outline-none focus:ring-1 tracking-wider font-medium`}
+                        />
+                      </div>
+                      {phoneError ? (
+                        <p className="text-[11px] font-semibold text-rose-600 mt-1">{phoneError}</p>
+                      ) : (
+                        <p className="text-[11px] text-slate-500 mt-1">10-digit Indian mobile number for order tracking & dispatch.</p>
+                      )}
                     </div>
                   </div>
 
                   {/* Alternate Phone */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                      Alternate Mobile / Site Supervisor Phone (Optional)
-                    </label>
-                    <input
-                      type="tel"
-                      value={formData.alternatePhone}
-                      onChange={(e) => setFormData({ ...formData, alternatePhone: e.target.value })}
-                      placeholder="e.g. 9505609865"
-                      className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
-                    />
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        Alternate Mobile / Site Supervisor Phone (Optional)
+                      </label>
+                      {formData.alternatePhone && (
+                        <span className={`text-[11px] font-semibold ${formData.alternatePhone.length === 10 ? "text-emerald-600" : "text-amber-600"}`}>
+                          {formData.alternatePhone.length}/10 digits
+                        </span>
+                      )}
+                    </div>
+                    <div className="relative flex items-center">
+                      <div className="absolute left-3 flex items-center gap-1 text-xs font-bold text-slate-600 border-r border-slate-300 pr-2.5 pointer-events-none select-none">
+                        <span className="text-sm">🇮🇳</span>
+                        <span>+91</span>
+                      </div>
+                      <input
+                        type="tel"
+                        inputMode="numeric"
+                        maxLength={10}
+                        value={formData.alternatePhone}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+                          setFormData({ ...formData, alternatePhone: val });
+                        }}
+                        placeholder="9505609865"
+                        className="w-full text-sm pl-20 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500 tracking-wider font-medium"
+                      />
+                    </div>
                   </div>
 
-                  {/* Delivery Address */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                      Delivery Site Address (Plot / Street / Area) *
-                    </label>
+                  {/* Delivery Address & GPS Location Option */}
+                  <div className="space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        Delivery Site Address (Plot / Street / Area) *
+                      </label>
+
+                      {/* GPS Location Button */}
+                      <button
+                        type="button"
+                        onClick={handleDetectLocation}
+                        disabled={isLocating}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold transition-all shadow-2xs self-start sm:self-auto cursor-pointer"
+                        title="Detect and attach your current construction site GPS coordinates"
+                      >
+                        {isLocating ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span>
+                            <span>Detecting GPS Location...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Navigation className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>📍 Use My Current Location (GPS Pin)</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
                     <textarea
                       required
                       rows={2}
@@ -352,6 +505,63 @@ export default function CheckoutPage() {
                       placeholder="e.g. Plot No 42, Behind Metro Pillar 14, Madhapur, Hyderabad"
                       className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
                     ></textarea>
+
+                    {/* Location Pin Attached Card */}
+                    {locationUrl ? (
+                      <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs animate-in fade-in">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <div className="truncate">
+                            <span className="font-bold block text-emerald-900">
+                              ✓ Site Location Pin Attached for Tipper Driver
+                            </span>
+                            <a
+                              href={locationUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[11px] text-emerald-700 underline font-mono flex items-center gap-1 hover:text-emerald-900 truncate"
+                            >
+                              <span>{locationUrl}</span>
+                              <ExternalLink className="w-3 h-3 shrink-0" />
+                            </a>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setLocationUrl("");
+                            setLocationError(null);
+                          }}
+                          className="text-xs font-bold text-slate-500 hover:text-rose-600 ml-2 px-2.5 py-1 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 shrink-0"
+                        >
+                          ✕ Remove
+                        </button>
+                      </div>
+                    ) : (
+                      /* Option to paste Google Maps or WhatsApp location pin link */
+                      <div className="pt-0.5">
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={locationUrl}
+                            onChange={(e) => setLocationUrl(e.target.value)}
+                            placeholder="Optional: Paste Google Maps location link or WhatsApp location link here"
+                            className="w-full text-xs pl-8 pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-brand-orange-500 text-slate-700"
+                          />
+                          <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1">
+                          You can click "Use My Current Location" or paste a Google Maps link so the tipper lorry reaches your exact plot.
+                        </p>
+                      </div>
+                    )}
+
+                    {locationError && (
+                      <div className="text-[11px] text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-200 flex items-start gap-2">
+                        <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <span>{locationError}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Landmark & Road Accessibility */}
