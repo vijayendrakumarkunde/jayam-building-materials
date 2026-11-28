@@ -237,7 +237,7 @@ export const ContactSection: React.FC = () => {
                           maxLength={10}
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "").slice(0, 10) })}
-                          placeholder="9876543210"
+                          placeholder="Enter 10-digit number"
                           className="w-full text-sm pl-16 pr-3.5 py-2.5 rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-[#F47B20] focus:ring-1 focus:ring-[#F47B20] tracking-wider"
                         />
                       </div>

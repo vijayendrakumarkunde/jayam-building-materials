@@ -71,9 +71,6 @@ export default function CheckoutPage() {
     deliveryAddress: "",
     landmark: "",
     cityOrArea: "Hyderabad & Surrounding Industrial Regions",
-    roadAccess: "10-Wheeler Tipper Accessible (Wide Road 30ft+)",
-    preferredDate: "Earliest Available Tipper Slot",
-    specialInstructions: "",
   });
 
   // Calculate items list or default sample if testing
@@ -203,9 +200,6 @@ export default function CheckoutPage() {
       locationUrl: locationUrl.trim() || undefined,
       landmark: formData.landmark.trim() || undefined,
       cityOrArea: formData.cityOrArea,
-      roadAccess: formData.roadAccess,
-      preferredDate: formData.preferredDate || "Earliest Available Tipper Slot",
-      specialInstructions: formData.specialInstructions.trim() || undefined,
       items: checkoutItems,
       subtotal: checkoutSubtotal,
       paymentMethod: paymentMethodLabel,
@@ -422,7 +416,7 @@ export default function CheckoutPage() {
                             setFormData({ ...formData, phone: val });
                             if (phoneError && val.length === 10) setPhoneError("");
                           }}
-                          placeholder="9876543210"
+                          placeholder="Enter 10-digit number"
                           className={`w-full text-sm pl-20 pr-4 py-2.5 rounded-xl border ${
                             phoneError ? "border-rose-500 ring-1 ring-rose-200" : "border-slate-300 focus:border-brand-orange-500 focus:ring-brand-orange-500"
                           } focus:outline-none focus:ring-1 tracking-wider font-medium`}
@@ -462,17 +456,17 @@ export default function CheckoutPage() {
                           const val = e.target.value.replace(/\D/g, "").slice(0, 10);
                           setFormData({ ...formData, alternatePhone: val });
                         }}
-                        placeholder="9505609865"
+                        placeholder="Enter alternate number (optional)"
                         className="w-full text-sm pl-20 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500 tracking-wider font-medium"
                       />
                     </div>
                   </div>
 
-                  {/* Delivery Address & GPS Location Option */}
+                  {/* Delivery Address & GPS Location */}
                   <div className="space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                    <div className="flex items-center justify-between gap-1.5 mb-1">
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Delivery Site Address (Plot / Street / Area) *
+                        Delivery Site Address *
                       </label>
 
                       {/* GPS Location Button */}
@@ -480,18 +474,18 @@ export default function CheckoutPage() {
                         type="button"
                         onClick={handleDetectLocation}
                         disabled={isLocating}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold transition-all shadow-2xs self-start sm:self-auto cursor-pointer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold transition-all shadow-2xs cursor-pointer"
                         title="Detect and attach your current construction site GPS coordinates"
                       >
                         {isLocating ? (
                           <>
                             <span className="w-3.5 h-3.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span>
-                            <span>Detecting GPS Location...</span>
+                            <span>Detecting GPS...</span>
                           </>
                         ) : (
                           <>
                             <Navigation className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>📍 Use My Current Location (GPS Pin)</span>
+                            <span>📍 Use Current GPS Location</span>
                           </>
                         )}
                       </button>
@@ -501,28 +495,34 @@ export default function CheckoutPage() {
                       required
                       rows={2}
                       value={formData.deliveryAddress}
-                      onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                      placeholder="e.g. Plot No 42, Behind Metro Pillar 14, Madhapur, Hyderabad"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFormData({ ...formData, deliveryAddress: val });
+                        const match = val.match(/https?:\/\/(?:maps\.google\.com|goo\.gl\/maps|maps\.app\.goo\.gl)[^\s]+/i);
+                        if (match && !locationUrl) {
+                          setLocationUrl(match[0]);
+                        }
+                      }}
+                      placeholder="Enter plot/door no, street, area, or paste Google Maps pin"
                       className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
                     ></textarea>
 
                     {/* Location Pin Attached Card */}
-                    {locationUrl ? (
-                      <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs animate-in fade-in">
+                    {locationUrl && (
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs animate-in fade-in">
                         <div className="flex items-center gap-2 min-w-0">
                           <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
                           <div className="truncate">
-                            <span className="font-bold block text-emerald-900">
-                              ✓ Site Location Pin Attached for Tipper Driver
+                            <span className="font-bold text-emerald-900">
+                              ✓ GPS Pin Attached:{" "}
                             </span>
                             <a
                               href={locationUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[11px] text-emerald-700 underline font-mono flex items-center gap-1 hover:text-emerald-900 truncate"
+                              className="text-[11px] text-emerald-700 underline font-mono hover:text-emerald-900"
                             >
-                              <span>{locationUrl}</span>
-                              <ExternalLink className="w-3 h-3 shrink-0" />
+                              {locationUrl}
                             </a>
                           </div>
                         </div>
@@ -532,27 +532,10 @@ export default function CheckoutPage() {
                             setLocationUrl("");
                             setLocationError(null);
                           }}
-                          className="text-xs font-bold text-slate-500 hover:text-rose-600 ml-2 px-2.5 py-1 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 shrink-0"
+                          className="text-xs font-bold text-slate-500 hover:text-rose-600 ml-2 px-2 py-0.5 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 shrink-0 cursor-pointer"
                         >
                           ✕ Remove
                         </button>
-                      </div>
-                    ) : (
-                      /* Option to paste Google Maps or WhatsApp location pin link */
-                      <div className="pt-0.5">
-                        <div className="relative">
-                          <input
-                            type="text"
-                            value={locationUrl}
-                            onChange={(e) => setLocationUrl(e.target.value)}
-                            placeholder="Optional: Paste Google Maps location link or WhatsApp location link here"
-                            className="w-full text-xs pl-8 pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:border-brand-orange-500 text-slate-700"
-                          />
-                          <MapPin className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
-                        </div>
-                        <p className="text-[11px] text-slate-400 mt-1">
-                          You can click "Use My Current Location" or paste a Google Maps link so the tipper lorry reaches your exact plot.
-                        </p>
                       </div>
                     )}
 
@@ -564,65 +547,18 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
-                  {/* Landmark & Road Accessibility */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Nearby Landmark (For Driver)
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.landmark}
-                        onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
-                        placeholder="e.g. Near Water Tank / Electric Substation"
-                        className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Site Road Accessibility
-                      </label>
-                      <select
-                        value={formData.roadAccess}
-                        onChange={(e) => setFormData({ ...formData, roadAccess: e.target.value })}
-                        className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-brand-orange-500"
-                      >
-                        <option>10-Wheeler Tipper Accessible (Wide Road 30ft+)</option>
-                        <option>6-Wheeler Tipper Accessible (Road 20ft)</option>
-                        <option>Narrow Street / Small Vehicle Preferred</option>
-                        <option>Need Guidance from Dispatch Coordinator</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Preferred Delivery Schedule & Special Instructions */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Preferred Delivery Timing
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.preferredDate}
-                        onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
-                        placeholder="e.g. Tomorrow Morning before 9:00 AM"
-                        className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                        Special Instructions
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.specialInstructions}
-                        onChange={(e) => setFormData({ ...formData, specialInstructions: e.target.value })}
-                        placeholder="e.g. Call supervisor 30 mins before arrival"
-                        className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
-                      />
-                    </div>
+                  {/* Nearby Landmark */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Nearby Landmark (Optional - For Driver)
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.landmark}
+                      onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
+                      placeholder="e.g. Near Water Tank / Electric Substation / Metro Pillar"
+                      className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
+                    />
                   </div>
 
                   {/* SIMPLE PAYMENT OPTIONS */}

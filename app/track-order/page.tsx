@@ -149,7 +149,7 @@ export default function TrackOrderPage() {
                     required
                     inputMode="numeric"
                     maxLength={10}
-                    placeholder="9876543210"
+                    placeholder="Enter 10-digit mobile number"
                     value={mobileNumber}
                     onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
                     className="w-full text-sm pl-16 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500 focus:ring-1 focus:ring-brand-orange-500 tracking-wider"
