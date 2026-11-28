@@ -54,6 +54,7 @@ export default function CheckoutPage() {
 
   // Validation & Location States
   const [phoneError, setPhoneError] = useState("");
+  const [addressMode, setAddressMode] = useState<"manual" | "gps">("manual");
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [locationUrl, setLocationUrl] = useState("");
@@ -462,87 +463,202 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  {/* Delivery Address & GPS Location */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-1.5 mb-1">
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Delivery Site Address *
-                      </label>
+                  {/* Delivery Address Mode: Manual Entry or GPS Location */}
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                          Delivery Address Option *
+                        </label>
+                        <span className="text-[11px] text-slate-500 font-medium">Choose preferred method</span>
+                      </div>
 
-                      {/* GPS Location Button */}
-                      <button
-                        type="button"
-                        onClick={handleDetectLocation}
-                        disabled={isLocating}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold transition-all shadow-2xs cursor-pointer"
-                        title="Detect and attach your current construction site GPS coordinates"
-                      >
-                        {isLocating ? (
-                          <>
-                            <span className="w-3.5 h-3.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span>
-                            <span>Detecting GPS...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Navigation className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>📍 Use Current GPS Location</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-
-                    <textarea
-                      required
-                      rows={2}
-                      value={formData.deliveryAddress}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setFormData({ ...formData, deliveryAddress: val });
-                        const match = val.match(/https?:\/\/(?:maps\.google\.com|goo\.gl\/maps|maps\.app\.goo\.gl)[^\s]+/i);
-                        if (match && !locationUrl) {
-                          setLocationUrl(match[0]);
-                        }
-                      }}
-                      placeholder="Enter plot/door no, street, area, or paste Google Maps pin"
-                      className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
-                    ></textarea>
-
-                    {/* Location Pin Attached Card */}
-                    {locationUrl && (
-                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs animate-in fade-in">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <div className="truncate">
-                            <span className="font-bold text-emerald-900">
-                              ✓ GPS Pin Attached:{" "}
-                            </span>
-                            <a
-                              href={locationUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[11px] text-emerald-700 underline font-mono hover:text-emerald-900"
-                            >
-                              {locationUrl}
-                            </a>
+                      {/* Two explicit options */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <button
+                          type="button"
+                          onClick={() => setAddressMode("manual")}
+                          className={`flex items-center gap-2.5 p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                            addressMode === "manual"
+                              ? "border-brand-orange-500 bg-orange-50/70 text-brand-charcoal ring-1 ring-brand-orange-500 font-bold shadow-2xs"
+                              : "border-slate-200 bg-slate-50/70 hover:bg-white text-slate-600 font-medium"
+                          }`}
+                        >
+                          <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
+                            addressMode === "manual" ? "border-brand-orange-500 bg-brand-orange-500" : "border-slate-400 bg-white"
+                          }`}>
+                            {addressMode === "manual" && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                           </div>
-                        </div>
+                          <div>
+                            <span className="text-xs font-bold block">✍️ Enter Address Manually</span>
+                            <span className="text-[11px] text-slate-500 font-normal">Type plot/door no, street, area</span>
+                          </div>
+                        </button>
+
                         <button
                           type="button"
                           onClick={() => {
-                            setLocationUrl("");
-                            setLocationError(null);
+                            setAddressMode("gps");
+                            if (!locationUrl) handleDetectLocation();
                           }}
-                          className="text-xs font-bold text-slate-500 hover:text-rose-600 ml-2 px-2 py-0.5 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 shrink-0 cursor-pointer"
+                          className={`flex items-center gap-2.5 p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                            addressMode === "gps"
+                              ? "border-emerald-500 bg-emerald-50/70 text-emerald-950 ring-1 ring-emerald-500 font-bold shadow-2xs"
+                              : "border-slate-200 bg-slate-50/70 hover:bg-white text-slate-600 font-medium"
+                          }`}
                         >
-                          ✕ Remove
+                          <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
+                            addressMode === "gps" ? "border-emerald-600 bg-emerald-600" : "border-slate-400 bg-white"
+                          }`}>
+                            {addressMode === "gps" && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                          </div>
+                          <div>
+                            <span className="text-xs font-bold block flex items-center gap-1.5">
+                              <span>📍 Use Current GPS Location</span>
+                              {isLocating && <span className="w-2.5 h-2.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />}
+                            </span>
+                            <span className="text-[11px] text-slate-500 font-normal">Auto-pin current site coordinates</span>
+                          </div>
                         </button>
+                      </div>
+                    </div>
+
+                    {/* Mode 1: Manual Address Entry */}
+                    {addressMode === "manual" && (
+                      <div className="space-y-2 animate-in fade-in duration-150">
+                        <div className="flex items-center justify-between">
+                          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            Delivery Site Address (Manual Entry) *
+                          </label>
+                          <span className="text-[11px] text-slate-400">Complete plot & street details</span>
+                        </div>
+                        <textarea
+                          required
+                          rows={3}
+                          value={formData.deliveryAddress}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setFormData({ ...formData, deliveryAddress: val });
+                            const match = val.match(/https?:\/\/(?:maps\.google\.com|goo\.gl\/maps|maps\.app\.goo\.gl)[^\s]+/i);
+                            if (match && !locationUrl) {
+                              setLocationUrl(match[0]);
+                            }
+                          }}
+                          placeholder="e.g. Plot No 42, Beside Water Tank, Main Road, Madhapur, Hyderabad - 500081"
+                          className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
+                        ></textarea>
+
+                        {/* Optional GPS pin attached chip if user also attached one */}
+                        {locationUrl && (
+                          <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+                              <span className="font-semibold text-emerald-900 shrink-0">GPS Pin Attached:</span>
+                              <a
+                                href={locationUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[11px] text-emerald-700 underline font-mono truncate hover:text-emerald-900"
+                              >
+                                {locationUrl}
+                              </a>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setLocationUrl("");
+                                setLocationError(null);
+                              }}
+                              className="text-xs font-bold text-slate-400 hover:text-rose-600 ml-2 px-2 py-0.5 rounded-lg hover:bg-white shrink-0 cursor-pointer"
+                            >
+                              ✕ Remove
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
 
-                    {locationError && (
-                      <div className="text-[11px] text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-200 flex items-start gap-2">
-                        <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                        <span>{locationError}</span>
+                    {/* Mode 2: GPS Location Entry */}
+                    {addressMode === "gps" && (
+                      <div className="space-y-2.5 animate-in fade-in duration-150">
+                        {/* GPS Action Card */}
+                        <div className="p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/70 space-y-2">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                              <span className="text-xs font-bold text-emerald-950 block">
+                                {locationUrl ? "✓ GPS Coordinates Captured" : "Auto-Pin Construction Site"}
+                              </span>
+                              <p className="text-[11px] text-emerald-800">
+                                {locationUrl
+                                  ? "Tipper lorry driver will navigate directly to this Google Maps pin."
+                                  : "Click the button below to fetch current site GPS coordinates."}
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={handleDetectLocation}
+                              disabled={isLocating}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer shrink-0 self-start sm:self-auto"
+                            >
+                              {isLocating ? (
+                                <>
+                                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                  <span>Detecting GPS...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Navigation className="w-3.5 h-3.5 text-white" />
+                                  <span>{locationUrl ? "📍 Re-Detect GPS Pin" : "📍 Detect GPS Location"}</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+
+                          {locationUrl && (
+                            <div className="pt-2 border-t border-emerald-200 flex items-center justify-between gap-2">
+                              <a
+                                href={locationUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs font-mono text-emerald-700 underline truncate hover:text-emerald-950 flex items-center gap-1"
+                              >
+                                <span>{locationUrl}</span>
+                                <ExternalLink className="w-3 h-3 shrink-0" />
+                              </a>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setLocationUrl("");
+                                  setLocationError(null);
+                                }}
+                                className="text-xs font-bold text-slate-500 hover:text-rose-600 shrink-0 cursor-pointer"
+                              >
+                                ✕ Clear
+                              </button>
+                            </div>
+                          )}
+
+                          {locationError && (
+                            <div className="text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg border border-amber-200 flex items-start gap-1.5">
+                              <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                              <span>{locationError}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Plot / Gate / Site Details (Accompanying GPS Pin) *
+                          </label>
+                          <textarea
+                            required
+                            rows={2}
+                            value={formData.deliveryAddress}
+                            onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
+                            placeholder="e.g. Plot No 42, Gate 1, Opposite Power Substation"
+                            className="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-brand-orange-500"
+                          ></textarea>
+                        </div>
                       </div>
                     )}
                   </div>
